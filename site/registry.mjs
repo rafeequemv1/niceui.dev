@@ -8,7 +8,7 @@ export const site = {
   tagline: "Interfaces, nicely made.",
   description:
     "NiceUI is a free, open-source library of premium React and Tailwind CSS components, blocks and templates. Copy the code or install with the shadcn CLI. MIT licensed, no account required.",
-  github: "https://github.com/",
+  github: "https://github.com/rafeequemv1/niceui.dev",
   x: "https://x.com/",
 };
 

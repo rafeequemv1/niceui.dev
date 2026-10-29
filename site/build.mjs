@@ -214,6 +214,7 @@ function layout({ title, description, path, main, ld, md }) {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" />
 <link rel="stylesheet" href="${CSS}" />
+<script defer data-site="truvwhp1" data-domain="niceui.dev" src="https://piqo.app/piqo.js"></script>
 <script type="application/ld+json">${json(ld)}</script>
 </head>
 <body>
