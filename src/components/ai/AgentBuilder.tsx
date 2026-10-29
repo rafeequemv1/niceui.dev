@@ -182,7 +182,7 @@ export function AgentBuilder({ initial, className }: AgentBuilderProps) {
               </span>
             ))}
             {SPARE_FILES.some((f) => !c.files.includes(f)) && (
-              <button onClick={() => set({ files: [...c.files, SPARE_FILES.find((f) => !c.files.includes(f))!] })} className="focus-ring flex items-center gap-1 rounded-lg px-2 py-1 text-xs text-ink-400 ring-1 ring-dashed ring-white/15 hover:text-ink-100">
+              <button onClick={() => set({ files: [...c.files, SPARE_FILES.find((f) => !c.files.includes(f))!] })} className="focus-ring flex items-center gap-1 rounded-lg border border-dashed border-white/15 px-2 py-1 text-xs text-ink-400 hover:text-ink-100">
                 <Plus className="h-3 w-3" /> Add file
               </button>
             )}

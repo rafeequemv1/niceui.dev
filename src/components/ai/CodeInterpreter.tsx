@@ -96,19 +96,20 @@ export function CodeInterpreter({ autoRun = true, className }: CodeInterpreterPr
     <div className={cn('w-full overflow-hidden rounded-2xl bg-ink-900 shadow-card', className)}>
       <div className="flex items-center gap-2 border-b border-white/5 px-3 py-2">
         <span className="font-mono text-[11px] text-ink-500">[{state === 'idle' ? ' ' : state === 'running' ? '*' : run}]</span>
-        <span className="truncate text-sm text-ink-200">analysis.py</span>
+        <span className="min-w-0 truncate text-sm text-ink-200">analysis.py</span>
         <span className="hidden rounded bg-white/[0.05] px-1.5 py-px font-mono text-[10px] text-ink-500 sm:inline">Python 3.12</span>
-        <label className="ml-auto flex cursor-pointer items-center gap-1.5 text-[11px] text-ink-500">
+        <label className="ml-auto flex shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap text-[11px] text-ink-500">
           <input type="checkbox" checked={bug} onChange={(e) => setBug(e.target.checked)} className="peer sr-only" />
           <span className="relative h-4 w-7 rounded-full bg-white/10 transition-colors peer-checked:bg-rose-500/60 peer-focus-visible:ring-2 peer-focus-visible:ring-brand-500/60">
             <span className={cn('absolute top-0.5 h-3 w-3 rounded-full bg-white transition-all', bug ? 'left-3.5' : 'left-0.5')} />
           </span>
-          Error variant
+          <span className="hidden sm:inline">Error variant</span>
+          <span className="sm:hidden">Error</span>
         </label>
         <button
           onClick={() => setRun((r) => r + 1)}
           disabled={state === 'running'}
-          className="focus-ring flex h-7 items-center gap-1.5 rounded-lg bg-brand-500 px-2.5 text-xs font-medium text-white transition-all hover:bg-brand-400 active:scale-95 disabled:opacity-60"
+          className="focus-ring flex h-7 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg bg-brand-500 px-2.5 text-xs font-medium text-white transition-all hover:bg-brand-400 active:scale-95 disabled:opacity-60"
         >
           {state === 'running' ? <LoaderCircle className="h-3.5 w-3.5 animate-spin" /> : state === 'idle' ? <Play className="h-3.5 w-3.5 fill-current" /> : <RotateCcw className="h-3.5 w-3.5" />}
           {state === 'idle' ? 'Run' : state === 'running' ? 'Running' : 'Re-run'}

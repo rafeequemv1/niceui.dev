@@ -121,7 +121,9 @@ export function AnswerEngine({ data, onAsk, className }: AnswerEngineProps) {
         )}
       </div>
 
-      <div className={cn('mt-4 border-t border-white/5 pt-3 transition-all duration-500', phase === 'done' ? 'opacity-100' : 'pointer-events-none opacity-0')}>
+      <div className={cn('grid transition-all duration-500 ease-smooth', phase === 'done' ? 'grid-rows-[1fr] opacity-100' : 'pointer-events-none grid-rows-[0fr] opacity-0')}>
+        <div className="overflow-hidden">
+        <div className="mt-4 border-t border-white/5 pt-3">
         <p className="mb-1 text-xs font-medium text-ink-400">Related</p>
         {data.related.map((q) => (
           <button key={q} onClick={() => onAsk?.(q)} className="focus-ring group flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-left text-sm text-ink-300 transition-colors hover:bg-white/[0.04] hover:text-ink-50">
@@ -129,6 +131,8 @@ export function AnswerEngine({ data, onAsk, className }: AnswerEngineProps) {
             <span className="min-w-0 flex-1 truncate">{q}</span>
           </button>
         ))}
+        </div>
+        </div>
       </div>
     </div>
   );

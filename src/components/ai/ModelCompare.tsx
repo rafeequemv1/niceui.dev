@@ -44,7 +44,7 @@ function useStreamed(side: CompareSide, run: number) {
 
 function Column({ label, side, run, revealed, winner, faster }: { label: string; side: CompareSide; run: number; revealed: boolean; winner: boolean; faster: boolean }) {
   const s = useStreamed(side, run);
-  const tps = s.started && s.elapsed > side.ttft ? Math.min(side.tps, s.tokens / ((s.elapsed - side.ttft) / 1000)) : 0;
+  const tps = s.done ? side.tps : s.started && s.elapsed > side.ttft ? Math.min(side.tps, s.tokens / ((s.elapsed - side.ttft) / 1000)) : 0;
   return (
     <section className={cn('flex min-w-0 flex-col rounded-2xl bg-ink-900 shadow-card ring-1 transition-all duration-500', winner ? 'ring-brand-400/50' : 'ring-transparent')}>
       <header className="flex items-center gap-2 border-b border-white/5 px-4 py-2.5">
