@@ -91,7 +91,7 @@ export function Priorities() {
 export function Hero() {
   return (
     <ShaderBackground
-      colors={['#1b77f5', '#2dd4bf', '#59b6ff', '#f59e0b']}
+      colors={['#0ea5e9', '#2dd4bf', '#7dd3fc', '#f59e0b']}
       speed={1}
       className="flex h-[520px] items-center justify-center rounded-3xl"
     >
@@ -122,7 +122,7 @@ export function Hero() {
 
 const cards = [
   { id: 'kyoto', title: 'Kyoto', subtitle: 'Temples at dawn', gradient: 'linear-gradient(#f43f5e, #f59e0b)' },
-  { id: 'reykjavik', title: 'Reykjavík', subtitle: 'Northern lights', gradient: 'linear-gradient(#2dd4bf, #3396ff)' },
+  { id: 'reykjavik', title: 'Reykjavík', subtitle: 'Northern lights', gradient: 'linear-gradient(#2dd4bf, #38bdf8)' },
   // ...at least 6 cards look best
 ];
 

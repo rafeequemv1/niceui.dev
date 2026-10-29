@@ -58,7 +58,7 @@ export function FileTree({ data, defaultExpanded = [], onSelect, className }: Fi
               className={cn(
                 'focus-ring relative flex h-8 w-full items-center gap-1.5 rounded-lg pr-2 text-left text-[13px] transition-all duration-300 ease-smooth',
                 visible ? 'translate-x-0 opacity-100' : '-translate-x-1 opacity-0',
-                selected === path ? 'bg-brand-500/15 text-ink-50 shadow-[inset_0_0_0_1px_rgba(51,150,255,0.25)]' : 'text-ink-300 hover:bg-white/[0.04] hover:text-ink-100',
+                selected === path ? 'bg-brand-500/15 text-ink-50 shadow-[inset_0_0_0_1px_rgba(56,189,248,0.25)]' : 'text-ink-300 hover:bg-white/[0.04] hover:text-ink-100',
               )}
             >
               <ChevronRight

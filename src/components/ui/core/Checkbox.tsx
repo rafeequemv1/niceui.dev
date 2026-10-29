@@ -35,7 +35,7 @@ export function Checkbox({ checked, onChange, indeterminate = false, label, desc
           className={cn(
             'pointer-events-none flex h-full w-full items-center justify-center rounded-[5px] transition-all duration-200 ease-smooth group-active:scale-90 peer-focus-visible:ring-2 peer-focus-visible:ring-brand-500/60 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-ink-950',
             on
-              ? 'bg-brand-500 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.15),0_0_12px_-2px_rgba(51,150,255,0.6)]'
+              ? 'bg-brand-500 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.15),0_0_12px_-2px_rgba(56,189,248,0.6)]'
               : 'bg-ink-900 shadow-[inset_0_0_0_1.5px_rgba(255,255,255,0.18)] group-hover:shadow-[inset_0_0_0_1.5px_rgba(255,255,255,0.32)]',
           )}
         >

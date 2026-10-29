@@ -36,9 +36,9 @@ const bestSellers = [
 ];
 
 const funnel = [
-  { stage: 'Visitors', value: 84200, pct: 100, color: '#3396ff' },
-  { stage: 'Product views', value: 41280, pct: 49, color: '#59b6ff' },
-  { stage: 'Add to cart', value: 9840, pct: 11.7, color: '#8ed1ff' },
+  { stage: 'Visitors', value: 84200, pct: 100, color: '#38bdf8' },
+  { stage: 'Product views', value: 41280, pct: 49, color: '#7dd3fc' },
+  { stage: 'Add to cart', value: 9840, pct: 11.7, color: '#bae6fd' },
   { stage: 'Checkout', value: 4120, pct: 4.9, color: '#34d399' },
   { stage: 'Purchase', value: 3284, pct: 3.9, color: '#fbbf24' },
 ];

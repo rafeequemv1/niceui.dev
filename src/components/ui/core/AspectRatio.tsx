@@ -41,7 +41,7 @@ export function AspectRatioDemo() {
           className="relative overflow-hidden rounded-2xl shadow-pop transition-all duration-700 ease-spring"
           style={{ width: w, height: h }}
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,#3396ff,transparent_55%),radial-gradient(circle_at_85%_80%,#14b8a6,transparent_55%),radial-gradient(circle_at_80%_10%,#fbbf24,transparent_40%)] bg-ink-900" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,#38bdf8,transparent_55%),radial-gradient(circle_at_85%_80%,#14b8a6,transparent_55%),radial-gradient(circle_at_80%_10%,#fbbf24,transparent_40%)] bg-ink-900" />
           <div className="dot-bg absolute inset-0 opacity-50" />
           <div className="absolute inset-3 rounded-xl border border-dashed border-white/25" />
           <div className="relative flex h-full flex-col items-center justify-center text-white">

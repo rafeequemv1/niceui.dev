@@ -9,7 +9,7 @@ const RATINGS = [
   { id: 1, label: 'Not great', icon: Frown, tone: 'text-rose-400 bg-rose-500/15 shadow-[0_0_0_1px_rgba(251,113,133,0.4)]' },
   { id: 2, label: 'It’s okay', icon: Meh, tone: 'text-amber-400 bg-amber-500/15 shadow-[0_0_0_1px_rgba(251,191,36,0.4)]' },
   { id: 3, label: 'Good', icon: Smile, tone: 'text-emerald-400 bg-emerald-500/15 shadow-[0_0_0_1px_rgba(52,211,153,0.4)]' },
-  { id: 4, label: 'Love it', icon: Heart, tone: 'text-brand-300 bg-brand-500/15 shadow-[0_0_0_1px_rgba(51,150,255,0.4)]' },
+  { id: 4, label: 'Love it', icon: Heart, tone: 'text-brand-300 bg-brand-500/15 shadow-[0_0_0_1px_rgba(56,189,248,0.4)]' },
 ];
 
 const SIZE: Record<Mode, { w: number; h: number; r: number }> = {

@@ -66,14 +66,14 @@ export function ColorSelector({ colors, value, onChange, showName = true, size =
 const FINISHES: ColorOption[] = [
   { value: 'graphite', name: 'Graphite', hex: '#36363e' },
   { value: 'silver', name: 'Silver', hex: '#d6d6db', light: true },
-  { value: 'ocean', name: 'Ocean', hex: '#1b77f5' },
+  { value: 'ocean', name: 'Ocean', hex: '#0ea5e9' },
   { value: 'lagoon', name: 'Lagoon', hex: '#14b8a6' },
   { value: 'sunset', name: 'Sunset', hex: '#f97316' },
   { value: 'rose', name: 'Rose', hex: '#f43f5e' },
 ];
 
 const ACCENTS: ColorOption[] = [
-  { value: 'azure', name: 'Azure', hex: '#3396ff' },
+  { value: 'azure', name: 'Azure', hex: '#38bdf8' },
   { value: 'sky', name: 'Sky', hex: '#38bdf8' },
   { value: 'emerald', name: 'Emerald', hex: '#10b981' },
   { value: 'amber', name: 'Amber', hex: '#fbbf24', light: true },

@@ -121,12 +121,12 @@ const g = (a: string, b: string, base: string) => `radial-gradient(circle at 25%
 
 const CARDS: CylinderCard[] = [
   { id: 'kyoto', title: 'Kyoto', subtitle: 'Temples at dawn', gradient: g('#f43f5e', '#f59e0b', '#2a0f14') },
-  { id: 'reykjavik', title: 'Reykjavík', subtitle: 'Northern lights', gradient: g('#2dd4bf', '#3396ff', '#071f1a') },
+  { id: 'reykjavik', title: 'Reykjavík', subtitle: 'Northern lights', gradient: g('#2dd4bf', '#38bdf8', '#071f1a') },
   { id: 'lisbon', title: 'Lisbon', subtitle: 'Golden hour trams', gradient: g('#fbbf24', '#fb7185', '#2b1a06') },
-  { id: 'patagonia', title: 'Patagonia', subtitle: 'Glacier trek', gradient: g('#8ed1ff', '#0ea5e9', '#0b1a33') },
+  { id: 'patagonia', title: 'Patagonia', subtitle: 'Glacier trek', gradient: g('#bae6fd', '#0ea5e9', '#0b1a33') },
   { id: 'marrakech', title: 'Marrakech', subtitle: 'Spice markets', gradient: g('#f97316', '#f43f5e', '#2a1206') },
-  { id: 'banff', title: 'Banff', subtitle: 'Lake Louise', gradient: g('#10b981', '#59b6ff', '#062019') },
-  { id: 'santorini', title: 'Santorini', subtitle: 'Caldera sunset', gradient: g('#3396ff', '#fbbf24', '#0b1a33') },
+  { id: 'banff', title: 'Banff', subtitle: 'Lake Louise', gradient: g('#10b981', '#7dd3fc', '#062019') },
+  { id: 'santorini', title: 'Santorini', subtitle: 'Caldera sunset', gradient: g('#38bdf8', '#fbbf24', '#0b1a33') },
   { id: 'hanoi', title: 'Hanoi', subtitle: 'Old quarter nights', gradient: g('#fb7185', '#14b8a6', '#1e0b14') },
 ];
 

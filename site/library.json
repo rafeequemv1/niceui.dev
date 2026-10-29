@@ -1,0 +1,914 @@
+[
+  {
+    "id": "intro",
+    "title": "Intro",
+    "entries": [
+      {
+        "slug": "home",
+        "name": "Home",
+        "description": "The NiceUI landing page — a showcase of the library.",
+        "badge": null,
+        "page": true,
+        "demos": 0
+      },
+      {
+        "slug": "guides",
+        "name": "Guides",
+        "description": "Install, configure and start building with NiceUI.",
+        "badge": null,
+        "page": true,
+        "demos": 0
+      },
+      {
+        "slug": "motion-guides",
+        "name": "Motion Guides",
+        "description": "The animation patterns behind every component.",
+        "badge": null,
+        "page": true,
+        "demos": 0
+      },
+      {
+        "slug": "agent-guide",
+        "name": "Agent Guide",
+        "description": "Patterns for building trustworthy AI agent interfaces.",
+        "badge": null,
+        "page": true,
+        "demos": 0
+      },
+      {
+        "slug": "openui",
+        "name": "OpenUI",
+        "description": "The design system: tokens, color ramps, and architecture.",
+        "badge": null,
+        "page": true,
+        "demos": 0
+      }
+    ]
+  },
+  {
+    "id": "landing",
+    "title": "Landing Pages",
+    "entries": [
+      {
+        "slug": "saas-landing",
+        "name": "SaaS Landing Page",
+        "description": "A premium SaaS product landing page with hero, features, pricing, testimonials and dither footer.",
+        "badge": "New",
+        "page": true,
+        "demos": 0
+      },
+      {
+        "slug": "studio-landing",
+        "name": "Studio Landing Page",
+        "description": "A design studio landing page with editorial hero, selected work, process, pricing and dither footer.",
+        "badge": "New",
+        "page": true,
+        "demos": 0
+      },
+      {
+        "slug": "wealth-landing",
+        "name": "Wealth Landing Page",
+        "description": "A warm, editorial light-theme fintech landing page with bento features, sticky steps, pricing toggle and story carousel.",
+        "badge": "New",
+        "page": true,
+        "demos": 0
+      },
+      {
+        "slug": "design-tool-landing",
+        "name": "AI Design Tool Landing",
+        "description": "A Figma-style landing page with a live, interactive canvas editor, AI generation, multiplayer, prototyping and Dev Mode.",
+        "badge": "New",
+        "page": true,
+        "demos": 0
+      },
+      {
+        "slug": "social-scheduler-landing",
+        "name": "Social Scheduler Landing",
+        "description": "A warm, animated landing page for a social media scheduling app with real network logos, live composer previews, heatmaps and analytics.",
+        "badge": "New",
+        "page": true,
+        "demos": 0
+      },
+      {
+        "slug": "ai-data-landing",
+        "name": "AI Data Company Landing",
+        "description": "A dark editorial landing page for an AI training data company with a dataset catalog, sample explorer, pipeline and compliance story.",
+        "badge": "New",
+        "page": true,
+        "demos": 0
+      }
+    ]
+  },
+  {
+    "id": "apps",
+    "title": "App Templates",
+    "entries": [
+      {
+        "slug": "ai-assistant",
+        "name": "AI Chat Assistant",
+        "description": "A complete chat assistant app with streaming, reasoning, web search, artifacts, image and video generation previews.",
+        "badge": "New",
+        "page": true,
+        "demos": 0
+      }
+    ]
+  },
+  {
+    "id": "examples",
+    "title": "Dashboards",
+    "entries": [
+      {
+        "slug": "analytics",
+        "name": "Analytics Dashboard",
+        "description": "SaaS product analytics with KPI sparklines, revenue area chart, traffic donut, top pages, live visitors and activity feed.",
+        "badge": "New",
+        "page": true,
+        "demos": 0
+      },
+      {
+        "slug": "finance",
+        "name": "Finance Dashboard",
+        "description": "Personal and business banking with a balance hero card, income vs expense bars, spending categories, transactions and quick transfer.",
+        "badge": null,
+        "page": true,
+        "demos": 0
+      },
+      {
+        "slug": "devops",
+        "name": "Infrastructure Monitor",
+        "description": "Cloud operations console with live CPU/memory/latency charts, service status grid, deployments, incidents, region latency and a log stream.",
+        "badge": null,
+        "page": true,
+        "demos": 0
+      },
+      {
+        "slug": "ecommerce",
+        "name": "Commerce Dashboard",
+        "description": "Store admin with sales KPIs, an orders table, best sellers, an animated conversion funnel, customer reviews and inventory alerts.",
+        "badge": null,
+        "page": true,
+        "demos": 0
+      },
+      {
+        "slug": "ai-ops",
+        "name": "AI Agent Console",
+        "description": "LLM ops console with token usage, model cost donut, agent runs table, a streaming live run trace, latency cards and prompt eval scores.",
+        "badge": null,
+        "page": true,
+        "demos": 0
+      }
+    ]
+  },
+  {
+    "id": "ai",
+    "title": "AI Agents",
+    "entries": [
+      {
+        "slug": "voice-orb",
+        "name": "Voice Orb",
+        "description": "A living gradient orb that breathes, listens, thinks and speaks with simulated voice amplitude.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "message-bubble",
+        "name": "Message Bubble",
+        "description": "User and assistant chat bubbles with timestamps, read receipts and hover actions.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "prompt-input",
+        "name": "Prompt Input",
+        "description": "An auto-growing composer with attachments, a model picker and a send button that morphs into stop.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "streaming-response",
+        "name": "Streaming Response",
+        "description": "Assistant text that streams in word by word with a blinking caret and lightweight markdown.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "code-block",
+        "name": "Code Block",
+        "description": "Syntax-highlighted code for assistant answers, with highlighted lines and multi-file tabs.",
+        "badge": null,
+        "page": false,
+        "demos": 2
+      },
+      {
+        "slug": "todo-list",
+        "name": "Todo List",
+        "description": "An agent plan checklist that progresses from pending to running to done with a live progress bar.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "tool-approval",
+        "name": "Tool Approval",
+        "description": "A human-in-the-loop card that shows tool arguments and morphs into its resolved state.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "file-diff",
+        "name": "File Diff",
+        "description": "A unified diff with collapsible hunks, change stats and accept or reject actions.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "tool-result",
+        "name": "Tool Result",
+        "description": "Collapsible cards that summarize tool output with a status icon and live duration.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "citations",
+        "name": "Citations",
+        "description": "Inline numbered citation chips with hover source previews and a linked source list.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "agent-activity",
+        "name": "Agent Activity",
+        "description": "A live vertical timeline of what the agent is doing, with per-step elapsed timers.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "agent-loading",
+        "name": "Agent Loading States",
+        "description": "Six loading indicators for agents: shimmer text, dot pulse, equalizer, orbit, skeleton and typing.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "image-generation",
+        "name": "Image Generation",
+        "description": "A prompt-to-image flow with progressive blur-to-sharp reveals and a 2×2 variation grid.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "chat-app",
+        "name": "Chat App",
+        "description": "A complete chat experience with a conversation sidebar, streaming replies and a rich composer.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "ai-sidebar",
+        "name": "AI Sidebar",
+        "description": "A collapsible copilot panel beside a document, with suggestions that apply directly to the text.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      }
+    ]
+  },
+  {
+    "id": "components",
+    "title": "Components",
+    "entries": [
+      {
+        "slug": "button",
+        "name": "Button",
+        "description": "Five variants, three sizes, loading state, icon slots and a pointer-origin ripple on every press.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "cta-buttons",
+        "name": "Animated CTA Buttons",
+        "description": "Six attention-grabbing call-to-action buttons for hero sections, pricing pages and launch banners.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "card",
+        "name": "Card",
+        "description": "A surface primitive with an optional cursor-follow spotlight and glowing border, driven by CSS variables.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "tilt-card",
+        "name": "Tilt Card",
+        "description": "A 3D card that tilts toward the pointer with spring-smoothed rotation and a moving glare highlight.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "tabs",
+        "name": "Tabs",
+        "description": "Pill and underline tabs with a spring-animated indicator measured from the active tab. Arrow keys supported.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "switch",
+        "name": "Switch",
+        "description": "A toggle with a springy thumb that stretches while pressed and a soft glow when on.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "input",
+        "name": "Input",
+        "description": "Text field with label, hint, icon slot, password visibility toggle, focus glow and an error shake.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "select",
+        "name": "Select",
+        "description": "A custom listbox with a spring dropdown, staggered options, keyboard navigation and an animated check.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "combobox",
+        "name": "Combobox",
+        "description": "A searchable select that filters as you type and highlights the matched substring.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "multi-select",
+        "name": "Multi Select",
+        "description": "Pick several values as chips that pop in and collapse out when removed. Backspace removes the last chip.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "checkbox",
+        "name": "Checkbox",
+        "description": "Checkboxes whose tick draws itself with an SVG stroke, plus an indeterminate state for select-all groups.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "radio-group",
+        "name": "Radio Group",
+        "description": "Card-style radio options with a springy dot, ring pulse and roving keyboard focus.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "range-slider",
+        "name": "Range Slider",
+        "description": "Single or dual-thumb slider with pointer dragging, stepping, keyboard support and a value tooltip.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "animated-badge",
+        "name": "Animated Badge",
+        "description": "Status badges in five tones with pulsing live dots, a rolling counter and a shimmering “New” tag.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "color-picker",
+        "name": "Color Picker",
+        "description": "Saturation/value square, hue slider, hex input with copy and preset swatches, all draggable with the pointer.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "animated-color-selector",
+        "name": "Animated Color Selector",
+        "description": "Swatch picker where the selected color expands into a pill with a check and its name.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "table",
+        "name": "Table",
+        "description": "A data table with sortable columns, row selection, status badges, hover actions and pagination.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "breadcrumb",
+        "name": "Animated Breadcrumb",
+        "description": "Long paths collapse their middle into an ellipsis that expands with a staggered reveal on click.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "stepper",
+        "name": "Adaptive Stepper",
+        "description": "A multi-step flow with filling connectors, check-morphing step nodes and direction-aware sliding content.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "aspect-ratio",
+        "name": "Aspect Ratio",
+        "description": "Lock content to a ratio. Switching ratios morphs the frame with a spring.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "date-range-picker",
+        "name": "Date Range Picker",
+        "description": "Month grid with start/end selection, hover preview, quick presets and sliding month navigation.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "animated-alert",
+        "name": "Animated Alert",
+        "description": "Status alerts with stroke-drawn icons and a smooth collapse when dismissed.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "collapsible",
+        "name": "Animated Collapsible",
+        "description": "A disclosure panel with grid-based height animation and blurred content reveal.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "bouncy-accordion",
+        "name": "Bouncy Accordion",
+        "description": "An accordion with spring-eased panels, a rotating plus icon and single or multiple open modes.",
+        "badge": null,
+        "page": false,
+        "demos": 2
+      },
+      {
+        "slug": "tooltip",
+        "name": "Tooltip",
+        "description": "Hover and focus tooltips with a spring scale-in, arrow, delay and keyboard shortcut hints.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "popover",
+        "name": "Popover",
+        "description": "A click-triggered floating panel that scales from its anchor with a spring.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "context-menu",
+        "name": "Animated Context Menu",
+        "description": "A right-click menu that opens at the cursor with staggered items, shortcuts and submenus.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "morphing-modal",
+        "name": "Morphing Modal",
+        "description": "Cards that FLIP-morph from their grid position into a centered modal and back.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "center-morph-modal",
+        "name": "Center Morph Modal",
+        "description": "A pill button that morphs its size, position and radius into a centered dialog.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "drawer",
+        "name": "Drawer",
+        "description": "A floating side drawer with a blurred backdrop, staggered content and Escape to close.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "bottom-sheet",
+        "name": "Bottom Sheet",
+        "description": "A draggable sheet with snap points, rubber-banding and flick-to-dismiss physics.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "toast-stack",
+        "name": "Animated Toast Stack",
+        "description": "Stacked toasts that fan out on hover, auto-dismiss with a progress bar and support promises.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "text-animation",
+        "name": "Text Animation",
+        "description": "Blur-in words, typewriter, scramble decrypt, rotating words and gradient sweep effects.",
+        "badge": null,
+        "page": false,
+        "demos": 2
+      },
+      {
+        "slug": "number-animation",
+        "name": "Number Animation",
+        "description": "Eased number tickers and a rolling-digit odometer for currency, counts and percentages.",
+        "badge": null,
+        "page": false,
+        "demos": 2
+      },
+      {
+        "slug": "marquee",
+        "name": "Marquee",
+        "description": "Infinitely scrolling rows or columns with faded edges, reverse and pause on hover.",
+        "badge": null,
+        "page": false,
+        "demos": 2
+      },
+      {
+        "slug": "scroll-animation",
+        "name": "Scroll Animation",
+        "description": "Scroll-linked progress, parallax layers and reveal-on-scroll, scoped to any scroll container.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "loader",
+        "name": "Loader",
+        "description": "Eight polished loading indicators, from spinners and orbits to shimmering skeletons.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "theme-toggle",
+        "name": "Theme Toggle",
+        "description": "A sun-to-moon morphing toggle and a three-way segmented control with a sliding pill.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "action-swap",
+        "name": "Action Swap",
+        "description": "Icon and label swaps for stateful actions: copy, follow, play and like with a particle burst.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "expandable-control",
+        "name": "Expandable Control",
+        "description": "A compact now-playing pill that springs open into a full music player.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "dock",
+        "name": "Dock",
+        "description": "A macOS-style dock with distance-based magnification, tooltips, launch bounce and open dots.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "animated-sidebar",
+        "name": "Animated Sidebar",
+        "description": "An app sidebar that collapses between 72px and 240px with fading labels and nested groups.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "file-tree",
+        "name": "File Tree",
+        "description": "A nested file explorer with animated expand/collapse, indent guides and typed file icons.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "sortable-list",
+        "name": "Sortable List",
+        "description": "Pointer-driven drag reordering where siblings slide out of the way and the item settles into place.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "shader-background",
+        "name": "Shader Background",
+        "description": "A canvas-rendered animated gradient mesh with film grain, perfect behind hero sections.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "cylinder-carousel",
+        "name": "Cylinder Carousel",
+        "description": "A 3D rotating cylinder of cards built with CSS transforms, draggable and keyboard navigable.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "wheel-picker",
+        "name": "Wheel Picker",
+        "description": "iOS-style scroll-snapping wheels with 3D rotation and depth fade.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "image-viewer",
+        "name": "Image Viewer",
+        "description": "A thumbnail grid that expands into a lightbox with click-to-zoom and keyboard navigation.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "shared-layout-background",
+        "name": "Shared Layout Background",
+        "description": "A single highlight that glides between hovered nav or menu items.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      }
+    ]
+  },
+  {
+    "id": "blocks",
+    "title": "Blocks",
+    "entries": [
+      {
+        "slug": "morphing-search",
+        "name": "Morphing Search",
+        "description": "An icon button that springs open into a wide search field with a keyboard-navigable results dropdown.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "command-palette",
+        "name": "Command Palette",
+        "description": "A ⌘K launcher with fuzzy matching, grouped results, a spring-sliding highlight and keyboard shortcuts.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "dynamic-island",
+        "name": "Dynamic Island",
+        "description": "A black pill that morphs its width, height and radius between idle, call, music, timer and notification states.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "notification-stack",
+        "name": "Notification Stack",
+        "description": "iOS-style stacked notifications that fan out into a list when tapped, and cards that slide away when dismissed.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "infinite-masonry",
+        "name": "Infinite Masonry",
+        "description": "A balanced masonry grid in its own scroll container that streams in more cards with shimmering skeletons.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "project-folder",
+        "name": "Project Folder",
+        "description": "A 3D folder whose front flap tilts open on hover while the papers inside fan out with a spring.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "card-folder",
+        "name": "Card Folder",
+        "description": "A wallet of payment cards that fans out on hover. Pick one and it rises out of the pocket.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "fixtures",
+        "name": "Fixtures",
+        "description": "A sports scoreboard with day tabs, live match minutes behind a pulsing indicator and kickoff reminders.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "availability-scheduler",
+        "name": "Availability Scheduler",
+        "description": "Set weekly working hours with day toggles and time ranges that animate as they are added or removed.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "multichain-swap",
+        "name": "Multi-chain Swap",
+        "description": "A token swap card with chain-aware selectors, a rotating flip control, live rate and fee, and a button that reflects every state.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "action-bar",
+        "name": "Expandable Action Bar",
+        "description": "A floating bar that springs up from the bottom when list items are selected, showing a live count and bulk actions.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "overflow-actions",
+        "name": "Overflow Actions",
+        "description": "A toolbar that measures itself and moves actions into a “more” menu as space runs out, with smooth width transitions.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "expandable-tabs",
+        "name": "Expandable Tabs",
+        "description": "Compact icon tabs where the active one stretches open to show its label.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "morphing-tabs",
+        "name": "Morphing Tabs",
+        "description": "A segmented control whose indicator stretches toward the new tab before settling, while the panels crossfade.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "swipeable-list",
+        "name": "Swipeable List",
+        "description": "Rows you can drag sideways to archive or delete, with rubber-band resistance, snap points and a collapsing exit.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "file-upload",
+        "name": "File Upload",
+        "description": "A dropzone with a glowing drag-over state, a real file picker, per-file progress and animated removal.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "prediction-market",
+        "name": "Prediction Market",
+        "description": "A binary market card with a probability bar, an interactive SVG sparkline and a buy panel that calculates payout.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "wallet-card",
+        "name": "Wallet Card",
+        "description": "A crypto wallet summary with a counting balance, a privacy toggle, inline send and receive panels, and an asset list.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "otp-input",
+        "name": "OTP Input",
+        "description": "A six-digit code input that advances automatically, supports paste and backspace, and shows verifying, success and error states.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "sign-up-form",
+        "name": "Sign Up Form",
+        "description": "A sign-up card with social buttons, inline validation, a live password strength meter and an animated success state.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "bloom-menu",
+        "name": "Bloom Menu",
+        "description": "A floating action button that opens into a ring or arc of actions, each arriving on its own spring with a stagger.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "feedback-widget",
+        "name": "Feedback Widget",
+        "description": "A small pill that grows into a feedback panel with a rating and comment box, then shrinks into a thank-you card.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "not-found",
+        "name": "404 / Not Found",
+        "description": "A 404 page with a layered “404” that follows the pointer, a periodic glitch, docs search and suggested links. This site uses it as its real 404 page.",
+        "badge": null,
+        "page": false,
+        "demos": 2
+      },
+      {
+        "slug": "pull-to-refresh",
+        "name": "Pull to Refresh",
+        "description": "A mobile-style container you can drag down with rubber-band resistance to reveal a spinner and load new content.",
+        "badge": null,
+        "page": false,
+        "demos": 1
+      }
+    ]
+  },
+  {
+    "id": "footers",
+    "title": "Footers",
+    "entries": [
+      {
+        "slug": "dither-dot-footer",
+        "name": "Dither Dot Footer",
+        "description": "A footer with a fine dot dither pattern, CTA strip, link columns and status bar.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "dither-grid-footer",
+        "name": "Dither Grid Footer",
+        "description": "A footer with a grid dither pattern, newsletter signup and giant brand text.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "dither-diagonal-footer",
+        "name": "Dither Diagonal Footer",
+        "description": "A minimal footer with a diagonal line dither pattern and centered brand layout.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      }
+    ]
+  }
+]

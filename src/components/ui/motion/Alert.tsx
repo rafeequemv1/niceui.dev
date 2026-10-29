@@ -5,7 +5,7 @@ import { cn } from '@/lib/cn';
 type Variant = 'info' | 'success' | 'warning' | 'error';
 
 const STYLES: Record<Variant, { wrap: string; icon: string; ring: string }> = {
-  info: { wrap: 'bg-brand-500/[0.07]', icon: 'text-brand-300', ring: 'shadow-[inset_0_0_0_1px_rgba(51,150,255,0.22)]' },
+  info: { wrap: 'bg-brand-500/[0.07]', icon: 'text-brand-300', ring: 'shadow-[inset_0_0_0_1px_rgba(56,189,248,0.22)]' },
   success: { wrap: 'bg-emerald-500/[0.07]', icon: 'text-emerald-300', ring: 'shadow-[inset_0_0_0_1px_rgba(16,185,129,0.22)]' },
   warning: { wrap: 'bg-amber-500/[0.07]', icon: 'text-amber-300', ring: 'shadow-[inset_0_0_0_1px_rgba(245,158,11,0.22)]' },
   error: { wrap: 'bg-rose-500/[0.07]', icon: 'text-rose-300', ring: 'shadow-[inset_0_0_0_1px_rgba(244,63,94,0.22)]' },

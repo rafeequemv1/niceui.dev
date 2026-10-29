@@ -33,7 +33,7 @@ export function Stepper({ steps, current, onStepClick }: StepperProps) {
               className={cn(
                 'focus-ring relative z-10 flex h-8 w-8 items-center justify-center rounded-full text-xs font-medium transition-all duration-500 ease-spring [&_svg]:h-4 [&_svg]:w-4',
                 done && 'bg-brand-500 text-white',
-                active && 'scale-110 bg-ink-900 text-brand-300 shadow-[inset_0_0_0_2px_#3396ff,0_0_0_5px_rgba(51,150,255,0.15)]',
+                active && 'scale-110 bg-ink-900 text-brand-300 shadow-[inset_0_0_0_2px_#38bdf8,0_0_0_5px_rgba(56,189,248,0.15)]',
                 !done && !active && 'bg-ink-900 text-ink-500 shadow-[inset_0_0_0_1.5px_rgba(255,255,255,0.12)]',
               )}
             >

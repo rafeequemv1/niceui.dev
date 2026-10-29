@@ -47,7 +47,7 @@
   const modal = $("[data-search]");
   const input = $("[data-search-input]");
   const list = $("[data-search-list]");
-  const kindLabel = { component: "Component", block: "Block", template: "Template" };
+  const kindLabel = { component: "Component", block: "Block", template: "Template", ai: "AI agent", landing: "Landing page", dashboard: "Dashboard" };
   let results = [];
   let active = 0;
 

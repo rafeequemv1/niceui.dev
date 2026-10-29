@@ -56,7 +56,7 @@ export function FileUpload({ accept, maxSizeMb = 25, multiple = true, defaultIte
           over ? 'scale-[1.02] border-brand-400 bg-brand-500/10 shadow-glow' : 'border-white/10 bg-ink-900 hover:border-white/20 hover:bg-ink-850',
         )}
       >
-        <div className={cn('pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(51,150,255,0.25),transparent_60%)] transition-opacity duration-500', over ? 'opacity-100' : 'opacity-0')} />
+        <div className={cn('pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(56,189,248,0.25),transparent_60%)] transition-opacity duration-500', over ? 'opacity-100' : 'opacity-0')} />
         <span className={cn('relative flex h-12 w-12 items-center justify-center rounded-2xl bg-ink-800 text-ink-200 shadow-hairline transition-all duration-500 ease-spring', over ? '-translate-y-1 scale-110 bg-brand-500 text-white' : 'group-hover:-translate-y-0.5')}>
           <Upload className={cn('h-5 w-5 transition-transform duration-500 ease-spring', over && '-translate-y-0.5')} />
         </span>

@@ -85,7 +85,7 @@ export function FrameworkField() {
 
 const labels = [
   { value: 'bug', label: 'Bug', color: '#fb7185' },
-  { value: 'feature', label: 'Feature', color: '#3396ff' },
+  { value: 'feature', label: 'Feature', color: '#38bdf8' },
   { value: 'design', label: 'Design', color: '#2dd4bf' },
 ];
 
@@ -257,19 +257,19 @@ export function Status() {
         code: `import { ColorPicker } from '@/components/ui/core/ColorPicker';
 
 export function AccentSetting() {
-  const [color, setColor] = useState('#3396ff');
+  const [color, setColor] = useState('#38bdf8');
   return (
     <ColorPicker
       value={color}
       onChange={setColor}
-      swatches={['#3396ff', '#14b8a6', '#fbbf24', '#f43f5e']}
+      swatches={['#38bdf8', '#14b8a6', '#fbbf24', '#f43f5e']}
     />
   );
 }`,
       },
     ],
     props: [
-      { name: 'value', type: 'string', description: 'Hex color, e.g. #3396ff.' },
+      { name: 'value', type: 'string', description: 'Hex color, e.g. #38bdf8.' },
       { name: 'onChange', type: '(hex: string) => void', description: 'Called while dragging and on input.' },
       { name: 'swatches', type: 'string[]', description: 'Preset colors shown under the picker.' },
     ],
@@ -288,7 +288,7 @@ export function AccentSetting() {
 const finishes = [
   { value: 'graphite', name: 'Graphite', hex: '#36363e' },
   { value: 'silver', name: 'Silver', hex: '#d6d6db', light: true },
-  { value: 'ocean', name: 'Ocean', hex: '#1b77f5' },
+  { value: 'ocean', name: 'Ocean', hex: '#0ea5e9' },
 ];
 
 export function FinishPicker() {

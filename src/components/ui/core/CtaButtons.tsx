@@ -15,7 +15,7 @@ export function ShimmerBorderButton({ children, onClick, className }: CtaProps) 
     >
       <span
         aria-hidden
-        className="absolute left-1/2 top-1/2 aspect-square w-[250%] -translate-x-1/2 -translate-y-1/2 animate-spin-slow bg-[conic-gradient(from_0deg,transparent_0%,transparent_65%,#59b6ff_80%,#f7f7f8_86%,transparent_92%)] [animation-duration:3s]"
+        className="absolute left-1/2 top-1/2 aspect-square w-[250%] -translate-x-1/2 -translate-y-1/2 animate-spin-slow bg-[conic-gradient(from_0deg,transparent_0%,transparent_65%,#7dd3fc_80%,#f7f7f8_86%,transparent_92%)] [animation-duration:3s]"
       />
       <span className="relative inline-flex h-full items-center gap-2 rounded-full bg-ink-950 px-5 text-sm font-medium text-ink-50 transition-colors group-hover:bg-ink-900">
         {children}

@@ -24,7 +24,7 @@ const monthly = [
 ];
 
 const categories = [
-  { label: 'Payroll', value: 48000, pct: 58, color: '#3396ff' },
+  { label: 'Payroll', value: 48000, pct: 58, color: '#38bdf8' },
   { label: 'Infrastructure', value: 18400, pct: 22, color: '#34d399' },
   { label: 'Marketing', value: 9600, pct: 12, color: '#fbbf24' },
   { label: 'Office', value: 4200, pct: 5, color: '#fb7185' },

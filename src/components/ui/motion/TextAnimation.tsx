@@ -116,7 +116,7 @@ export function GradientSweepText({ text, className }: { text: string; className
     <span
       className={cn('bg-clip-text text-transparent', className)}
       style={{
-        backgroundImage: 'linear-gradient(110deg, #3396ff 0%, #2dd4bf 30%, #f7f7f8 45%, #2dd4bf 60%, #3396ff 100%)',
+        backgroundImage: 'linear-gradient(110deg, #38bdf8 0%, #2dd4bf 30%, #f7f7f8 45%, #2dd4bf 60%, #38bdf8 100%)',
         backgroundSize: '250% 100%',
         animation: 'shimmer 3.2s linear infinite',
       }}

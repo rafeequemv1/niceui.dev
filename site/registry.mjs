@@ -253,7 +253,7 @@ export default function Page() {
     status: "ready",
     description: "Three-tier pricing with a monthly/yearly toggle, featured plan glow and checkmark feature lists.",
     keywords: ["pricing table", "pricing section", "saas pricing", "tailwind pricing"],
-    thumb: 0.5,
+    thumb: 0.42,
     wide: true,
     preview: `<div class="x-pricing" data-pricing><div class="x-pr-head"><h3>Simple, <em>honest</em> pricing.</h3><div class="x-pr-toggle"><button>Monthly</button><button class="on">Yearly</button></div></div><div class="x-pr-grid"><div class="x-pr-card"><b>Starter</b><div class="x-pr-price"><span data-m="0" data-y="0">$0</span><small>/ mo</small></div><p>For side projects.</p><ul><li>3 projects</li><li>Community support</li><li>Basic analytics</li></ul><span class="x-btn x-btn-outline">Start free</span></div><div class="x-pr-card feat"><b>Pro <i>Popular</i></b><div class="x-pr-price"><span data-m="24" data-y="19">$19</span><small>/ mo</small></div><p>For growing products.</p><ul><li>Unlimited projects</li><li>Priority support</li><li>Advanced analytics</li></ul><span class="x-btn x-btn-primary">Upgrade to Pro</span></div><div class="x-pr-card"><b>Team</b><div class="x-pr-price"><span data-m="59" data-y="49">$49</span><small>/ mo</small></div><p>For teams at scale.</p><ul><li>Everything in Pro</li><li>SSO and audit log</li><li>Dedicated manager</li></ul><span class="x-btn x-btn-outline">Contact sales</span></div></div></div>`,
     usage: `import { PricingMinimal } from "@/components/pricing-minimal";

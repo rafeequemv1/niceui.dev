@@ -163,7 +163,7 @@ export function Card({ className, children, style, delay }: { className?: string
   );
 }
 
-export function ProgressBar({ value, color = '#3396ff', className }: { value: number; color?: string; className?: string }) {
+export function ProgressBar({ value, color = '#38bdf8', className }: { value: number; color?: string; className?: string }) {
   const [w, setW] = useState(false);
   useEffect(() => {
     const t = requestAnimationFrame(() => requestAnimationFrame(() => setW(true)));

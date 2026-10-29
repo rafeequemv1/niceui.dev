@@ -84,7 +84,7 @@ export function InfrastructureMonitor() {
   }, [logs]);
 
   const liveCards = [
-    { label: 'CPU usage', value: cpu[cpu.length - 1]?.value ?? 0, unit: '%', data: cpu, color: '#3396ff', icon: Cpu },
+    { label: 'CPU usage', value: cpu[cpu.length - 1]?.value ?? 0, unit: '%', data: cpu, color: '#38bdf8', icon: Cpu },
     { label: 'Memory', value: mem[mem.length - 1]?.value ?? 0, unit: '%', data: mem, color: '#34d399', icon: Database },
     { label: 'P95 latency', value: lat[lat.length - 1]?.value ?? 0, unit: 'ms', data: lat, color: '#fbbf24', icon: Zap },
   ];

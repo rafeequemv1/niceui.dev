@@ -75,7 +75,7 @@ export function MultiSelect({ options, value, onChange, placeholder = 'Add…', 
         }}
         className={cn(
           'flex min-h-[42px] cursor-text flex-wrap items-center gap-1.5 rounded-lg bg-ink-900 py-1.5 pl-1.5 pr-9 ring-1 ring-inset transition-all',
-          open ? 'ring-brand-500 shadow-[0_0_0_4px_rgba(51,150,255,0.15)]' : 'ring-white/10 hover:ring-white/20',
+          open ? 'ring-brand-500 shadow-[0_0_0_4px_rgba(56,189,248,0.15)]' : 'ring-white/10 hover:ring-white/20',
         )}
       >
         {value.map((v) => {
@@ -171,7 +171,7 @@ export function MultiSelect({ options, value, onChange, placeholder = 'Add…', 
 
 const LABELS: MultiOption[] = [
   { value: 'bug', label: 'Bug', color: '#fb7185' },
-  { value: 'feature', label: 'Feature', color: '#3396ff' },
+  { value: 'feature', label: 'Feature', color: '#38bdf8' },
   { value: 'design', label: 'Design', color: '#2dd4bf' },
   { value: 'perf', label: 'Performance', color: '#fbbf24' },
   { value: 'docs', label: 'Documentation', color: '#38bdf8' },

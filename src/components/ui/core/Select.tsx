@@ -74,7 +74,7 @@ export function Select({ options, value, onChange, placeholder = 'Select…', la
         onKeyDown={onKey}
         className={cn(
           'focus-ring flex h-10 w-full items-center gap-2.5 rounded-lg bg-ink-900 px-3 text-left text-sm ring-1 ring-inset transition-all active:scale-[0.99]',
-          open ? 'ring-brand-500 shadow-[0_0_0_4px_rgba(51,150,255,0.15)]' : 'ring-white/10 hover:ring-white/20',
+          open ? 'ring-brand-500 shadow-[0_0_0_4px_rgba(56,189,248,0.15)]' : 'ring-white/10 hover:ring-white/20',
         )}
       >
         {selected?.icon && <span className="text-ink-300 [&_svg]:h-4 [&_svg]:w-4">{selected.icon}</span>}

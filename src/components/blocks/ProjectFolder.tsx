@@ -11,7 +11,7 @@ export type ProjectFolderProps = {
 };
 
 const TONES = {
-  brand: { back: 'from-brand-700 to-brand-900', front: 'from-brand-500 to-brand-700', glow: 'rgba(51,150,255,0.35)' },
+  brand: { back: 'from-brand-700 to-brand-900', front: 'from-brand-500 to-brand-700', glow: 'rgba(56,189,248,0.35)' },
   amber: { back: 'from-amber-600 to-amber-800', front: 'from-amber-400 to-amber-600', glow: 'rgba(251,191,36,0.3)' },
   emerald: { back: 'from-emerald-700 to-emerald-900', front: 'from-emerald-400 to-emerald-600', glow: 'rgba(52,211,153,0.3)' },
   rose: { back: 'from-rose-700 to-rose-900', front: 'from-rose-400 to-rose-600', glow: 'rgba(251,113,133,0.3)' },

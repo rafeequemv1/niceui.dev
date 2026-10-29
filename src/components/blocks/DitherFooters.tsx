@@ -140,7 +140,7 @@ export function DitherGridFooter({ onNavigate }: FooterProps) {
       <div className="dither-grid absolute inset-0 opacity-50" />
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-40 opacity-30"
-        style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(51,150,255,0.15), transparent 70%)' }}
+        style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(56,189,248,0.15), transparent 70%)' }}
       />
 
       <div className="relative mx-auto max-w-6xl px-6">

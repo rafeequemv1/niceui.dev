@@ -37,7 +37,7 @@ export function Card({ children, className, interactive = false }: CardProps) {
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
-            style={{ background: 'radial-gradient(420px circle at var(--x, 50%) var(--y, 50%), rgba(51,150,255,0.10), transparent 45%)' }}
+            style={{ background: 'radial-gradient(420px circle at var(--x, 50%) var(--y, 50%), rgba(56,189,248,0.10), transparent 45%)' }}
           />
           <div
             aria-hidden

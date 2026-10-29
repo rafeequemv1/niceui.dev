@@ -239,7 +239,7 @@ const projects = [
     id: 'aurora',
     title: 'Aurora',
     subtitle: 'Brand refresh · 2025',
-    gradient: 'linear-gradient(135deg, #59b6ff, #14b8a6)',
+    gradient: 'linear-gradient(135deg, #7dd3fc, #14b8a6)',
     body: 'A complete rework of the Aurora identity.',
     meta: [{ label: 'Team', value: '6 people' }],
   },

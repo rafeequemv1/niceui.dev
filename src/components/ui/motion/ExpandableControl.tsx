@@ -66,7 +66,7 @@ function Eq({ on }: { on: boolean }) {
 
 const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 const TRACK = { title: 'Midnight Transit', artist: 'Kaito & The Lanterns', length: 214 };
-const ART = 'radial-gradient(circle at 30% 30%, #59b6ff, transparent 60%), radial-gradient(circle at 70% 80%, #f59e0b, transparent 55%), #142b57';
+const ART = 'radial-gradient(circle at 30% 30%, #7dd3fc, transparent 60%), radial-gradient(circle at 70% 80%, #f59e0b, transparent 55%), #142b57';
 
 export function ExpandableControlDemo() {
   const [playing, setPlaying] = useState(true);

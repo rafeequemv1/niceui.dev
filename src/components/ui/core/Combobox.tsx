@@ -79,7 +79,7 @@ export function Combobox({ options, value, onChange, placeholder = 'Search…', 
       <div
         className={cn(
           'flex h-10 items-center gap-2 rounded-lg bg-ink-900 px-3 ring-1 ring-inset transition-all',
-          open ? 'ring-brand-500 shadow-[0_0_0_4px_rgba(51,150,255,0.15)]' : 'ring-white/10 hover:ring-white/20',
+          open ? 'ring-brand-500 shadow-[0_0_0_4px_rgba(56,189,248,0.15)]' : 'ring-white/10 hover:ring-white/20',
         )}
       >
         <Search className={cn('h-4 w-4 shrink-0 transition-colors', open ? 'text-brand-300' : 'text-ink-500')} />

@@ -86,7 +86,7 @@ function IconAction({ label, onClick, active, children }: { label: string; onCli
 
 export function AssistantLogo({ spinning }: { spinning?: boolean }) {
   return (
-    <span className="relative grid h-8 w-8 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand-400 to-sky-600 text-white shadow-[0_0_20px_-4px_rgba(51,150,255,0.6)]">
+    <span className="relative grid h-8 w-8 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand-400 to-sky-600 text-white shadow-[0_0_20px_-4px_rgba(56,189,248,0.6)]">
       <Sparkle className={cn('h-4 w-4 fill-current', spinning && 'animate-spin-slow')} />
     </span>
   );

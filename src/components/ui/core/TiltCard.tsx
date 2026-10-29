@@ -106,7 +106,7 @@ export function TiltCardDemo() {
 
       <TiltCard className="w-full max-w-[260px]" maxTilt={16}>
         <div className="relative overflow-hidden rounded-2xl bg-ink-900 p-5 shadow-card">
-          <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-xl bg-[radial-gradient(circle_at_30%_20%,#1b77f5,transparent_60%),radial-gradient(circle_at_80%_90%,#14b8a6,transparent_55%)] bg-ink-950">
+          <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-xl bg-[radial-gradient(circle_at_30%_20%,#0ea5e9,transparent_60%),radial-gradient(circle_at_80%_90%,#14b8a6,transparent_55%)] bg-ink-950">
             <div className="dot-bg absolute inset-0 opacity-60" />
             <Rocket className="relative h-16 w-16 text-white drop-shadow-[0_8px_24px_rgba(0,0,0,0.5)] [transform:translateZ(60px)]" strokeWidth={1.5} />
           </div>

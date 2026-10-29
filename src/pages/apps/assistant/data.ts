@@ -28,15 +28,15 @@ const pricingHtml = `<!doctype html>
   body{min-height:100vh;display:grid;place-items:center;background:#0b0d12;color:#e7e9ee;padding:24px}
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;width:100%;max-width:680px}
   .card{background:#13161d;border:1px solid #232733;border-radius:18px;padding:22px;transition:.3s}
-  .card:hover{transform:translateY(-4px);border-color:#3396ff}
-  .pro{background:linear-gradient(160deg,#1a2a44,#13161d);border-color:#3396ff}
+  .card:hover{transform:translateY(-4px);border-color:#38bdf8}
+  .pro{background:linear-gradient(160deg,#1a2a44,#13161d);border-color:#38bdf8}
   h3{font-size:14px;color:#9aa3b2;font-weight:500}
   .price{font-size:36px;font-weight:600;margin:10px 0 4px}
   .price span{font-size:13px;color:#6b7383}
   ul{list-style:none;padding:0;margin:16px 0;display:grid;gap:8px;font-size:13px;color:#b8bfcc}
   li:before{content:"✓ ";color:#34d399}
   button{width:100%;padding:11px;border-radius:10px;border:0;font-weight:600;cursor:pointer;background:#232733;color:#fff}
-  .pro button{background:#3396ff}
+  .pro button{background:#38bdf8}
 </style></head><body>
   <div class="grid">
     <div class="card"><h3>Starter</h3><div class="price">$0<span>/mo</span></div><ul><li>3 projects</li><li>Community support</li></ul><button>Get started</button></div>
@@ -55,13 +55,13 @@ const timerHtml = `<!doctype html>
   .ring{position:relative;width:220px;height:220px;margin:0 auto}
   .row{display:flex;gap:10px;justify-content:center;margin-top:28px}
   button{padding:10px 20px;border-radius:999px;border:1px solid #2b3445;background:#151b26;color:#fff;font-weight:600;cursor:pointer}
-  button.primary{background:#3396ff;border-color:#3396ff}
+  button.primary{background:#38bdf8;border-color:#38bdf8}
   .label{margin-top:14px;color:#8a94a6;font-size:13px;letter-spacing:.15em;text-transform:uppercase}
 </style></head><body>
   <div class="wrap">
     <div class="ring">
       <svg width="220" height="220"><circle cx="110" cy="110" r="96" stroke="#1f2633" stroke-width="10" fill="none"/>
-      <circle id="arc" cx="110" cy="110" r="96" stroke="#3396ff" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="603" stroke-dashoffset="0"/></svg>
+      <circle id="arc" cx="110" cy="110" r="96" stroke="#38bdf8" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="603" stroke-dashoffset="0"/></svg>
       <div class="time" id="t">25:00</div>
     </div>
     <div class="label" id="l">Focus</div>

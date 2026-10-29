@@ -111,7 +111,7 @@ export function PromptInput({ onSubmit, generating = false, onStop, placeholder 
     <div
       className={cn(
         'w-full rounded-2xl bg-ink-900 shadow-card transition-shadow duration-300',
-        focused && 'shadow-[0_0_0_1px_rgba(51,150,255,0.35),0_8px_32px_-8px_rgba(51,150,255,0.25)]',
+        focused && 'shadow-[0_0_0_1px_rgba(56,189,248,0.35),0_8px_32px_-8px_rgba(56,189,248,0.25)]',
         className,
       )}
     >

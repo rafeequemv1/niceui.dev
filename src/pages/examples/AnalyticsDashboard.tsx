@@ -15,7 +15,7 @@ const nav: NavItem[] = [
 ];
 
 const kpis = [
-  { label: 'Revenue', value: 284932, prefix: '$', delta: 12.4, spark: [12, 18, 14, 22, 19, 28, 24, 31, 27, 34], color: '#3396ff', icon: 'Revenue' },
+  { label: 'Revenue', value: 284932, prefix: '$', delta: 12.4, spark: [12, 18, 14, 22, 19, 28, 24, 31, 27, 34], color: '#38bdf8', icon: 'Revenue' },
   { label: 'Active Users', value: 48210, delta: 8.1, spark: [30, 32, 28, 35, 33, 40, 38, 44, 41, 47], color: '#34d399' },
   { label: 'Conversion', value: 4.82, suffix: '%', decimals: 2, delta: 2.3, spark: [3.1, 3.4, 3.2, 3.8, 4.0, 4.2, 4.1, 4.5, 4.6, 4.8], color: '#fbbf24' },
   { label: 'Churn', value: 1.92, suffix: '%', decimals: 2, delta: -0.6, spark: [2.4, 2.2, 2.3, 2.1, 2.0, 2.1, 1.9, 2.0, 1.95, 1.92], color: '#fb7185' },
@@ -31,7 +31,7 @@ function gen(days: number) {
 }
 
 const traffic = [
-  { label: 'Organic', value: 42, color: '#3396ff' },
+  { label: 'Organic', value: 42, color: '#38bdf8' },
   { label: 'Direct', value: 26, color: '#34d399' },
   { label: 'Referral', value: 18, color: '#fbbf24' },
   { label: 'Social', value: 14, color: '#fb7185' },
@@ -150,7 +150,7 @@ export function AnalyticsDashboard() {
                   <tr key={p.path} className="border-t border-white/5 transition-colors hover:bg-white/[0.02]">
                     <td className="py-2.5 font-mono text-[13px] text-ink-100">{p.path}</td>
                     <td className="py-2.5 text-right text-ink-300">{p.views.toLocaleString()}</td>
-                    <td className="py-2.5"><div className="flex items-center gap-2"><div className="w-24"><ProgressBar value={p.conv * 10} color="#3396ff" /></div><span className="text-xs text-ink-300">{p.conv}%</span></div></td>
+                    <td className="py-2.5"><div className="flex items-center gap-2"><div className="w-24"><ProgressBar value={p.conv * 10} color="#38bdf8" /></div><span className="text-xs text-ink-300">{p.conv}%</span></div></td>
                   </tr>
                 ))}
               </tbody>

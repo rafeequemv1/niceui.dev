@@ -12,7 +12,7 @@ const CONFIG: Record<OrbState, { base: number; amp: number; speed: number }> = {
 };
 
 const LAYERS = [
-  { bg: 'radial-gradient(circle at 35% 35%, #8ed1ff 0%, #3396ff 35%, transparent 70%)', k: 1.0, dir: 1, dur: '9s' },
+  { bg: 'radial-gradient(circle at 35% 35%, #bae6fd 0%, #38bdf8 35%, transparent 70%)', k: 1.0, dir: 1, dur: '9s' },
   { bg: 'radial-gradient(circle at 65% 60%, #2dd4bf 0%, #0ea5e9 40%, transparent 72%)', k: 1.4, dir: -1, dur: '12s' },
   { bg: 'radial-gradient(circle at 50% 75%, #1461e1 0%, #174eb6 45%, transparent 75%)', k: 0.8, dir: 1, dur: '15s' },
   { bg: 'radial-gradient(circle at 40% 30%, #f7f7f8 0%, #bce2ff 18%, transparent 45%)', k: 1.8, dir: -1, dur: '7s' },

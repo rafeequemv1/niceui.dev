@@ -33,7 +33,7 @@ export function CountUp({
 
 export function Sparkline({
   data,
-  color = '#3396ff',
+  color = '#38bdf8',
   fill = true,
   width = 120,
   height = 36,
@@ -99,7 +99,7 @@ export function Sparkline({
 export function AreaChart({
   data,
   height = 240,
-  color = '#3396ff',
+  color = '#38bdf8',
   format = (v) => String(v),
 }: {
   data: { label: string; value: number }[];

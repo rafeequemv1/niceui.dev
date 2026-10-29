@@ -80,7 +80,7 @@ export function RangeSlider<V extends Value>({ value, onChange, min = 0, max = 1
         <div className="h-1.5 w-full rounded-full bg-ink-800 shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)]" />
         <div
           className={cn(
-            'absolute h-1.5 rounded-full bg-gradient-to-r from-brand-600 to-brand-400 shadow-[0_0_12px_-2px_rgba(51,150,255,0.7)]',
+            'absolute h-1.5 rounded-full bg-gradient-to-r from-brand-600 to-brand-400 shadow-[0_0_12px_-2px_rgba(56,189,248,0.7)]',
             drag === null && 'transition-all duration-300 ease-smooth',
           )}
           style={{ left: `${lo}%`, width: `${hi - lo}%` }}

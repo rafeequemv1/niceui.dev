@@ -17,7 +17,7 @@ const nav: NavItem[] = [
 const tokenData = Array.from({ length: 24 }, (_, i) => ({ label: `${i}h`, value: 12000 + Math.sin(i / 3) * 6000 + Math.random() * 4000 }));
 
 const costBreakdown = [
-  { label: 'GPT-4o', value: 1840, color: '#3396ff' },
+  { label: 'GPT-4o', value: 1840, color: '#38bdf8' },
   { label: 'Claude 3.5', value: 1120, color: '#34d399' },
   { label: 'Embeddings', value: 420, color: '#fbbf24' },
   { label: 'Whisper', value: 180, color: '#fb7185' },
@@ -33,10 +33,10 @@ const runs = [
 
 const evals = [
   { label: 'Accuracy', score: 92, color: '#34d399' },
-  { label: 'Helpfulness', score: 88, color: '#3396ff' },
+  { label: 'Helpfulness', score: 88, color: '#38bdf8' },
   { label: 'Safety', score: 96, color: '#fbbf24' },
   { label: 'Latency', score: 74, color: '#fb7185' },
-  { label: 'Coherence', score: 90, color: '#8ed1ff' },
+  { label: 'Coherence', score: 90, color: '#bae6fd' },
 ];
 
 const traceSteps = [
@@ -110,7 +110,7 @@ export function AgentConsole() {
       <div className="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-3">
         <Card className="xl:col-span-2" delay={260}>
           <SectionTitle title="Token usage" sub="Last 24 hours" action={<Badge tone="brand">gpt-4o</Badge>} />
-          <AreaChart data={tokenData} height={220} color="#3396ff" format={(v) => `${(v / 1000).toFixed(1)}k`} />
+          <AreaChart data={tokenData} height={220} color="#38bdf8" format={(v) => `${(v / 1000).toFixed(1)}k`} />
         </Card>
 
         <Card delay={320}>

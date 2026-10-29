@@ -45,7 +45,7 @@ export function OrbitSpinner({ className }: { className?: string }) {
     <span className={cn('relative block h-12 w-12', className)} role="status" aria-label="Loading">
       <span className="absolute inset-0 rounded-full border border-white/10" />
       <span className="absolute inset-0 animate-spin [animation-duration:1.6s]">
-        <span className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-brand-400 shadow-[0_0_12px_2px_rgba(51,150,255,0.7)]" />
+        <span className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-brand-400 shadow-[0_0_12px_2px_rgba(56,189,248,0.7)]" />
       </span>
       <span className="absolute inset-3 animate-spin rounded-full border border-white/10 [animation-direction:reverse] [animation-duration:1.1s]">
         <span className="absolute -top-[3px] left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-teal-300" />

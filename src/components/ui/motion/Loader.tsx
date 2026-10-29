@@ -38,7 +38,7 @@ export function OrbitLoader({ className }: { className?: string }) {
     <span className={cn('relative inline-block h-10 w-10', className)} role="status" aria-label="Loading">
       <span className="absolute inset-0 rounded-full border border-white/10" />
       <span className="absolute inset-0 animate-spin [animation-duration:1.4s]">
-        <span className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-brand-400 shadow-[0_0_10px_2px_rgba(51,150,255,0.6)]" />
+        <span className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-brand-400 shadow-[0_0_10px_2px_rgba(56,189,248,0.6)]" />
       </span>
       <span className="absolute inset-2.5 animate-spin rounded-full border border-white/10 [animation-direction:reverse] [animation-duration:1s]">
         <span className="absolute -top-[3px] left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-teal-300" />
@@ -106,7 +106,7 @@ export function GradientSpinner({ size = 36, className }: { size?: number; class
       style={{
         width: size,
         height: size,
-        background: 'conic-gradient(from 0deg, transparent 0deg, #3396ff 200deg, #5eead4 340deg, transparent 360deg)',
+        background: 'conic-gradient(from 0deg, transparent 0deg, #38bdf8 200deg, #5eead4 340deg, transparent 360deg)',
         WebkitMask: 'radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px))',
         mask: 'radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px))',
       }}

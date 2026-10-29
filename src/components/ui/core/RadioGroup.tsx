@@ -17,7 +17,7 @@ export function RadioDot({ checked }: { checked: boolean }) {
     <span
       className={cn(
         'relative flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full transition-all duration-300',
-        checked ? 'bg-brand-500/15 shadow-[inset_0_0_0_1.5px_#3396ff]' : 'shadow-[inset_0_0_0_1.5px_rgba(255,255,255,0.2)]',
+        checked ? 'bg-brand-500/15 shadow-[inset_0_0_0_1.5px_#38bdf8]' : 'shadow-[inset_0_0_0_1.5px_rgba(255,255,255,0.2)]',
       )}
     >
       <span
@@ -60,7 +60,7 @@ export function RadioGroup({ options, value, onChange, label, className }: Radio
             className={cn(
               'focus-ring group relative flex w-full animate-fade-up items-center gap-4 rounded-xl p-4 text-left transition-all duration-300 ease-smooth active:scale-[0.99]',
               checked
-                ? 'bg-brand-500/[0.07] shadow-[inset_0_0_0_1.5px_rgba(51,150,255,0.7),0_8px_24px_-12px_rgba(51,150,255,0.5)]'
+                ? 'bg-brand-500/[0.07] shadow-[inset_0_0_0_1.5px_rgba(56,189,248,0.7),0_8px_24px_-12px_rgba(56,189,248,0.5)]'
                 : 'bg-ink-900 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.07)] hover:bg-ink-850 hover:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]',
             )}
             style={{ animationDelay: `${i * 60}ms` }}

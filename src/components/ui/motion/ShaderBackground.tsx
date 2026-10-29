@@ -15,7 +15,7 @@ export type ShaderBackgroundProps = {
 const NOISE =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E\")";
 
-const PALETTE = ['#1b77f5', '#2dd4bf', '#59b6ff', '#f59e0b', '#0ea5e9'];
+const PALETTE = ['#0ea5e9', '#2dd4bf', '#7dd3fc', '#f59e0b', '#0ea5e9'];
 
 /**
  * Animated gradient mesh. Radial blobs travel on Lissajous paths on a tiny canvas

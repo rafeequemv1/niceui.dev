@@ -37,7 +37,7 @@ export function Switch({ checked, onChange, label, size = 'md', disabled, classN
           'focus-ring relative inline-flex shrink-0 items-center rounded-full p-0.5 transition-colors duration-300 ease-smooth disabled:cursor-not-allowed',
           s.track,
           checked
-            ? 'bg-brand-500 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12),0_0_16px_-4px_rgba(51,150,255,0.7)]'
+            ? 'bg-brand-500 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12),0_0_16px_-4px_rgba(56,189,248,0.7)]'
             : 'bg-ink-700 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)] hover:bg-ink-600',
         )}
       >

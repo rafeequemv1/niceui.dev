@@ -8,10 +8,10 @@ const PRESETS: Array<{ prompt: string; palettes: Palette[] }> = [
   {
     prompt: 'Aurora over a frozen fjord, long exposure',
     palettes: [
-      ['#0b1d3a', '#2dd4bf', '#3396ff', '#a7f3d0'],
+      ['#0b1d3a', '#2dd4bf', '#38bdf8', '#a7f3d0'],
       ['#06122b', '#5eead4', '#1461e1', '#e0f2fe'],
       ['#0a1a2f', '#34d399', '#0ea5e9', '#fef3c7'],
-      ['#071426', '#99f6e4', '#59b6ff', '#14b8a6'],
+      ['#071426', '#99f6e4', '#7dd3fc', '#14b8a6'],
     ],
   },
   {
@@ -27,9 +27,9 @@ const PRESETS: Array<{ prompt: string; palettes: Palette[] }> = [
     prompt: 'Neon city reflected in rain puddles',
     palettes: [
       ['#0a0a0c', '#f43f5e', '#0ea5e9', '#22d3ee'],
-      ['#0c0a10', '#fb7185', '#3396ff', '#fbbf24'],
-      ['#08080c', '#e11d48', '#14b8a6', '#8ed1ff'],
-      ['#0a0b10', '#f472b6', '#1b77f5', '#5eead4'],
+      ['#0c0a10', '#fb7185', '#38bdf8', '#fbbf24'],
+      ['#08080c', '#e11d48', '#14b8a6', '#bae6fd'],
+      ['#0a0b10', '#f472b6', '#0ea5e9', '#5eead4'],
     ],
   },
 ];

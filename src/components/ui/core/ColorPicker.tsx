@@ -54,7 +54,7 @@ function useDrag(onPos: (x: number, y: number) => void) {
   };
 }
 
-const SWATCHES = ['#3396ff', '#38bdf8', '#14b8a6', '#10b981', '#84cc16', '#fbbf24', '#f97316', '#f43f5e', '#ec4899', '#f7f7f8', '#6b6b77', '#131316'];
+const SWATCHES = ['#38bdf8', '#38bdf8', '#14b8a6', '#10b981', '#84cc16', '#fbbf24', '#f97316', '#f43f5e', '#ec4899', '#f7f7f8', '#6b6b77', '#131316'];
 
 export type ColorPickerProps = { value: string; onChange: (hex: string) => void; swatches?: string[] };
 
@@ -178,7 +178,7 @@ function luminance(hex: string) {
 }
 
 export function ColorPickerDemo() {
-  const [color, setColor] = useState('#3396ff');
+  const [color, setColor] = useState('#38bdf8');
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-col items-center justify-center gap-8 md:flex-row">
       <ColorPicker value={color} onChange={setColor} />

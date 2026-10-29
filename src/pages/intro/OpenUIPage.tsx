@@ -25,7 +25,7 @@ const tokens = [
 
 const colorRamp = [
   { name: 'ink', desc: 'Neutral backgrounds & text', shades: ['#0a0a0c', '#131316', '#232328', '#36363e', '#6b6b77', '#b1b1ba'] },
-  { name: 'brand', desc: 'Primary actions & accents', shades: ['#142b57', '#19458f', '#1461e1', '#3396ff', '#59b6ff', '#d9eeff'] },
+  { name: 'brand', desc: 'Primary actions & accents', shades: ['#142b57', '#19458f', '#1461e1', '#38bdf8', '#7dd3fc', '#d9eeff'] },
   { name: 'emerald', desc: 'Success & positive states', shades: ['#022c22', '#064e3b', '#065f46', '#10b981', '#34d399', '#a7f3d0'] },
   { name: 'rose', desc: 'Errors & destructive actions', shades: ['#4c0519', '#881337', '#9f1239', '#e11d48', '#fb7185', '#fecdd3'] },
   { name: 'amber', desc: 'Warnings & highlights', shades: ['#451a03', '#78350f', '#92400e', '#d97706', '#fbbf24', '#fde68a'] },

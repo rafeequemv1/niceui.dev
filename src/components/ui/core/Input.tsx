@@ -47,7 +47,7 @@ export function Input({ label, hint, error, leftIcon, rightSlot, className, type
           'group relative flex h-10 items-center rounded-lg bg-ink-900 ring-1 ring-inset transition-all duration-200',
           error
             ? 'ring-rose-500/60 focus-within:ring-rose-400 focus-within:shadow-[0_0_0_4px_rgba(244,63,94,0.15)]'
-            : 'ring-white/10 hover:ring-white/20 focus-within:ring-brand-500 focus-within:shadow-[0_0_0_4px_rgba(51,150,255,0.15)]',
+            : 'ring-white/10 hover:ring-white/20 focus-within:ring-brand-500 focus-within:shadow-[0_0_0_4px_rgba(56,189,248,0.15)]',
         )}
       >
         {leftIcon && (

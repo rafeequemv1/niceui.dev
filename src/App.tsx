@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Github, Hexagon, Menu, X } from 'lucide-react';
+import { Github, Menu, X } from 'lucide-react';
 import { Sidebar } from '@/docs/Sidebar';
 import { DocPage } from '@/docs/DocPage';
 import { NotFoundPage } from '@/components/blocks/NotFound';
@@ -33,15 +33,19 @@ function App() {
           >
             {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
-          <button onClick={() => go('/intro/home')} className="focus-ring group flex items-center gap-2.5 rounded-lg">
-            <span className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand-400 to-brand-700 shadow-glow">
-              <Hexagon className="h-4 w-4 text-white transition-transform duration-500 group-hover:rotate-90" strokeWidth={2.5} />
-            </span>
-            <span className="text-[15px] font-semibold tracking-tight text-ink-50">NiceUI</span>
-            <span className="hidden rounded-full bg-white/5 px-2 py-0.5 font-mono text-[10px] text-ink-400 sm:inline">v2.4</span>
-          </button>
+          <a href="/" className="focus-ring flex items-center gap-2.5 rounded-lg" aria-label="NiceUI home">
+            <svg viewBox="0 0 28 28" className="h-6 w-6 text-white" aria-hidden="true">
+              <circle cx="14" cy="14" r="13" fill="none" stroke="currentColor" strokeOpacity=".22" />
+              <path d="M5 17a9 9 0 0 1 18 0" fill="none" stroke="#7dd3fc" strokeWidth="1.6" strokeLinecap="round" />
+              <circle cx="14" cy="17" r="2" fill="#7dd3fc" />
+            </svg>
+            <span className="text-base font-medium tracking-[-0.02em] text-ink-50">niceui</span>
+          </a>
         </div>
         <nav className="flex items-center gap-1 text-sm">
+          <a href="/" className="focus-ring hidden rounded-lg px-3 py-1.5 text-ink-400 transition-colors hover:text-ink-50 md:block">
+            Library
+          </a>
           {[
             ['Docs', '/intro/home'],
             ['Landing', '/landing/saas-landing'],
@@ -61,7 +65,7 @@ function App() {
           ))}
           <span className="mx-2 hidden h-5 w-px bg-white/10 md:block" />
           <a
-            href="https://github.com"
+            href="https://github.com/rafeequemv1/niceui.dev"
             target="_blank"
             rel="noreferrer"
             className="focus-ring flex h-9 w-9 items-center justify-center rounded-lg text-ink-400 transition-colors hover:bg-white/5 hover:text-ink-50"

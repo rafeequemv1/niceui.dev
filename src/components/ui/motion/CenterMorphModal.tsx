@@ -133,7 +133,7 @@ export function CenterMorphModalDemo() {
                   onClick={() => setPlan(p.id)}
                   className={cn(
                     'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-all duration-300 ease-spring active:scale-[0.99]',
-                    plan === p.id ? 'bg-brand-500/10 shadow-[inset_0_0_0_1px_rgba(51,150,255,0.5)]' : 'bg-ink-850 shadow-hairline hover:bg-ink-800',
+                    plan === p.id ? 'bg-brand-500/10 shadow-[inset_0_0_0_1px_rgba(56,189,248,0.5)]' : 'bg-ink-850 shadow-hairline hover:bg-ink-800',
                   )}
                 >
                   <span className={cn('flex h-4 w-4 items-center justify-center rounded-full transition-all duration-300 ease-spring', plan === p.id ? 'scale-100 bg-brand-500' : 'scale-90 shadow-[inset_0_0_0_1.5px_#4f4f59]')}>

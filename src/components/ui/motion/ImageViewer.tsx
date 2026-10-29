@@ -140,10 +140,10 @@ const art = (a: string, b: string, c: string, base: string) =>
 
 const IMAGES: ViewerImage[] = [
   { id: 'dune', title: 'Dune at dusk', art: art('#f59e0b', '#f43f5e', '#7c2d12', '#1c0a05') },
-  { id: 'fjord', title: 'Fjord morning', art: art('#8ed1ff', '#2dd4bf', '#174eb6', '#06121f') },
+  { id: 'fjord', title: 'Fjord morning', art: art('#bae6fd', '#2dd4bf', '#174eb6', '#06121f') },
   { id: 'meadow', title: 'Alpine meadow', art: art('#34d399', '#fbbf24', '#065f46', '#04140e') },
-  { id: 'neon', title: 'Neon alley', art: art('#fb7185', '#3396ff', '#0ea5e9', '#0a0a14') },
-  { id: 'glacier', title: 'Glacier blue', art: art('#bce2ff', '#59b6ff', '#14b8a6', '#08182b') },
+  { id: 'neon', title: 'Neon alley', art: art('#fb7185', '#38bdf8', '#0ea5e9', '#0a0a14') },
+  { id: 'glacier', title: 'Glacier blue', art: art('#bce2ff', '#7dd3fc', '#14b8a6', '#08182b') },
   { id: 'ember', title: 'Ember field', art: art('#fb923c', '#fde047', '#be123c', '#180606') },
 ];
 

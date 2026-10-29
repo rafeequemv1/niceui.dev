@@ -73,6 +73,36 @@ const groups = [
 ];
 const readyOrder = groups.flatMap((g) => g.list.filter((i) => i.status === "ready"));
 
+// ─── full library (React app served at /library/, manifest from scripts/library-manifest.mjs) ──
+const library = existsSync("library.json") ? JSON.parse(readFileSync("library.json", "utf8")) : [];
+const libSection = (id) => library.find((sec) => sec.id === id) || { id, title: id, entries: [] };
+const libItems = (id, kind, category) =>
+  libSection(id).entries.map((e) => ({
+    name: e.name,
+    kind,
+    category: category || libSection(id).title,
+    description: e.description,
+    status: "ready",
+    lib: true,
+    badge: e.badge,
+    path: "/library/#/" + id + "/" + e.slug,
+  }));
+const libGuides = libSection("intro").entries.filter((e) => e.slug !== "home");
+const libCount = library.filter((sec) => sec.id !== "intro").reduce((n, sec) => n + sec.entries.length, 0);
+// Roadmap items the full library already ships are hidden from "Soon".
+const covered = new Set(["Accordion", "Alert", "Dialog", "Tooltip", "Tabs", "Toast", "Checkbox", "Radio Group", "Select", "OTP Input", "File Upload", "Data Table", "Date Picker", "Carousel", "Number Ticker", "Text Reveal", "AI Prompt Input", "Chat Bubble", "Sign In", "Dashboard Shell"]);
+const roadmap = soon.filter((i) => !covered.has(i.name));
+const byName = (a, b) => a.name.localeCompare(b.name);
+const navGroups = [
+  { title: "Components", list: [...ready.filter((i) => i.kind === "component"), ...libItems("components", "component")].sort(byName).concat(roadmap.filter((i) => i.kind === "component").sort(byName)) },
+  { title: "AI Agents", list: libItems("ai", "ai").sort(byName) },
+  { title: "Blocks", list: [...ready.filter((i) => i.kind === "block"), ...libItems("blocks", "block"), ...libItems("footers", "block", "Footers")].sort(byName).concat(roadmap.filter((i) => i.kind === "block").sort(byName)) },
+  { title: "Landing Pages", list: libItems("landing", "landing") },
+  { title: "Dashboards", list: libItems("examples", "dashboard", "Dashboards") },
+  { title: "Templates", list: [...libItems("apps", "template", "App templates"), ...roadmap.filter((i) => i.kind === "template")] },
+];
+const totalReady = ready.length + libCount;
+
 // ─── assets ──────────────────────────────────────────────────────────
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
@@ -101,14 +131,14 @@ const mark =
 function sidebar(activePath) {
   const link = (href, label, extra = "") =>
     `<a href="${href}" class="sb-item${href === activePath ? " on" : ""}"${href === activePath ? ' aria-current="page"' : ""}><span>${esc(label)}</span>${extra}</a>`;
-  let html = `<div class="sb-group"><p class="sb-label">Getting started</p>${link("/", "Introduction")}${link("/docs/installation", "Installation")}${link("/llms.txt", "llms.txt", '<em class="tag-ai">AI</em>')}<a href="/library/" target="_blank" rel="noopener" class="sb-item"><span>Full library</span><em class="tag-ai">New ↗</em></a></div>`;
-  for (const g of groups) {
+  let html = `<div class="sb-group"><p class="sb-label">Getting started</p>${link("/", "Introduction")}${link("/docs/installation", "Installation")}${link("/#mcp", "Connect your agent", '<em class="tag-ai">MCP</em>')}${link("/llms.txt", "llms.txt", '<em class="tag-ai">AI</em>')}${libGuides.map((e) => link("/library/#/intro/" + e.slug, e.name === "OpenUI" ? "Design system" : e.name)).join("")}</div>`;
+  for (const g of navGroups) {
     const n = g.list.filter((i) => i.status === "ready").length;
     html += `<div class="sb-group"><p class="sb-label">${g.title}<span>${n}/${g.list.length}</span></p>`;
     for (const it of g.list) {
       html +=
         it.status === "ready"
-          ? link(it.path, it.name)
+          ? link(it.path, it.name, it.badge === "New" ? '<em class="tag-new">New</em>' : "")
           : `<span class="sb-item soon" data-name="${esc(it.name.toLowerCase())}"><span>${esc(it.name)}</span><em>Soon</em></span>`;
     }
     html += "</div>";
@@ -117,7 +147,7 @@ function sidebar(activePath) {
 }
 
 const searchData = json(
-  items.map((i) => ({ n: i.name, k: i.kind, c: i.category, p: i.path || null }))
+  [...ready, ...navGroups.flatMap((g) => g.list.filter((i) => i.lib)), ...roadmap].map((i) => ({ n: i.name, k: i.kind, c: i.category, p: i.path || null }))
 );
 
 function layout({ title, description, path, main, ld, md }) {
@@ -161,7 +191,7 @@ function layout({ title, description, path, main, ld, md }) {
   <a href="/" class="brand" aria-label="NiceUI home">${mark}<span>niceui</span></a>
   <button class="top-search" data-search-open aria-label="Search components">${icon.search}<span>Search components…</span><kbd>⌘K</kbd></button>
   <nav class="top-r" aria-label="Site">
-    <a class="top-link top-tab" href="/library/" target="_blank" rel="noopener">Full library ${icon.ext}</a>
+    <a class="top-link top-tab" href="/#mcp">${icon.spark} Connect agent</a>
     <a class="top-link hide-sm" href="/docs/installation">Docs</a>
     <a class="top-link hide-sm" href="/llms.txt">llms.txt</a>
     <a class="top-icon" href="${site.github}" target="_blank" rel="noopener" aria-label="GitHub">${icon.github}</a>
@@ -176,7 +206,7 @@ function layout({ title, description, path, main, ld, md }) {
 ${main}
     <footer class="foot">
       <div class="foot-brand">${mark}<span>niceui</span><span class="dim">· Free UI, MIT licensed.</span></div>
-      <nav aria-label="Footer"><a href="/library/" target="_blank" rel="noopener">Full library</a><a href="/docs/installation">Installation</a><a href="/llms.txt">llms.txt</a><a href="/r/registry.json">Registry</a><a href="/sitemap.xml">Sitemap</a><a href="${site.github}" target="_blank" rel="noopener">GitHub</a><a href="${site.x}" target="_blank" rel="noopener">X</a></nav>
+      <nav aria-label="Footer"><a href="/#mcp">MCP</a><a href="/docs/installation">Installation</a><a href="/llms.txt">llms.txt</a><a href="/r/registry.json">Registry</a><a href="/sitemap.xml">Sitemap</a><a href="${site.github}" target="_blank" rel="noopener">GitHub</a><a href="${site.x}" target="_blank" rel="noopener">X</a></nav>
     </footer>
   </main>
 </div>
@@ -211,11 +241,36 @@ const faqHtml = faq
   .map((f, i) => `<details class="faq-item"${i === 0 ? " open" : ""}><summary><h3>${esc(f.q)}</h3><span class="faq-x" aria-hidden="true"></span></summary><p>${esc(f.a)}</p></details>`)
   .join("");
 
+
+// ─── MCP onboarding content ─────────────────────────────────────────
+const MCP_REGISTRY = `{
+  "registries": {
+    "@niceui": "${site.url}/r/{name}.json"
+  }
+}`;
+const MCP_CLIENTS = [
+  { id: "claude", name: "Claude Code", file: "Run in your project", code: "claude mcp add shadcn -- npx shadcn@latest mcp" },
+  { id: "cursor", name: "Cursor", file: ".cursor/mcp.json", code: `{
+  "mcpServers": {
+    "shadcn": { "command": "npx", "args": ["shadcn@latest", "mcp"] }
+  }
+}` },
+  { id: "vscode", name: "VS Code", file: ".vscode/mcp.json", code: `{
+  "servers": {
+    "shadcn": { "command": "npx", "args": ["shadcn@latest", "mcp"] }
+  }
+}` },
+  { id: "codex", name: "Codex", file: "~/.codex/config.toml", code: `[mcp_servers.shadcn]
+command = "npx"
+args = ["shadcn@latest", "mcp"]` },
+];
+const MCP_PROMPTS = ["Add the @niceui/hero-horizon block to my landing page", "Install @niceui/command-palette and wire it to ⌘K", "Show me every component in the @niceui registry"];
+
 // ─── home ────────────────────────────────────────────────────────────
 {
   const main = `
     <section class="intro">
-      <p class="kicker"><span class="dot"></span>Free &amp; open source <span class="sep">/</span> ${ready.length} ready <span class="sep">/</span> ${soon.length} on the way</p>
+      <p class="kicker"><span class="dot"></span>Free &amp; open source <span class="sep">/</span> ${totalReady} components &amp; templates <span class="sep">/</span> ${roadmap.length} on the way</p>
       <h1>Interfaces,<br /><em>nicely</em> made.</h1>
       <p class="lede">A free library of premium React &amp; Tailwind components, blocks and templates. Preview, copy, or install with the shadcn CLI. No account. No paywall.</p>
       <div class="cta">
@@ -223,6 +278,34 @@ const faqHtml = faq
         <button class="btn btn-cmd" data-copy="npx shadcn@latest add ${site.url}/r/button.json"><span class="sky">$</span> npx shadcn add niceui.dev/r/button.json ${icon.copy}</button>
       </div>
       <div class="horizon" aria-hidden="true"><div class="arc"></div><div class="arc-glow"></div></div>
+    </section>
+
+    <section id="mcp" class="mcp" aria-labelledby="mcp-h">
+      <div class="mcp-head">
+        <p class="kicker"><span class="dot"></span>MCP · for AI agents</p>
+        <h2 id="mcp-h">Connect your <em>agent.</em></h2>
+        <p class="mute">Give Claude Code, Cursor, VS Code or Codex direct access to NiceUI through the shadcn MCP server. Ask for a component in plain English — your agent finds it, installs it and wires it up.</p>
+      </div>
+      <div class="mcp-steps">
+        <div class="mcp-step">
+          <span class="step-n">01</span>
+          <h3>Add the registry</h3>
+          <p class="mute">In <code class="inline">components.json</code>:</p>
+          <div class="code-wrap"><button class="icon-btn code-copy" data-copy="${esc(MCP_REGISTRY)}" aria-label="Copy registry config">${icon.copy}</button><pre class="code"><code>${highlight(MCP_REGISTRY)}</code></pre></div>
+        </div>
+        <div class="mcp-step" data-tabs>
+          <span class="step-n">02</span>
+          <h3>Connect your client</h3>
+          <div class="tabs mcp-tabs" role="tablist">${MCP_CLIENTS.map((c, i) => `<button role="tab" class="tab${i === 0 ? " on" : ""}" data-tab="${c.id}" aria-selected="${i === 0}">${c.name}</button>`).join("")}</div>
+          ${MCP_CLIENTS.map((c, i) => `<div class="panel" data-panel="${c.id}"${i === 0 ? "" : " hidden"}><p class="mute mcp-file">${c.file}</p><div class="code-wrap"><button class="icon-btn code-copy" data-copy="${esc(c.code)}" aria-label="Copy ${c.name} config">${icon.copy}</button><pre class="code"><code>${highlight(c.code)}</code></pre></div></div>`).join("")}
+        </div>
+        <div class="mcp-step">
+          <span class="step-n">03</span>
+          <h3>Just ask</h3>
+          <div class="mcp-prompts">${MCP_PROMPTS.map((t) => `<button class="mcp-prompt" data-copy="${esc(t)}"><span>“${esc(t)}”</span>${icon.copy}</button>`).join("")}</div>
+          <p class="mute small-note">No MCP? Point any assistant at <a class="ul" href="/llms.txt">niceui.dev/llms.txt</a>.</p>
+        </div>
+      </div>
     </section>
 
     <section id="library" class="lib" aria-labelledby="lib-h">
@@ -238,26 +321,21 @@ const faqHtml = faq
       </div>
     </section>
 
-    <section class="showcase" aria-labelledby="show-h">
-      <a class="show-card" href="/library/" target="_blank" rel="noopener">
-        <div class="show-copy">
-          <p class="kicker"><span class="dot"></span>Full library</p>
-          <h2 id="show-h">Everything else, <em>already built.</em></h2>
-          <p class="mute">Landing pages, AI agent interfaces, motion components, blocks and complete dashboard templates — all live and interactive.</p>
-          <span class="btn btn-sky">Open full library ${icon.ext}</span>
-        </div>
-        <ul class="show-list" aria-hidden="true">
-          <li><b>Landing pages</b><span>SaaS, Studio, Wealth, AI tools</span></li>
-          <li><b>AI agents</b><span>Chat, tool calls, streaming, citations</span></li>
-          <li><b>Motion</b><span>Dock, drawers, morphing modals, carousels</span></li>
-          <li><b>Dashboards</b><span>Analytics, finance, commerce, infra</span></li>
-        </ul>
-      </a>
+    <section class="explore" aria-labelledby="ex-h">
+      <div class="sec-title"><h2 id="ex-h">The <em>whole</em> library</h2><p class="mute">${libCount} more live components, AI agent interfaces, blocks, landing pages and dashboards — open any of them.</p></div>
+      <div class="ex-grid">${navGroups
+        .filter((g) => g.list.some((i) => i.lib))
+        .map((g) => {
+          const live = g.list.filter((i) => i.status === "ready");
+          return `<a class="ex-tile" href="${live[0].path}"><div class="ex-top"><b>${g.title}</b><span>${live.length}</span></div><p>${live.slice(0, 5).map((i) => esc(i.name)).join(" · ")}</p><span class="ex-go">Browse ${icon.arrow}</span></a>`;
+        })
+        .join("")}
+      </div>
     </section>
 
     <section class="roadmap" aria-labelledby="road-h">
-      <div class="sec-title"><h2 id="road-h">On the <em>roadmap</em></h2><p class="mute">${soon.length} components, blocks and templates in the works. Shipping weekly.</p></div>
-      <div class="soon-grid">${soon.map(soonCard).join("")}
+      <div class="sec-title"><h2 id="road-h">On the <em>roadmap</em></h2><p class="mute">${roadmap.length} more in the works. Shipping weekly.</p></div>
+      <div class="soon-grid">${roadmap.map(soonCard).join("")}
       </div>
     </section>
 

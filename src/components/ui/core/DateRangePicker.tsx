@@ -121,8 +121,8 @@ export function DateRangePicker({ value, onChange }: DateRangePickerProps) {
                   className={cn(
                     'relative h-9',
                     inRange && 'bg-brand-500/10',
-                    isStart && hi && !same(lo, hi) && 'bg-[linear-gradient(90deg,transparent_50%,rgba(51,150,255,0.1)_50%)]',
-                    isEnd && lo && !same(lo, hi) && 'bg-[linear-gradient(90deg,rgba(51,150,255,0.1)_50%,transparent_50%)]',
+                    isStart && hi && !same(lo, hi) && 'bg-[linear-gradient(90deg,transparent_50%,rgba(56,189,248,0.1)_50%)]',
+                    isEnd && lo && !same(lo, hi) && 'bg-[linear-gradient(90deg,rgba(56,189,248,0.1)_50%,transparent_50%)]',
                   )}
                 >
                   <button
@@ -131,7 +131,7 @@ export function DateRangePicker({ value, onChange }: DateRangePickerProps) {
                     className={cn(
                       'focus-ring relative mx-auto flex h-9 w-9 items-center justify-center rounded-lg text-sm tabular-nums transition-all duration-200 active:scale-90',
                       edge
-                        ? 'bg-brand-500 font-medium text-white shadow-[0_4px_12px_-4px_rgba(51,150,255,0.8)]'
+                        ? 'bg-brand-500 font-medium text-white shadow-[0_4px_12px_-4px_rgba(56,189,248,0.8)]'
                         : outside
                           ? 'text-ink-600 hover:bg-white/5'
                           : inRange
