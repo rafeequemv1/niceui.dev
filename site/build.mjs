@@ -100,9 +100,23 @@ const byName = (a, b) => a.name.localeCompare(b.name);
 // When the library and the site both ship an item with the same name, keep the site's page (it has install + registry JSON).
 const ownNames = new Set(ready.map((i) => i.name.toLowerCase()));
 const dedupe = (list) => list.filter((i) => !i.lib || !ownNames.has(i.name.toLowerCase()));
+// AI Agents are grouped so the category reads like a kit, not a pile.
+const AI_GROUPS = [
+  { id: "chat", title: "Chat & composers", blurb: "Threads, bubbles, composers, suggestions, widgets and palettes.", slugs: ["chat-app", "message-bubble", "prompt-input", "command-composer", "prompt-suggestions", "streaming-response", "response-branches", "code-block", "chat-widget", "ai-sidebar", "ai-command-palette"] },
+  { id: "reasoning", title: "Reasoning, models & sources", blurb: "Thinking, model choice, context limits and answers with citations.", slugs: ["reasoning", "agent-loading", "model-selector", "model-compare", "context-usage", "citations", "answer-engine"] },
+  { id: "tools", title: "Tools & approvals", blurb: "Tool calls, human-in-the-loop, generative UI, code runs and diffs.", slugs: ["tool-result", "tool-approval", "clarifying-question", "mcp-tool-picker", "generative-ui", "code-interpreter", "file-diff", "diff-suggestion"] },
+  { id: "agents", title: "Agents at work", blurb: "Plans, live activity, browser and research agents, handoffs and queues.", slugs: ["agent-activity", "todo-list", "plan-review", "browser-agent", "research-progress", "agent-terminal", "parallel-agents", "agent-handoff", "agent-queue"] },
+  { id: "build", title: "Build, trace & memory", blurb: "Agent builders, workflows, traces, knowledge, memory, checkpoints and artifacts.", slugs: ["agent-builder", "agent-flow", "agent-trace", "knowledge-base", "memory-panel", "checkpoints", "artifact-panel"] },
+  { id: "media", title: "Voice, media & motion", blurb: "Voice orbs, image generation and animated AI visuals.", slugs: ["voice-orb", "image-generation", "network-pulse", "feature-tabs"] },
+];
+const aiItems = libItems("ai", "ai").sort(byName);
+const aiSections = AI_GROUPS.map((sub) => ({ ...sub, items: sub.slugs.map((s) => aiItems.find((i) => i.slug === s)).filter(Boolean) })).filter((sub) => sub.items.length);
+const aiRest = aiItems.filter((i) => !AI_GROUPS.some((sub) => sub.slugs.includes(i.slug)));
+if (aiRest.length) aiSections.push({ id: "more", title: "More", blurb: "Everything else for AI products.", items: aiRest });
+for (const sub of aiSections) for (const it of sub.items) it.category = sub.title;
 const navGroups = [
+  { title: "AI Agents", list: aiSections.flatMap((sub) => sub.items) },
   { title: "Components", list: dedupe([...ready.filter((i) => i.kind === "component"), ...libItems("components", "component")]).sort(byName).concat(roadmap.filter((i) => i.kind === "component").sort(byName)) },
-  { title: "AI Agents", list: libItems("ai", "ai").sort(byName) },
   { title: "Blocks", list: dedupe([...ready.filter((i) => i.kind === "block"), ...libItems("blocks", "block"), ...libItems("footers", "block", "Footers")]).sort(byName).concat(roadmap.filter((i) => i.kind === "block").sort(byName)) },
   { title: "Marketing", list: libItems("marketing", "marketing") },
   { title: "Landing Pages", list: libItems("landing", "landing") },
@@ -111,7 +125,7 @@ const navGroups = [
 ];
 const catDesc = {
   Components: "Buttons, inputs, overlays, motion primitives and everything in between.",
-  "AI Agents": "Chat, streaming, tool calls, citations and agent activity — interfaces for AI products.",
+  "AI Agents": "Every kind of AI agent interface in one place: chat, reasoning, tool calls and approvals, browser and research agents, traces, workflows, memory and voice.",
   Blocks: "Composed, production-ready sections: search, uploads, wallets, menus, footers and more.",
   Marketing: "Heroes, feature grids, bento, logo clouds, testimonials, pricing, FAQ, CTAs, footers, changelog, team and blog — every section a marketing site needs.",
   "Landing Pages": "Complete, animated landing pages you can ship as-is.",
@@ -313,12 +327,21 @@ const MCP_PROMPTS = ["Add the @niceui/hero-horizon block to my landing page", "I
     <section class="intro">
       <p class="kicker"><span class="dot"></span>Free &amp; open source <span class="sep">/</span> ${totalReady} components &amp; templates <span class="sep">/</span> ${roadmap.length} on the way</p>
       <h1>Interfaces,<br /><em>nicely</em> made.</h1>
-      <p class="lede">A free library of premium React &amp; Tailwind components, blocks and templates. Preview, copy, or install with the shadcn CLI. No account. No paywall.</p>
+      <p class="lede">The free library for AI agent interfaces, plus premium React &amp; Tailwind components, blocks and templates. Preview, copy, or install with the shadcn CLI. No account. No paywall.</p>
       <div class="cta">
         <a class="btn btn-sky" href="#library">Browse library ${icon.arrow}</a>
         <button class="btn btn-cmd" data-copy="npx shadcn@latest add ${site.url}/r/button.json"><span class="sky">$</span> npx shadcn add niceui.dev/r/button.json ${icon.copy}</button>
       </div>
       <div class="horizon" aria-hidden="true"><div class="arc"></div><div class="arc-glow"></div></div>
+    </section>
+
+    <section class="ai-kit" aria-labelledby="ai-kit-h">
+      <div class="sec-title"><p class="kicker"><span class="dot"></span>AI agent UI · ${aiItems.length} components</p><h2 id="ai-kit-h">Every interface an <em>AI agent</em> needs.</h2><p class="mute">Chat and composers, reasoning, tool calls and approvals, browser and research agents, traces, workflows, memory and voice. Live, interactive and free.</p></div>
+      <div class="ex-grid">${aiSections
+        .map((sub) => `<a class="ex-tile" href="/c/ai-agents#ai-${sub.id}"><div class="ex-top"><b>${esc(sub.title)}</b><span>${sub.items.length}</span></div><p>${sub.items.slice(0, 6).map((i) => esc(i.name)).join(" · ")}</p><span class="ex-go">Browse ${icon.arrow}</span></a>`)
+        .join("")}
+      </div>
+      <div class="ai-kit-cta"><a class="btn btn-sky" href="/c/ai-agents">Browse all ${aiItems.length} AI components ${icon.arrow}</a></div>
     </section>
 
     <section id="mcp" class="mcp" aria-labelledby="mcp-h">
@@ -570,6 +593,18 @@ const thumbCard = (it) => `
           <div class="card-stage card-thumb"><img src="${it.thumb}" alt="${esc(it.name)} preview" loading="lazy" decoding="async" width="640" height="400" /></div>
           <div class="card-meta"><span class="card-name">${esc(it.name)}${it.badge === "New" ? ' <em class="tag-new">New</em>' : ""}</span><span class="card-cat">${esc(it.category)}</span></div>
         </a>`;
+const aiCategoryBody = () => `
+      <nav class="ai-nav" aria-label="AI Agents sections">${aiSections.map((sub) => `<a class="ai-nav-chip" href="#ai-${sub.id}">${esc(sub.title)}<span>${sub.items.length}</span></a>`).join("")}</nav>
+      ${aiSections
+        .map(
+          (sub) => `
+      <section class="ai-sub" id="ai-${sub.id}" aria-labelledby="ai-${sub.id}-h">
+        <div class="ai-sub-head"><h2 id="ai-${sub.id}-h">${esc(sub.title)}</h2><span class="ai-sub-n">${sub.items.length}</span><p class="mute">${esc(sub.blurb)}</p></div>
+        <div class="cards">${sub.items.map(thumbCard).join("")}
+        </div>
+      </section>`
+        )
+        .join("")}`;
 const anyCard = (it) => (it.lib ? thumbCard(it) : card({ ...it, wide: false, thumb: it.thumb && it.thumb < 0.6 ? 0.36 : it.thumb }));
 
 for (const g of navGroups) {
@@ -582,8 +617,8 @@ for (const g of navGroups) {
         <div class="cat-title"><span class="sb-cat-ico big">${catIcon[g.title] || ""}</span><h1>${g.title}</h1><span class="cat-count">${live.length}</span></div>
         <p class="lede">${esc(g.desc)}</p>
       </header>
-      <div class="cards">${live.map(anyCard).join("")}
-      </div>
+      ${g.title === "AI Agents" ? aiCategoryBody() : `<div class="cards">${live.map(anyCard).join("")}
+      </div>`}
       ${later.length ? `<div class="sec-title cat-soon"><h2>Coming <em>soon</em></h2></div><div class="soon-grid">${later.map(soonCard).join("")}</div>` : ""}
     </section>`;
   const ld = {
@@ -601,7 +636,8 @@ for (const g of navGroups) {
       { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Library", item: site.url }, { "@type": "ListItem", position: 2, name: g.title, item: site.url + g.path }] },
     ],
   };
-  write(g.path.slice(1) + ".html", layout({ title: `${g.title} — ${live.length} free React & Tailwind ${g.title.toLowerCase()} | NiceUI`, description: g.desc + " Free and open source.", path: g.path, main, ld }));
+  const catTitle = g.title === "AI Agents" ? `AI agent UI components — ${live.length} free React & Tailwind interfaces | NiceUI` : `${g.title} — ${live.length} free React & Tailwind ${g.title.toLowerCase()} | NiceUI`;
+  write(g.path.slice(1) + ".html", layout({ title: catTitle, description: g.desc + " Free and open source.", path: g.path, main, ld }));
 
   live.forEach((it, idx) => {
     if (!it.lib) return;
@@ -748,6 +784,10 @@ NiceUI components are plain React + Tailwind CSS source files with no runtime de
 - [Installation](${site.url}/docs/installation.md): How to add NiceUI components to a React project.
 - [Registry index](${site.url}/r/registry.json): shadcn-compatible registry of all ready items.
 - [Full library](${site.url}/library/): Interactive app with landing pages, AI agent interfaces, motion components, blocks and dashboard templates.
+
+## AI agent UI
+
+${aiSections.map((sub) => `### ${sub.title}\n\n${sub.items.map((i) => `- [${i.name}](${site.url}${i.path}): ${i.description}`).join("\n")}`).join("\n\n")}
 
 ## Components
 
