@@ -111,7 +111,7 @@ export function KnowledgeBase({ name, files: initial, chunks, library = [], exam
       setFiles((fs) => fs.map((f) => ({ ...f, stage: 4 })));
       return;
     }
-    const id = window.setInterval(() => setFiles((fs) => fs.map((f) => (f.stage < 4 ? { ...f, stage: Math.min(4, f.stage + 0.045) } : f))), 50);
+    const id = window.setInterval(() => setFiles((fs) => fs.map((f) => (f.stage < 4 ? { ...f, stage: Math.min(4, f.stage + 0.025) } : f))), 50);
     return () => window.clearInterval(id);
   }, [indexing]);
 

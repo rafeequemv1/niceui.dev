@@ -170,8 +170,8 @@ export function BrowserAgent({ task = 'Find the cheapest nonstop flight from SFO
           </p>
           <p className="truncate text-xs text-ink-500">{task}</p>
         </div>
-        <div className="flex items-center gap-1.5">
-          <span className="mr-1 font-mono text-[11px] tabular-nums text-ink-500">{(t / 1000).toFixed(1)}s</span>
+        <div className="flex w-full items-center justify-end gap-1.5 sm:w-auto">
+          <span className="mr-auto font-mono text-[11px] tabular-nums text-ink-500 sm:mr-1">{(t / 1000).toFixed(1)}s</span>
           {!done && (
             <CtrlButton onClick={() => setPaused((p) => !p)} disabled={human} label={paused ? 'Resume agent' : 'Pause agent'}>
               {paused ? <Play className="h-3.5 w-3.5" /> : <Pause className="h-3.5 w-3.5" />}

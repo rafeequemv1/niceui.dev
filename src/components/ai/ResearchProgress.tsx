@@ -95,7 +95,7 @@ export function ResearchProgress({ question = 'How are EU AI Act obligations pha
           <p className="text-[11px] font-medium uppercase tracking-wider text-ink-500">Deep research</p>
           <p className="mt-0.5 text-sm leading-snug text-ink-100">{question}</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex w-full items-center justify-between gap-2 sm:w-auto">
           <span className="font-mono text-[12px] tabular-nums text-ink-400">{clock}</span>
           {done || stopped ? (
             <button onClick={restart} aria-label="Run the research again" className="focus-ring flex h-8 items-center gap-1.5 rounded-lg bg-white/[0.04] px-2.5 text-xs font-medium text-ink-200 shadow-hairline transition hover:bg-white/[0.08]">

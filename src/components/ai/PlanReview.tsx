@@ -248,11 +248,11 @@ export function PlanReview({ title, steps: initial, revision, className }: PlanR
             <button onClick={add} className="focus-ring flex h-8 items-center gap-1.5 rounded-lg px-2 text-xs text-ink-400 transition-colors hover:bg-white/5 hover:text-ink-100">
               <Plus className="h-3.5 w-3.5" /> Add step
             </button>
-            <span className="ml-auto flex gap-2">
-              <button onClick={() => setStatus('changes')} className="focus-ring flex h-8 items-center gap-1.5 rounded-lg px-3 text-xs font-medium text-ink-200 ring-1 ring-white/10 transition-colors hover:bg-white/5">
+            <span className="ml-auto flex flex-wrap justify-end gap-2">
+              <button onClick={() => setStatus('changes')} className="focus-ring flex h-8 items-center gap-1.5 whitespace-nowrap rounded-lg px-3 text-xs font-medium text-ink-200 ring-1 ring-white/10 transition-colors hover:bg-white/5">
                 <MessageSquareText className="h-3.5 w-3.5" /> Request changes
               </button>
-              <button onClick={() => setStatus('running')} disabled={!runnable.length} className="focus-ring flex h-8 items-center gap-1.5 rounded-lg bg-brand-500 px-3 text-xs font-medium text-white shadow-glow transition-all hover:bg-brand-400 active:scale-[0.97] disabled:opacity-40">
+              <button onClick={() => setStatus('running')} disabled={!runnable.length} className="focus-ring flex h-8 items-center gap-1.5 whitespace-nowrap rounded-lg bg-brand-500 px-3 text-xs font-medium text-white shadow-glow transition-all hover:bg-brand-400 active:scale-[0.97] disabled:opacity-40">
                 <Play className="h-3.5 w-3.5 fill-current" /> Approve & run
               </button>
             </span>

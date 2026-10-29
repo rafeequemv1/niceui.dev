@@ -28,17 +28,17 @@ const KIND: Record<SpanKind, { icon: typeof Bot; tint: string; bar: string }> = 
 
 export const DEMO_TRACE: TraceSpan[] = [
   { id: 'root', kind: 'agent', name: 'support-agent', start: 0, end: 6400, input: { ticket: 4821, message: 'My order never arrived, can I get a refund?' }, output: { resolved: true, refund: '$64.00' } },
-  { id: 'plan', parent: 'root', kind: 'llm', name: 'plan', model: 'sonnet-4.5', start: 80, end: 1220, tokensIn: 1240, tokensOut: 182, input: { system: 'You are a support agent…', tools: 4 }, output: { calls: ['search_orders', 'get_shipping_status'] } },
+  { id: 'plan', parent: 'root', kind: 'llm', name: 'plan', model: 'nova-pro', start: 80, end: 1220, tokensIn: 1240, tokensOut: 182, input: { system: 'You are a support agent…', tools: 4 }, output: { calls: ['search_orders', 'get_shipping_status'] } },
   { id: 'orders', parent: 'root', kind: 'tool', name: 'search_orders', start: 1280, end: 2020, input: { customer_id: 'cus_93f2' }, output: { orders: [{ id: 4821, total: 64, status: 'shipped' }] } },
   { id: 'ship', parent: 'root', kind: 'tool', name: 'get_shipping_status', start: 1300, end: 2380, input: { order_id: 4821 }, output: { carrier: 'UPS', status: 'lost_in_transit', days: 12 } },
-  { id: 'reason', parent: 'root', kind: 'llm', name: 'decide', model: 'sonnet-4.5', start: 2440, end: 3600, tokensIn: 2310, tokensOut: 240, input: { context: '2 tool results' }, output: { action: 'issue_refund', amount: 64 } },
+  { id: 'reason', parent: 'root', kind: 'llm', name: 'decide', model: 'nova-pro', start: 2440, end: 3600, tokensIn: 2310, tokensOut: 240, input: { context: '2 tool results' }, output: { action: 'issue_refund', amount: 64 } },
   { id: 'kb', parent: 'reason', kind: 'retrieval', name: 'kb.search “refund policy”', start: 2600, end: 3040, input: { query: 'refund policy lost parcel', k: 4 }, output: { hits: 4, top: 'Lost parcels are refunded in full after 10 days.' } },
   { id: 'refund1', parent: 'root', kind: 'tool', name: 'issue_refund', status: 'error', start: 3680, end: 4120, input: { order_id: 4821, amount: 64 }, output: { error: 'Gateway timeout after 400 ms' } },
   { id: 'refund2', parent: 'root', kind: 'tool', name: 'issue_refund · retry', start: 4160, end: 4900, input: { order_id: 4821, amount: 64, idempotency_key: 'rf_4821' }, output: { refund_id: 're_7Hx2', status: 'succeeded' } },
-  { id: 'reply', parent: 'root', kind: 'llm', name: 'respond', model: 'haiku-4.5', start: 4980, end: 6320, tokensIn: 1780, tokensOut: 156, input: { tone: 'warm, concise' }, output: { message: 'Sorry about that! I’ve refunded $64.00…' } },
+  { id: 'reply', parent: 'root', kind: 'llm', name: 'respond', model: 'nova-mini', start: 4980, end: 6320, tokensIn: 1780, tokensOut: 156, input: { tone: 'warm, concise' }, output: { message: 'Sorry about that! I’ve refunded $64.00…' } },
 ];
 
-const PRICE = { 'sonnet-4.5': [3, 15], 'haiku-4.5': [1, 5] } as Record<string, [number, number]>;
+const PRICE = { 'nova-pro': [3, 15], 'nova-mini': [1, 5] } as Record<string, [number, number]>;
 const cost = (s: TraceSpan) => (s.model && PRICE[s.model] ? ((s.tokensIn ?? 0) * PRICE[s.model][0] + (s.tokensOut ?? 0) * PRICE[s.model][1]) / 1e6 : 0);
 
 function useReducedMotion() {
@@ -157,7 +157,7 @@ export function AgentTrace({ spans = DEMO_TRACE, live = true, className }: Agent
             <span>Span</span>
             <span className="relative h-3">
               {ticks.map((k) => (
-                <span key={k} className="absolute -translate-x-1/2 first:translate-x-0 last:-translate-x-full" style={{ left: `${k * 100}%` }}>
+                <span key={k} className={cn('absolute -translate-x-1/2 first:translate-x-0 last:-translate-x-full', (k === 0.25 || k === 0.75) && 'hidden sm:inline')} style={{ left: `${k * 100}%` }}>
                   {((total * k) / 1000).toFixed(1)}s
                 </span>
               ))}

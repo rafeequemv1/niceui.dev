@@ -220,6 +220,46 @@
         "demos": 2
       },
       {
+        "slug": "reasoning",
+        "name": "Reasoning",
+        "description": "A collapsible thinking panel that streams the model’s reasoning with a live timer, then folds into “Thought for 6 seconds”.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "model-selector",
+        "name": "Model Selector",
+        "description": "A command-menu model picker with search, favorites, capability badges, context and price, and a detail pane.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "context-usage",
+        "name": "Context Usage",
+        "description": "A context-window meter with a segmented ring and bar, running cost, a warning near the limit and a compact action.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "response-branches",
+        "name": "Response Branches",
+        "description": "Regenerated replies you can page through, with copy, rate, feedback, share and read-aloud actions.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "prompt-suggestions",
+        "name": "Prompt Suggestions",
+        "description": "Starter prompts in category tabs for an empty chat, plus follow-up chips that cascade in after a reply.",
+        "badge": "New",
+        "page": false,
+        "demos": 2
+      },
+      {
         "slug": "todo-list",
         "name": "Todo List",
         "description": "An agent plan checklist that progresses from pending to running to done with a live progress bar.",
@@ -303,6 +343,166 @@
         "slug": "network-pulse",
         "name": "Network Pulse",
         "description": "A hub-and-spoke constellation with pulses travelling from the core to breathing nodes. Pure SVG.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "browser-agent",
+        "name": "Browser Agent",
+        "description": "A computer-use view where an agent drives a browser, with a moving cursor, labelled targets and a synced step log.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "research-progress",
+        "name": "Deep Research",
+        "description": "A research run that plans, searches, reads and writes, with a climbing source count and a report card at the end.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "agent-trace",
+        "name": "Agent Trace",
+        "description": "A run inspector with a collapsible span tree, a timing waterfall, and the input, output, tokens and cost of each span.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "agent-flow",
+        "name": "Agent Flow",
+        "description": "A workflow canvas of agents and tools where you can drag nodes and run the flow to watch data move along the edges.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "agent-queue",
+        "name": "Agent Task Queue",
+        "description": "An inbox for background agents with queued, running, review, merged and failed tasks, plus review and merge.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "clarifying-question",
+        "name": "Clarifying Question",
+        "description": "The agent stops to ask: options with descriptions, an “Other” answer, number-key shortcuts and an auto-continue countdown.",
+        "badge": "New",
+        "page": false,
+        "demos": 2
+      },
+      {
+        "slug": "checkpoints",
+        "name": "Checkpoints",
+        "description": "A timeline of the checkpoints an agent saves before each edit, with files changed and a confirm-to-restore rewind.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "memory-panel",
+        "name": "Memory",
+        "description": "What the assistant remembers, grouped and editable: edit inline, forget with undo, add a memory or switch memory off.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "artifact-panel",
+        "name": "Artifact Panel",
+        "description": "Chat beside a live artifact: the latest version streams in, Preview and Code views, versions with changed lines and copy or download.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "command-composer",
+        "name": "Command Composer",
+        "description": "A composer with a / command menu and @ mentions for files, people and docs, keyboard driven, with selections as chips.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "answer-engine",
+        "name": "Answer Engine",
+        "description": "A search-style answer: source cards first, then a streamed answer with inline citations and related questions.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "generative-ui",
+        "name": "Generative UI",
+        "description": "Tool calls that render interactive cards instead of text: weather, a stock chart, flight options and a calendar event.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "chat-widget",
+        "name": "Chat Widget",
+        "description": "A support assistant launcher with an unread badge, quick replies, streamed answers and a hand-off to a human.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "ai-command-palette",
+        "name": "AI Command Palette",
+        "description": "A ⌘K palette that runs commands and turns any question into a streamed AI answer with insert and copy actions.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "code-interpreter",
+        "name": "Code Interpreter",
+        "description": "A notebook-style run cell: highlighted Python, a live timer, stdout, a rendered chart and a downloadable CSV.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "agent-handoff",
+        "name": "Agent Handoff",
+        "description": "A multi-agent thread where a triage agent hands the conversation to specialists, showing the context each handoff carries.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "plan-review",
+        "name": "Plan Review",
+        "description": "An editable agent plan: rewrite, reorder, skip or add steps, request changes, then approve and watch it run.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "knowledge-base",
+        "name": "Knowledge Base",
+        "description": "Sources that index through upload, parse, chunk and embed, with a retrieval tester that scores and highlights matching chunks.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "agent-builder",
+        "name": "Agent Builder",
+        "description": "A no-code agent builder with identity, instructions, model, tools, knowledge and creativity, beside a live test chat.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "model-compare",
+        "name": "Model Compare",
+        "description": "A blind side-by-side: two models stream the same prompt with live speed and cost, you vote, then their names are revealed.",
         "badge": "New",
         "page": false,
         "demos": 1

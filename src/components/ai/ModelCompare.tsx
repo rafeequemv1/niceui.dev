@@ -72,7 +72,7 @@ function Column({ label, side, run, revealed, winner, faster }: { label: string;
           ['TTFT', s.started ? `${side.ttft}ms` : '—'],
           ['Speed', tps ? `${Math.round(tps)} t/s` : '—'],
           ['Tokens', String(s.tokens)],
-          ['Cost', `$${((s.tokens / 1e6) * side.price).toFixed(4)}`],
+          ['Cost', `$${((s.tokens / 1e6) * side.price).toFixed(side.price < 1 ? 6 : 4)}`],
         ].map(([k, v]) => (
           <div key={k} className="min-w-0">
             <dt className="text-ink-500">{k}</dt>

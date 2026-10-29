@@ -16,10 +16,10 @@ export type FlowEdge = { from: string; to: string; start: number; end: number };
 
 const NODES: FlowNode[] = [
   { id: 'trigger', kind: 'trigger', title: 'New ticket', sub: 'Webhook', icon: Webhook, x: 16, y: 145, result: 'ticket #4821', start: 0, end: 500 },
-  { id: 'router', kind: 'agent', title: 'Triage agent', sub: 'sonnet · router', icon: Bot, x: 218, y: 145, result: 'intent: refund · 0.94', start: 1100, end: 2100 },
+  { id: 'router', kind: 'agent', title: 'Triage agent', sub: 'nova-pro · router', icon: Bot, x: 218, y: 145, result: 'intent: refund · 0.94', start: 1100, end: 2100 },
   { id: 'search', kind: 'tool', title: 'Web search', sub: 'Tool', icon: Globe, x: 420, y: 40, result: '3 policy pages', start: 2700, end: 3900 },
   { id: 'db', kind: 'tool', title: 'Orders DB', sub: 'Tool · Postgres', icon: Database, x: 420, y: 250, result: 'order found · $64', start: 2700, end: 3500 },
-  { id: 'writer', kind: 'agent', title: 'Reply writer', sub: 'haiku · writer', icon: PenLine, x: 622, y: 145, result: '156 tokens', start: 4500, end: 5800 },
+  { id: 'writer', kind: 'agent', title: 'Reply writer', sub: 'nova-mini · writer', icon: PenLine, x: 622, y: 145, result: '156 tokens', start: 4500, end: 5800 },
   { id: 'output', kind: 'output', title: 'Send reply', sub: 'Email', icon: Send, x: 824, y: 145, result: 'sent to customer', start: 6400, end: 6800 },
 ];
 const EDGES: FlowEdge[] = [
@@ -131,7 +131,7 @@ export function AgentFlow({ autoRun = true, className }: AgentFlowProps) {
     <div ref={ref} className={cn('w-full overflow-hidden rounded-2xl bg-ink-900 text-left shadow-card', className)}>
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-white/5 px-4 py-3">
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-medium text-ink-100">support-triage</p>
+          <p className="truncate text-sm font-medium text-ink-100">support-triage</p>
           <p className="text-xs text-ink-500">{running ? 'Running…' : done ? 'Last run 6.9s · 6 steps · $0.0041' : 'Drag nodes to rearrange, then run'}</p>
         </div>
         <button
