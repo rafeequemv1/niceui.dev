@@ -50,6 +50,14 @@
     "title": "Landing Pages",
     "entries": [
       {
+        "slug": "video-editor-landing",
+        "name": "AI Video Editor Landing",
+        "description": "A white, editorial landing page for an AI video editor: a working editor in the hero (transcript, dithered player, AI Director, multitrack timeline), live bento demos, dithered art, pricing and FAQ.",
+        "badge": "New",
+        "page": true,
+        "demos": 0
+      },
+      {
         "slug": "agent-platform-landing",
         "name": "AI Agent Platform Landing",
         "description": "A framed, grid-lined landing page for an AI dev product: auto-advancing feature tabs, live agent demos, constellation, marquee testimonials, pricing and FAQ.",

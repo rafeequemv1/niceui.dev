@@ -6,8 +6,16 @@ import { LandingPageLattice } from '@/pages/landing/LandingPageLattice';
 import { LandingPageSaaS } from '@/pages/landing/LandingPageSaaS';
 import { LandingPageStudio } from '@/pages/landing/LandingPageStudio';
 import { LandingPageNorthstar } from '@/pages/landing/LandingPageNorthstar';
+import { LandingPageRushes } from '@/pages/landing/LandingPageRushes';
 
 export const landingEntries: DocEntry[] = [
+  {
+    slug: 'video-editor-landing',
+    name: 'AI Video Editor Landing',
+    description: 'A white, editorial landing page for an AI video editor: a working editor in the hero (transcript, dithered player, AI Director, multitrack timeline), live bento demos, dithered art, pricing and FAQ.',
+    badge: 'New',
+    page: LandingPageRushes,
+  },
   {
     slug: 'agent-platform-landing',
     name: 'AI Agent Platform Landing',
