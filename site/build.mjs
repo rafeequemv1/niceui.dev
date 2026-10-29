@@ -1,0 +1,616 @@
+// Static site generator for niceui.dev — `node build.mjs` writes everything to dist/.
+import { createHash } from "node:crypto";
+import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { faq, items, site } from "./registry.mjs";
+
+const OUT = "dist";
+const today = new Date().toISOString().slice(0, 10);
+
+// ─── helpers ─────────────────────────────────────────────────────────
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const slugify = (s) => s.toLowerCase().replace(/[—–]/g, " ").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const write = (path, content) => {
+  const full = join(OUT, path);
+  mkdirSync(dirname(full), { recursive: true });
+  writeFileSync(full, content);
+};
+const json = (data) => JSON.stringify(data).replace(/</g, "\\u003c");
+const hashed = (file) => {
+  const src = readFileSync(join("assets", file));
+  const h = createHash("sha1").update(src).digest("hex").slice(0, 10);
+  const name = file.replace(/(\.\w+)$/, "." + h + "$1");
+  write("assets/" + name, src);
+  return "/assets/" + name;
+};
+
+const TS_KEYWORDS =
+  "import|export|from|const|let|var|return|function|type|interface|extends|default|if|else|new|as|typeof|true|false|null|undefined|use client";
+
+function highlight(code) {
+  const re = new RegExp(
+    [
+      "(\\/\\/[^\\n]*|\\/\\*[\\s\\S]*?\\*\\/)", // 1 comment
+      '("(?:[^"\\\\\\n]|\\\\.)*"|`(?:[^`\\\\]|\\\\.)*`)', // 2 string
+      "(<\\/?[A-Za-z][\\w.]*|\\/?>)", // 3 jsx tag
+      "\\b(" + TS_KEYWORDS + ")\\b", // 4 keyword
+      "\\b(\\d+(?:\\.\\d+)?)\\b", // 5 number
+      "([A-Za-z_]\\w*)(?=\\()", // 6 function call
+    ].join("|"),
+    "g"
+  );
+  let out = "";
+  let last = 0;
+  for (const m of code.matchAll(re)) {
+    out += esc(code.slice(last, m.index));
+    const cls = m[1] ? "c" : m[2] ? "s" : m[3] ? "t" : m[4] ? "k" : m[5] ? "n" : "f";
+    out += '<span class="tk-' + cls + '">' + esc(m[0]) + "</span>";
+    last = m.index + m[0].length;
+  }
+  return out + esc(code.slice(last));
+}
+
+// ─── data ────────────────────────────────────────────────────────────
+for (const it of items) {
+  it.slug ??= slugify(it.name);
+  if (it.status !== "ready") continue;
+  it.path = (it.kind === "block" ? "/blocks/" : "/components/") + it.slug;
+  it.file = it.slug + ".tsx";
+  it.code = readFileSync(join("registry", it.file), "utf8");
+  it.target = it.kind === "block" ? "components/" + it.file : "components/ui/" + it.file;
+  it.install = "npx shadcn@latest add " + site.url + "/r/" + it.slug + ".json";
+}
+const ready = items.filter((i) => i.status === "ready");
+const soon = items.filter((i) => i.status !== "ready");
+const byKind = (kind) =>
+  items
+    .filter((i) => i.kind === kind)
+    .sort((a, b) => (a.status === b.status ? a.name.localeCompare(b.name) : a.status === "ready" ? -1 : 1));
+const groups = [
+  { title: "Components", kind: "component", list: byKind("component") },
+  { title: "Blocks", kind: "block", list: byKind("block") },
+  { title: "Templates", kind: "template", list: byKind("template") },
+];
+const readyOrder = groups.flatMap((g) => g.list.filter((i) => i.status === "ready"));
+
+// ─── assets ──────────────────────────────────────────────────────────
+rmSync(OUT, { recursive: true, force: true });
+mkdirSync(OUT, { recursive: true });
+const CSS = hashed("styles.css");
+const JS = hashed("app.js");
+cpSync("assets/favicon.svg", join(OUT, "favicon.svg"));
+if (existsSync("assets/og.png")) cpSync("assets/og.png", join(OUT, "og.png"));
+
+// ─── layout ──────────────────────────────────────────────────────────
+const icon = {
+  github:
+    '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.7 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5Z"/></svg>',
+  search:
+    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+  copy: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>',
+  spark:
+    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg>',
+  arrow:
+    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+  ext: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>',
+  menu: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>',
+};
+const mark =
+  '<svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="13" fill="none" stroke="currentColor" stroke-opacity=".22"/><path d="M5 17a9 9 0 0 1 18 0" fill="none" stroke="#7dd3fc" stroke-width="1.6" stroke-linecap="round"/><circle cx="14" cy="17" r="2" fill="#7dd3fc"/></svg>';
+
+function sidebar(activePath) {
+  const link = (href, label, extra = "") =>
+    `<a href="${href}" class="sb-item${href === activePath ? " on" : ""}"${href === activePath ? ' aria-current="page"' : ""}><span>${esc(label)}</span>${extra}</a>`;
+  let html = `<div class="sb-group"><p class="sb-label">Getting started</p>${link("/", "Introduction")}${link("/docs/installation", "Installation")}${link("/llms.txt", "llms.txt", '<em class="tag-ai">AI</em>')}<a href="/library/" target="_blank" rel="noopener" class="sb-item"><span>Full library</span><em class="tag-ai">New ↗</em></a></div>`;
+  for (const g of groups) {
+    const n = g.list.filter((i) => i.status === "ready").length;
+    html += `<div class="sb-group"><p class="sb-label">${g.title}<span>${n}/${g.list.length}</span></p>`;
+    for (const it of g.list) {
+      html +=
+        it.status === "ready"
+          ? link(it.path, it.name)
+          : `<span class="sb-item soon" data-name="${esc(it.name.toLowerCase())}"><span>${esc(it.name)}</span><em>Soon</em></span>`;
+    }
+    html += "</div>";
+  }
+  return html;
+}
+
+const searchData = json(
+  items.map((i) => ({ n: i.name, k: i.kind, c: i.category, p: i.path || null }))
+);
+
+function layout({ title, description, path, main, ld, md }) {
+  const url = site.url + (path === "/" ? "" : path);
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>${esc(title)}</title>
+<meta name="description" content="${esc(description)}" />
+<link rel="canonical" href="${url}" />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="${site.name}" />
+<meta property="og:title" content="${esc(title)}" />
+<meta property="og:description" content="${esc(description)}" />
+<meta property="og:url" content="${url}" />
+<meta property="og:image" content="${site.url}/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="${esc(title)}" />
+<meta name="twitter:description" content="${esc(description)}" />
+<meta name="twitter:image" content="${site.url}/og.png" />
+<meta name="theme-color" content="#000000" />
+<meta name="color-scheme" content="dark" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="manifest" href="/site.webmanifest" />
+<link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt" />${md ? `\n<link rel="alternate" type="text/markdown" href="${md}" />` : ""}
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" />
+<link rel="stylesheet" href="${CSS}" />
+<script type="application/ld+json">${json(ld)}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <button class="top-menu" data-menu aria-label="Open navigation">${icon.menu}</button>
+  <a href="/" class="brand" aria-label="NiceUI home">${mark}<span>niceui</span></a>
+  <button class="top-search" data-search-open aria-label="Search components">${icon.search}<span>Search components…</span><kbd>⌘K</kbd></button>
+  <nav class="top-r" aria-label="Site">
+    <a class="top-link top-tab" href="/library/" target="_blank" rel="noopener">Full library ${icon.ext}</a>
+    <a class="top-link hide-sm" href="/docs/installation">Docs</a>
+    <a class="top-link hide-sm" href="/llms.txt">llms.txt</a>
+    <a class="top-icon" href="${site.github}" target="_blank" rel="noopener" aria-label="GitHub">${icon.github}</a>
+  </nav>
+</header>
+<div class="shell">
+  <aside class="sb" id="sidebar" aria-label="Library">
+    <nav>${sidebar(path)}</nav>
+  </aside>
+  <div class="sb-scrim" data-menu-close></div>
+  <main id="main" class="main">
+${main}
+    <footer class="foot">
+      <div class="foot-brand">${mark}<span>niceui</span><span class="dim">· Free UI, MIT licensed.</span></div>
+      <nav aria-label="Footer"><a href="/library/" target="_blank" rel="noopener">Full library</a><a href="/docs/installation">Installation</a><a href="/llms.txt">llms.txt</a><a href="/r/registry.json">Registry</a><a href="/sitemap.xml">Sitemap</a><a href="${site.github}" target="_blank" rel="noopener">GitHub</a><a href="${site.x}" target="_blank" rel="noopener">X</a></nav>
+    </footer>
+  </main>
+</div>
+<div class="search" data-search hidden>
+  <div class="search-box" role="dialog" aria-modal="true" aria-label="Search">
+    <div class="search-in">${icon.search}<input data-search-input placeholder="Search components, blocks, templates…" aria-label="Search" autocomplete="off" /><kbd>esc</kbd></div>
+    <ul class="search-list" data-search-list role="listbox"></ul>
+  </div>
+</div>
+<div class="toast" data-toast role="status" aria-live="polite"></div>
+<script type="application/json" id="search-data">${searchData}</script>
+<script src="${JS}" defer></script>
+</body>
+</html>
+`;
+}
+
+// ─── shared fragments ────────────────────────────────────────────────
+const org = { "@type": "Organization", "@id": site.url + "/#org", name: site.name, url: site.url, logo: site.url + "/favicon.svg" };
+const website = { "@type": "WebSite", "@id": site.url + "/#website", name: site.name, url: site.url, description: site.description, publisher: { "@id": site.url + "/#org" }, inLanguage: "en" };
+
+const card = (it) => `
+        <a class="card${it.wide ? " wide" : ""}" href="${it.path}" data-kind="${it.kind}">
+          <div class="card-stage"><div class="card-scale" style="--s:${it.thumb || 1}" inert>${it.preview}</div></div>
+          <div class="card-meta"><span class="card-name">${esc(it.name)}</span><span class="card-cat">${esc(it.category)}</span></div>
+        </a>`;
+
+const soonCard = (it) => `
+        <div class="soon-card" data-kind="${it.kind}"><span>${esc(it.name)}</span><span class="soon-meta">${esc(it.category)}<em>Soon</em></span></div>`;
+
+const faqHtml = faq
+  .map((f, i) => `<details class="faq-item"${i === 0 ? " open" : ""}><summary><h3>${esc(f.q)}</h3><span class="faq-x" aria-hidden="true"></span></summary><p>${esc(f.a)}</p></details>`)
+  .join("");
+
+// ─── home ────────────────────────────────────────────────────────────
+{
+  const main = `
+    <section class="intro">
+      <p class="kicker"><span class="dot"></span>Free &amp; open source <span class="sep">/</span> ${ready.length} ready <span class="sep">/</span> ${soon.length} on the way</p>
+      <h1>Interfaces,<br /><em>nicely</em> made.</h1>
+      <p class="lede">A free library of premium React &amp; Tailwind components, blocks and templates. Preview, copy, or install with the shadcn CLI. No account. No paywall.</p>
+      <div class="cta">
+        <a class="btn btn-sky" href="#library">Browse library ${icon.arrow}</a>
+        <button class="btn btn-cmd" data-copy="npx shadcn@latest add ${site.url}/r/button.json"><span class="sky">$</span> npx shadcn add niceui.dev/r/button.json ${icon.copy}</button>
+      </div>
+      <div class="horizon" aria-hidden="true"><div class="arc"></div><div class="arc-glow"></div></div>
+    </section>
+
+    <section id="library" class="lib" aria-labelledby="lib-h">
+      <div class="lib-head">
+        <h2 id="lib-h">Library</h2>
+        <div class="chips" role="tablist" aria-label="Filter">
+          <button class="chip on" data-filter="all">All</button>
+          <button class="chip" data-filter="component">Components</button>
+          <button class="chip" data-filter="block">Blocks</button>
+        </div>
+      </div>
+      <div class="cards">${[...ready.filter((i) => i.slug === "hero-horizon"), ...readyOrder.filter((i) => i.kind === "component"), ...readyOrder.filter((i) => i.kind === "block" && i.slug !== "hero-horizon")].map(card).join("")}
+      </div>
+    </section>
+
+    <section class="showcase" aria-labelledby="show-h">
+      <a class="show-card" href="/library/" target="_blank" rel="noopener">
+        <div class="show-copy">
+          <p class="kicker"><span class="dot"></span>Full library</p>
+          <h2 id="show-h">Everything else, <em>already built.</em></h2>
+          <p class="mute">Landing pages, AI agent interfaces, motion components, blocks and complete dashboard templates — all live and interactive.</p>
+          <span class="btn btn-sky">Open full library ${icon.ext}</span>
+        </div>
+        <ul class="show-list" aria-hidden="true">
+          <li><b>Landing pages</b><span>SaaS, Studio, Wealth, AI tools</span></li>
+          <li><b>AI agents</b><span>Chat, tool calls, streaming, citations</span></li>
+          <li><b>Motion</b><span>Dock, drawers, morphing modals, carousels</span></li>
+          <li><b>Dashboards</b><span>Analytics, finance, commerce, infra</span></li>
+        </ul>
+      </a>
+    </section>
+
+    <section class="roadmap" aria-labelledby="road-h">
+      <div class="sec-title"><h2 id="road-h">On the <em>roadmap</em></h2><p class="mute">${soon.length} components, blocks and templates in the works. Shipping weekly.</p></div>
+      <div class="soon-grid">${soon.map(soonCard).join("")}
+      </div>
+    </section>
+
+    <section class="faq" aria-labelledby="faq-h">
+      <div class="sec-title"><h2 id="faq-h">Questions, <em>answered</em></h2></div>
+      <div class="faq-list">${faqHtml}</div>
+    </section>`;
+
+  const ld = {
+    "@context": "https://schema.org",
+    "@graph": [
+      org,
+      website,
+      {
+        "@type": "CollectionPage",
+        "@id": site.url + "/#page",
+        url: site.url,
+        name: "NiceUI — Free React & Tailwind components",
+        description: site.description,
+        isPartOf: { "@id": site.url + "/#website" },
+        mainEntity: {
+          "@type": "ItemList",
+          numberOfItems: ready.length,
+          itemListElement: readyOrder.map((it, i) => ({ "@type": "ListItem", position: i + 1, name: it.name, url: site.url + it.path })),
+        },
+      },
+      { "@type": "FAQPage", mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) },
+    ],
+  };
+
+  write(
+    "index.html",
+    layout({
+      title: "NiceUI — Free React & Tailwind UI components, blocks and templates",
+      description: site.description,
+      path: "/",
+      main,
+      ld,
+      md: "/index.md",
+    })
+  );
+}
+
+// ─── component & block pages ─────────────────────────────────────────
+readyOrder.forEach((it, idx) => {
+  const prev = readyOrder[idx - 1];
+  const next = readyOrder[idx + 1];
+  const section = it.kind === "block" ? "Blocks" : "Components";
+  const prompt = `Add the "${it.name}" component from NiceUI (${site.url}${it.path}) to my React + Tailwind CSS project.
+
+Save it as ${it.target}. It has no dependencies beyond React and Tailwind CSS.
+
+\`\`\`tsx
+${it.code.trim()}
+\`\`\`
+
+Example usage:
+
+\`\`\`tsx
+${it.usage.trim()}
+\`\`\``;
+
+  const main = `
+    <article class="doc">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Library</a><span>/</span><span>${section}</span><span>/</span><span aria-current="page">${esc(it.name)}</span></nav>
+      <header class="doc-head">
+        <h1>${esc(it.name)}</h1>
+        <p class="lede">${esc(it.description)}</p>
+        <div class="doc-tags"><span>React</span><span>Tailwind CSS</span><span>TypeScript</span><span>${esc(it.category)}</span><span class="t-sky">MIT · Free</span></div>
+      </header>
+
+      <div class="frame" data-tabs>
+        <div class="frame-bar">
+          <div class="tabs" role="tablist">
+            <button role="tab" class="tab on" data-tab="preview" aria-selected="true">Preview</button>
+            <button role="tab" class="tab" data-tab="code" aria-selected="false">Code</button>
+          </div>
+          <div class="frame-actions">
+            <button class="act" data-copy-key="prompt" title="Copy a ready-made prompt for Claude, Cursor or v0">${icon.spark}<span>Copy prompt</span></button>
+            <button class="act" data-copy-key="code">${icon.copy}<span>Copy code</span></button>
+          </div>
+        </div>
+        <div class="panel stage${it.kind === "block" ? " stage-block" : ""}" data-panel="preview">${it.preview}</div>
+        <div class="panel" data-panel="code" hidden><div class="code-file">${it.target}</div><pre class="code"><code>${highlight(it.code.trim())}</code></pre></div>
+      </div>
+
+      <section class="doc-sec" aria-labelledby="install-h">
+        <h2 id="install-h">Installation</h2>
+        <div class="steps">
+          <div class="step"><span class="step-n">01</span><div><p>Install with the shadcn CLI.</p>
+            <div class="cmdline"><code><span class="sky">$</span> ${esc(it.install)}</code><button class="icon-btn" data-copy="${esc(it.install)}" aria-label="Copy install command">${icon.copy}</button></div>
+          </div></div>
+          <div class="step"><span class="step-n">02</span><div><p>Or copy the source manually into <code class="inline">${it.target}</code>. No extra dependencies.</p></div></div>
+        </div>
+      </section>
+
+      <section class="doc-sec" aria-labelledby="usage-h">
+        <h2 id="usage-h">Usage</h2>
+        <div class="code-wrap"><button class="icon-btn code-copy" data-copy-key="usage" aria-label="Copy usage">${icon.copy}</button><pre class="code"><code>${highlight(it.usage.trim())}</code></pre></div>
+      </section>
+
+      <section class="doc-sec" aria-labelledby="ai-h">
+        <h2 id="ai-h">For AI assistants</h2>
+        <p class="mute">This page is also available as <a class="ul" href="${it.path}.md">Markdown</a> and as a <a class="ul" href="/r/${it.slug}.json">shadcn registry item</a>. Use <b>Copy prompt</b> to hand the full source to Claude, Cursor or v0.</p>
+      </section>
+
+      <nav class="pager" aria-label="Pagination">
+        ${prev ? `<a href="${prev.path}" class="pg"><span class="dim">Previous</span><b>${esc(prev.name)}</b></a>` : "<span></span>"}
+        ${next ? `<a href="${next.path}" class="pg pg-next"><span class="dim">Next</span><b>${esc(next.name)}</b></a>` : "<span></span>"}
+      </nav>
+    </article>
+    <script type="application/json" id="page-data">${json({ code: it.code.trim(), usage: it.usage.trim(), prompt })}</script>`;
+
+  const url = site.url + it.path;
+  const ld = {
+    "@context": "https://schema.org",
+    "@graph": [
+      org,
+      website,
+      {
+        "@type": "SoftwareSourceCode",
+        "@id": url + "#code",
+        name: it.name + " — React & Tailwind component",
+        description: it.description,
+        url,
+        programmingLanguage: "TypeScript",
+        runtimePlatform: "React",
+        codeSampleType: "full solution",
+        keywords: it.keywords.join(", "),
+        license: "https://opensource.org/licenses/MIT",
+        isAccessibleForFree: true,
+        dateModified: today,
+        author: { "@id": site.url + "/#org" },
+        isPartOf: { "@id": site.url + "/#website" },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Library", item: site.url },
+          { "@type": "ListItem", position: 2, name: section, item: site.url + "/#library" },
+          { "@type": "ListItem", position: 3, name: it.name, item: url },
+        ],
+      },
+    ],
+  };
+
+  write(
+    it.path.slice(1) + ".html",
+    layout({
+      title: `${it.name} — Free React & Tailwind ${it.kind === "block" ? "Block" : "Component"} | NiceUI`,
+      description: it.description + " Free, MIT licensed, copy-paste or install with the shadcn CLI.",
+      path: it.path,
+      main,
+      ld,
+      md: it.path + ".md",
+    })
+  );
+
+  write(
+    it.path.slice(1) + ".md",
+    `# ${it.name}\n\n> ${it.description}\n\n- Category: ${it.category}\n- Type: ${it.kind}\n- License: MIT (free)\n- Page: ${url}\n\n## Installation\n\n\`\`\`bash\n${it.install}\n\`\`\`\n\nOr copy the source below into \`${it.target}\`.\n\n## Source\n\n\`\`\`tsx\n${it.code.trim()}\n\`\`\`\n\n## Usage\n\n\`\`\`tsx\n${it.usage.trim()}\n\`\`\`\n`
+  );
+
+  write(
+    "r/" + it.slug + ".json",
+    JSON.stringify(
+      {
+        $schema: "https://ui.shadcn.com/schema/registry-item.json",
+        name: it.slug,
+        type: it.kind === "block" ? "registry:block" : "registry:ui",
+        title: it.name,
+        description: it.description,
+        files: [
+          {
+            path: (it.kind === "block" ? "registry/blocks/" : "registry/ui/") + it.file,
+            type: it.kind === "block" ? "registry:component" : "registry:ui",
+            content: it.code,
+          },
+        ],
+      },
+      null,
+      2
+    )
+  );
+});
+
+// ─── installation docs ───────────────────────────────────────────────
+{
+  const steps = [
+    ["Set up Tailwind CSS", "NiceUI components are styled with Tailwind CSS v3 or v4. Any React framework works — Next.js, Vite, Remix or Astro."],
+    ["Initialise shadcn (optional)", "If you have not used the shadcn CLI in this project yet, run the init command once. It configures the components path alias."],
+    ["Add a component", "Every component page shows its install command. The CLI downloads the source straight into your project."],
+    ["Make it yours", "The code now lives in your repo. Edit anything — there is no package to update and no lock-in."],
+  ];
+  const cmds = ["npm install tailwindcss", "npx shadcn@latest init", "npx shadcn@latest add " + site.url + "/r/button.json", ""];
+  const main = `
+    <article class="doc">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Library</a><span>/</span><span aria-current="page">Installation</span></nav>
+      <header class="doc-head">
+        <h1>Installation</h1>
+        <p class="lede">NiceUI is not a package. You copy components into your project — by hand or with the shadcn CLI — and own the code from there.</p>
+      </header>
+      <div class="steps big">
+        ${steps
+          .map(
+            ([t, d], i) => `<div class="step"><span class="step-n">0${i + 1}</span><div><h2 class="step-t">${t}</h2><p class="mute">${d}</p>${
+              cmds[i] ? `<div class="cmdline"><code><span class="sky">$</span> ${esc(cmds[i])}</code><button class="icon-btn" data-copy="${esc(cmds[i])}" aria-label="Copy command">${icon.copy}</button></div>` : ""
+            }</div></div>`
+          )
+          .join("")}
+      </div>
+      <section class="doc-sec">
+        <h2>Fonts used in previews</h2>
+        <p class="mute">Previews use <b>Geist</b> and <b>Instrument Serif</b> (for italic accents via Tailwind's <code class="inline">font-serif</code>). Add them through <code class="inline">next/font</code> or Google Fonts, or swap in your own.</p>
+      </section>
+      <section class="doc-sec">
+        <h2>For AI assistants</h2>
+        <p class="mute">Point your assistant at <a class="ul" href="/llms.txt">/llms.txt</a> for an index, or <a class="ul" href="/llms-full.txt">/llms-full.txt</a> for every component's full source in one file. The registry index lives at <a class="ul" href="/r/registry.json">/r/registry.json</a>.</p>
+      </section>
+    </article>`;
+  const ld = {
+    "@context": "https://schema.org",
+    "@graph": [
+      org,
+      website,
+      {
+        "@type": "HowTo",
+        name: "How to install NiceUI components",
+        description: "Install free NiceUI React and Tailwind components with the shadcn CLI or by copying the source.",
+        step: steps.map(([t, d], i) => ({ "@type": "HowToStep", position: i + 1, name: t, text: d + (cmds[i] ? " Command: " + cmds[i] : "") })),
+      },
+    ],
+  };
+  write("docs/installation.html", layout({ title: "Installation — NiceUI", description: "How to install free NiceUI React and Tailwind components with the shadcn CLI or by copying the source.", path: "/docs/installation", main, ld, md: "/docs/installation.md" }));
+  write(
+    "docs/installation.md",
+    "# Installation\n\nNiceUI is not a package. Copy components into your project by hand or with the shadcn CLI.\n\n" +
+      steps.map(([t, d], i) => `## ${i + 1}. ${t}\n\n${d}\n` + (cmds[i] ? "\n```bash\n" + cmds[i] + "\n```\n" : "")).join("\n")
+  );
+}
+
+// ─── 404 ─────────────────────────────────────────────────────────────
+write(
+  "404.html",
+  layout({
+    title: "Not found — NiceUI",
+    description: "This page does not exist.",
+    path: "/404",
+    main: `<section class="intro nf"><p class="kicker"><span class="dot"></span>404</p><h1>Nothing <em>here</em>.</h1><p class="lede">That page drifted past the horizon. Try the library instead.</p><div class="cta"><a class="btn btn-sky" href="/">Back to library ${icon.arrow}</a></div></section>`,
+    ld: { "@context": "https://schema.org", ...website },
+  }).replace('<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />', '<meta name="robots" content="noindex" />')
+);
+
+// ─── registry index, llms, sitemap, robots, manifest ────────────────
+write(
+  "r/registry.json",
+  JSON.stringify(
+    {
+      $schema: "https://ui.shadcn.com/schema/registry.json",
+      name: "niceui",
+      homepage: site.url,
+      items: readyOrder.map((it) => ({
+        name: it.slug,
+        type: it.kind === "block" ? "registry:block" : "registry:ui",
+        title: it.name,
+        description: it.description,
+        files: [{ path: (it.kind === "block" ? "registry/blocks/" : "registry/ui/") + it.file, type: it.kind === "block" ? "registry:component" : "registry:ui" }],
+      })),
+    },
+    null,
+    2
+  )
+);
+
+const llmsList = (kind) =>
+  readyOrder
+    .filter((i) => i.kind === kind)
+    .map((i) => `- [${i.name}](${site.url}${i.path}.md): ${i.description}`)
+    .join("\n");
+
+write(
+  "llms.txt",
+  `# ${site.name}
+
+> ${site.description}
+
+NiceUI components are plain React + Tailwind CSS source files with no runtime dependencies. Install any item with \`npx shadcn@latest add ${site.url}/r/<name>.json\`, or copy the source from its page. Every page has a Markdown twin at the same URL plus \`.md\`.
+
+## Docs
+
+- [Installation](${site.url}/docs/installation.md): How to add NiceUI components to a React project.
+- [Registry index](${site.url}/r/registry.json): shadcn-compatible registry of all ready items.
+- [Full library](${site.url}/library/): Interactive app with landing pages, AI agent interfaces, motion components, blocks and dashboard templates.
+
+## Components
+
+${llmsList("component")}
+
+## Blocks
+
+${llmsList("block")}
+
+## Optional
+
+- [Full source](${site.url}/llms-full.txt): Every component's full source and usage in one file.
+- Coming soon: ${soon.map((i) => i.name).join(", ")}.
+`
+);
+
+write(
+  "llms-full.txt",
+  `# ${site.name} — full source\n\n> ${site.description}\n\n` +
+    readyOrder
+      .map(
+        (it) =>
+          `---\n\n## ${it.name}\n\n${it.description}\n\nURL: ${site.url}${it.path}\nInstall: \`${it.install}\`\nFile: \`${it.target}\`\n\n\`\`\`tsx\n${it.code.trim()}\n\`\`\`\n\nUsage:\n\n\`\`\`tsx\n${it.usage.trim()}\n\`\`\`\n`
+      )
+      .join("\n")
+);
+
+write(
+  "index.md",
+  `# ${site.name} — ${site.tagline}\n\n${site.description}\n\n## Library\n\n${readyOrder.map((i) => `- [${i.name}](${site.url}${i.path}) — ${i.description}`).join("\n")}\n\n## FAQ\n\n${faq.map((f) => `### ${f.q}\n\n${f.a}`).join("\n\n")}\n`
+);
+
+const urls = [
+  { loc: site.url + "/", priority: "1.0", freq: "weekly" },
+  { loc: site.url + "/docs/installation", priority: "0.7", freq: "monthly" },
+  { loc: site.url + "/library/", priority: "0.9", freq: "weekly" },
+  ...readyOrder.map((it) => ({ loc: site.url + it.path, priority: "0.8", freq: "monthly" })),
+];
+write(
+  "sitemap.xml",
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
+    .map((u) => `  <url><loc>${u.loc}</loc><lastmod>${today}</lastmod><changefreq>${u.freq}</changefreq><priority>${u.priority}</priority></url>`)
+    .join("\n")}\n</urlset>\n`
+);
+
+const aiBots = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "Claude-User", "PerplexityBot", "Google-Extended", "Applebot-Extended", "CCBot", "Bytespider", "meta-externalagent"];
+write(
+  "robots.txt",
+  `# niceui.dev — humans, search engines and AI assistants are all welcome.\nUser-agent: *\nAllow: /\nDisallow: /404\n\n# AI crawlers: explicitly allowed. See /llms.txt for a curated index.\n${aiBots.map((b) => `User-agent: ${b}`).join("\n")}\nAllow: /\n\nSitemap: ${site.url}/sitemap.xml\n`
+);
+
+write(
+  "site.webmanifest",
+  JSON.stringify({ name: site.name, short_name: site.name, start_url: "/", display: "standalone", background_color: "#000000", theme_color: "#000000", icons: [{ src: "/favicon.svg", sizes: "any", type: "image/svg+xml" }] }, null, 2)
+);
+
+const sources = ["build.mjs", "registry.mjs", "../vercel.json", "../package.json", ...["styles.css", "app.js", "favicon.svg", "og.png"].map((f) => "assets/" + f), ...ready.map((i) => "registry/" + i.file)];
+write(
+  "build-info.json",
+  JSON.stringify({ built: new Date().toISOString(), ready: ready.length, soon: soon.length, sources: Object.fromEntries(sources.map((f) => [f, existsSync(f) ? createHash("sha1").update(readFileSync(f)).digest("hex").slice(0, 12) : null])) }, null, 2)
+);
+
+console.log(`Built ${ready.length} ready items, ${soon.length} coming soon → ${OUT}/`);
