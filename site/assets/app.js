@@ -40,6 +40,18 @@
   const setMenu = (open) => document.body.classList.toggle("sb-open", open);
   $("[data-menu]")?.addEventListener("click", () => setMenu(!document.body.classList.contains("sb-open")));
   $("[data-menu-close]")?.addEventListener("click", () => setMenu(false));
+  // Remember which sidebar categories are open (per visitor, best effort).
+  $$(".sb-cat").forEach((d) => {
+    const key = "niceui-cat-" + d.dataset.cat;
+    try {
+      if (!d.open && localStorage.getItem(key) === "1") d.open = true;
+    } catch {}
+    d.addEventListener("toggle", () => {
+      try {
+        localStorage.setItem(key, d.open ? "1" : "0");
+      } catch {}
+    });
+  });
   $(".sb .on")?.scrollIntoView({ block: "center" });
 
   // ── search palette ───────────────────────────────────────

@@ -93,15 +93,18 @@ const libCount = library.filter((sec) => sec.id !== "intro").reduce((n, sec) => 
 const covered = new Set(["Accordion", "Alert", "Dialog", "Tooltip", "Tabs", "Toast", "Checkbox", "Radio Group", "Select", "OTP Input", "File Upload", "Data Table", "Date Picker", "Carousel", "Number Ticker", "Text Reveal", "AI Prompt Input", "Chat Bubble", "Sign In", "Dashboard Shell"]);
 const roadmap = soon.filter((i) => !covered.has(i.name));
 const byName = (a, b) => a.name.localeCompare(b.name);
+// When the library and the site both ship an item with the same name, keep the site's page (it has install + registry JSON).
+const ownNames = new Set(ready.map((i) => i.name.toLowerCase()));
+const dedupe = (list) => list.filter((i) => !i.lib || !ownNames.has(i.name.toLowerCase()));
 const navGroups = [
-  { title: "Components", list: [...ready.filter((i) => i.kind === "component"), ...libItems("components", "component")].sort(byName).concat(roadmap.filter((i) => i.kind === "component").sort(byName)) },
+  { title: "Components", list: dedupe([...ready.filter((i) => i.kind === "component"), ...libItems("components", "component")]).sort(byName).concat(roadmap.filter((i) => i.kind === "component").sort(byName)) },
   { title: "AI Agents", list: libItems("ai", "ai").sort(byName) },
-  { title: "Blocks", list: [...ready.filter((i) => i.kind === "block"), ...libItems("blocks", "block"), ...libItems("footers", "block", "Footers")].sort(byName).concat(roadmap.filter((i) => i.kind === "block").sort(byName)) },
+  { title: "Blocks", list: dedupe([...ready.filter((i) => i.kind === "block"), ...libItems("blocks", "block"), ...libItems("footers", "block", "Footers")]).sort(byName).concat(roadmap.filter((i) => i.kind === "block").sort(byName)) },
   { title: "Landing Pages", list: libItems("landing", "landing") },
   { title: "Dashboards", list: libItems("examples", "dashboard", "Dashboards") },
   { title: "Templates", list: [...libItems("apps", "template", "App templates"), ...roadmap.filter((i) => i.kind === "template")] },
 ];
-const totalReady = ready.length + libCount;
+const totalReady = navGroups.reduce((n, g) => n + g.list.filter((i) => i.status === "ready").length, 0);
 
 // ─── assets ──────────────────────────────────────────────────────────
 rmSync(OUT, { recursive: true, force: true });
@@ -128,20 +131,31 @@ const icon = {
 const mark =
   '<svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="13" fill="none" stroke="currentColor" stroke-opacity=".22"/><path d="M5 17a9 9 0 0 1 18 0" fill="none" stroke="#7dd3fc" stroke-width="1.6" stroke-linecap="round"/><circle cx="14" cy="17" r="2" fill="#7dd3fc"/></svg>';
 
+const ico = (d) => `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+const catIcon = {
+  Components: ico('<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>'),
+  "AI Agents": ico('<path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>'),
+  Blocks: ico('<path d="M12 3 3 7.5l9 4.5 9-4.5z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/>'),
+  "Landing Pages": ico('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 13h8M10 16h4"/>'),
+  Dashboards: ico('<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'),
+  Templates: ico('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M9 10h12"/>'),
+};
+
 function sidebar(activePath) {
   const link = (href, label, extra = "") =>
     `<a href="${href}" class="sb-item${href === activePath ? " on" : ""}"${href === activePath ? ' aria-current="page"' : ""}><span>${esc(label)}</span>${extra}</a>`;
   let html = `<div class="sb-group"><p class="sb-label">Getting started</p>${link("/", "Introduction")}${link("/docs/installation", "Installation")}${link("/#mcp", "Connect your agent", '<em class="tag-ai">MCP</em>')}${link("/llms.txt", "llms.txt", '<em class="tag-ai">AI</em>')}${libGuides.map((e) => link("/library/#/intro/" + e.slug, e.name === "OpenUI" ? "Design system" : e.name)).join("")}</div>`;
   for (const g of navGroups) {
     const n = g.list.filter((i) => i.status === "ready").length;
-    html += `<div class="sb-group"><p class="sb-label">${g.title}<span>${n}/${g.list.length}</span></p>`;
+    const open = g.list.some((i) => i.path === activePath);
+    html += `<details class="sb-cat" data-cat="${slugify(g.title)}"${open ? " open" : ""}><summary><span class="sb-cat-ico">${catIcon[g.title] || ""}</span><span class="sb-cat-t">${g.title}</span><span class="sb-cat-n">${n}</span><svg class="sb-cat-chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></summary><div class="sb-cat-list">`;
     for (const it of g.list) {
       html +=
         it.status === "ready"
           ? link(it.path, it.name, it.badge === "New" ? '<em class="tag-new">New</em>' : "")
           : `<span class="sb-item soon" data-name="${esc(it.name.toLowerCase())}"><span>${esc(it.name)}</span><em>Soon</em></span>`;
     }
-    html += "</div>";
+    html += "</div></details>";
   }
   return html;
 }
