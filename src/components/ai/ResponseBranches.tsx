@@ -259,7 +259,7 @@ export function ResponseBranchesDemo() {
           </div>
           <div className="mt-2 flex flex-wrap items-center gap-1 border-t border-white/5 pt-2">
             <BranchPicker index={index} count={branches.length} onChange={go} />
-            <span className="mx-1 h-4 w-px bg-white/10" />
+            <span className="mx-1 hidden h-4 w-px bg-white/10 sm:block" />
             <ResponseActions text={live.replace(/\*\*/g, '')} onRegenerate={regenerate} regenerating={streaming} meta="Nova Pro · 1.4s" />
           </div>
         </div>

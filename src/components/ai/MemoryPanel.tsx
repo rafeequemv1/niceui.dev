@@ -106,7 +106,7 @@ export function MemoryPanel({ initial, incoming, onChange, className }: MemoryPa
         </button>
       </div>
 
-      <div className={cn('max-h-[360px] overflow-y-auto px-2 py-2 transition-all duration-500 [scrollbar-width:thin]', !enabled && 'pointer-events-none opacity-40 grayscale')}>
+      <div className={cn('max-h-[420px] overflow-y-auto px-2 py-2 transition-all duration-500 [scrollbar-width:thin]', !enabled && 'pointer-events-none opacity-40 grayscale')}>
         {GROUPS.map((g) => {
           const list = items.filter((m) => m.group === g);
           if (!list.length) return null;
