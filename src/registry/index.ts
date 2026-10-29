@@ -8,6 +8,9 @@ import { coreEntries } from './components-core';
 import { motionEntries } from './components-motion';
 import { blockEntries } from './blocks';
 import { footerEntries } from './footers';
+import { heroEntries } from './marketing-docs/heroes';
+import { showcaseEntries } from './marketing-docs/showcase';
+import { conversionEntries } from './marketing-docs/conversion';
 
 export const sections: Section[] = [
   { id: 'intro', title: 'Intro', entries: introEntries },
@@ -17,6 +20,7 @@ export const sections: Section[] = [
   { id: 'ai', title: 'AI Agents', entries: aiEntries },
   { id: 'components', title: 'Components', entries: [...coreEntries, ...motionEntries] },
   { id: 'blocks', title: 'Blocks', entries: blockEntries },
+  { id: 'marketing', title: 'Marketing', entries: [...heroEntries, ...showcaseEntries, ...conversionEntries] },
   { id: 'footers', title: 'Footers', entries: footerEntries },
 ];
 

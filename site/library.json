@@ -938,6 +938,204 @@
     ]
   },
   {
+    "id": "marketing",
+    "title": "Marketing",
+    "entries": [
+      {
+        "slug": "hero-aurora",
+        "name": "Hero — Aurora",
+        "description": "A slow, drifting aurora of sky, cyan and indigo light behind a serif-accented headline and an email capture with success state.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "hero-spotlight",
+        "name": "Hero — Spotlight",
+        "description": "A dark grid lit by a mouse-following spotlight, with a headline that resolves word by word from blur to sharp.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "hero-split-product",
+        "name": "Hero — Split Product",
+        "description": "Copy and social proof on the left; a 3D-tilting stack of floating product cards — chart, notification, metric — on the right.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "hero-beams",
+        "name": "Hero — Beams",
+        "description": "Light beams fall through a column grid behind an announcement badge, headline and a copyable install command.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "hero-orbit",
+        "name": "Hero — Orbit",
+        "description": "Integration icons orbit a glowing core on three concentric rings at different speeds, framing a centered headline.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "hero-rotating-word",
+        "name": "Hero — Rotating Word",
+        "description": "Editorial, oversized type where one word cycles with a blur-slide transition and a drawn underline.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "feature-grid",
+        "name": "Feature Grid — Spotlight",
+        "description": "Six features in a hairline grid. A cursor-following spotlight lights each cell and traces its border; icons tilt and glow on hover.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "bento-grid",
+        "name": "Bento Grid — Live",
+        "description": "An asymmetric bento where every tile is alive: streaming bars, a typing search, a rotating dot globe, cycling notifications, toggles and a shimmering code line.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "logo-marquee",
+        "name": "Logo Cloud — Marquee",
+        "description": "Two rows of wordmarks drifting in opposite directions with soft edge fades. Pauses on hover.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "logo-grid-cycle",
+        "name": "Logo Cloud — Cycling Grid",
+        "description": "A 2×4 logo grid where cells take turns swapping brands with a blur crossfade, beside a short heading.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "testimonial-wall",
+        "name": "Testimonials — Wall",
+        "description": "A masonry wall of quotes in three columns scrolling vertically at different speeds, with star ratings and faded edges.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "testimonial-marquee",
+        "name": "Testimonials — Marquee",
+        "description": "A large featured quote above two rows of compact quote cards gliding in opposite directions.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "testimonial-video",
+        "name": "Testimonials — Video",
+        "description": "Video testimonial cards with gradient posters and a pulsing play button that open an animated player with captions and progress.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "pricing-tiers",
+        "name": "Pricing Tiers",
+        "description": "Three pricing tiers with a sliding monthly/yearly toggle, rolling-digit prices and a featured plan wrapped in a rotating glow border.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "pricing-comparison",
+        "name": "Pricing Comparison",
+        "description": "A plan comparison table with a sticky plan header, grouped feature rows, a highlighted featured column and hover rows. Scrolls horizontally on mobile.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "pricing-usage",
+        "name": "Usage Pricing Slider",
+        "description": "Usage-based pricing: drag the slider and the price tweens smoothly, the plan badge switches and a cost breakdown updates live.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "faq-two-column",
+        "name": "FAQ — Two Column",
+        "description": "Heading and contact card on the left, an accordion on the right with smooth height animation and a plus-to-minus icon morph.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "cta-horizon",
+        "name": "CTA — Horizon",
+        "description": "A centred call to action over a faint grid, sitting on the signature glowing horizon arc.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "cta-grid-beams",
+        "name": "CTA — Grid Beams",
+        "description": "A newsletter CTA card with a drifting grid, light beams sweeping across and an email form with an animated success state.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "footer-mega",
+        "name": "Footer — Mega",
+        "description": "A full footer with newsletter, link columns, socials and a live status dot, ending in a giant outlined wordmark that fills with sky light as it scrolls into view.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "footer-minimal",
+        "name": "Footer — Minimal",
+        "description": "A single-row footer with logo, underline-on-hover links, socials and a soft sky hairline on top.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "changelog",
+        "name": "Changelog",
+        "description": "A release timeline whose dots light up as entries scroll into view, with tag chips, small visuals and New / Improved / Fixed filters.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "team-grid",
+        "name": "Team Grid",
+        "description": "Team cards with gradient portraits built from initials; hover slides up a bio and social links. Includes a “We’re hiring” card.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "blog-cards",
+        "name": "Blog Cards",
+        "description": "A featured post plus a card grid with generated gradient cover art, category chips and read time; covers zoom and arrows slide on hover.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      }
+    ]
+  },
+  {
     "id": "footers",
     "title": "Footers",
     "entries": [
