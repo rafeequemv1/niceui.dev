@@ -129,6 +129,27 @@
     }
   });
 
+  // ── embedded library previews: size the iframe to its content ─
+  $$("iframe[data-autosize]").forEach((frame) => {
+    const wrap = frame.parentElement;
+    const fit = () => {
+      try {
+        const doc = frame.contentDocument;
+        const h = Math.max(doc.documentElement.scrollHeight, doc.body ? doc.body.scrollHeight : 0);
+        if (h > 0) frame.style.height = h + "px";
+      } catch {}
+    };
+    frame.addEventListener("load", () => {
+      fit();
+      setTimeout(() => wrap.classList.add("ready"), 150);
+      try {
+        new ResizeObserver(fit).observe(frame.contentDocument.body);
+      } catch {}
+      let n = 0;
+      const t = setInterval(() => (fit(), ++n > 20 && clearInterval(t)), 250);
+    });
+  });
+
   // ── home filters ─────────────────────────────────────────
   $$("[data-filter]").forEach((chip) =>
     chip.addEventListener("click", () => {

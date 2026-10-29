@@ -22,6 +22,22 @@ function App() {
 
   const go = (to: string) => navigate(to);
 
+  // ?embed=1 — used by niceui.dev item pages, which supply their own header, breadcrumbs and sidebar.
+  if (new URLSearchParams(window.location.search).has('embed')) {
+    const leave = (to: string) => {
+      window.top!.location.href = '/library/#' + to;
+    };
+    return (
+      <div className="bg-ink-950">
+        {route.found ? (
+          <DocPage key={activePath} section={route.current.section} entry={route.current.entry} prev={null} next={null} onNavigate={leave} embed />
+        ) : (
+          <NotFoundPage onHome={() => leave('/intro/home')} />
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-ink-950">
       <header className="relative z-30 flex h-14 shrink-0 items-center justify-between border-b border-white/5 bg-ink-950/80 px-4 backdrop-blur-xl sm:px-6">

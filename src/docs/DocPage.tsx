@@ -10,9 +10,11 @@ type DocPageProps = {
   prev: Neighbor;
   next: Neighbor;
   onNavigate: (to: string) => void;
+  /** Embedded in niceui.dev pages: render only the demos and API reference. */
+  embed?: boolean;
 };
 
-export function DocPage({ section, entry, prev, next, onNavigate }: DocPageProps) {
+export function DocPage({ section, entry, prev, next, onNavigate, embed = false }: DocPageProps) {
   if (entry.page) {
     const Page = entry.page;
     return (
@@ -23,8 +25,8 @@ export function DocPage({ section, entry, prev, next, onNavigate }: DocPageProps
   }
 
   return (
-    <article key={entry.slug} className="mx-auto max-w-4xl px-4 pb-24 pt-10 sm:px-8 lg:pt-14">
-      <div className="animate-fade-up">
+    <article key={entry.slug} className={embed ? 'pb-2' : 'mx-auto max-w-4xl px-4 pb-24 pt-10 sm:px-8 lg:pt-14'}>
+      <div className={embed ? 'hidden' : 'animate-fade-up'}>
         <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.14em] text-brand-400">
           {section.title}
           {entry.badge && (
@@ -37,7 +39,7 @@ export function DocPage({ section, entry, prev, next, onNavigate }: DocPageProps
         <p className="mt-3 max-w-2xl text-base text-ink-400">{entry.description}</p>
       </div>
 
-      <div className="mt-10 space-y-12">
+      <div className={embed ? 'space-y-12' : 'mt-10 space-y-12'}>
         {entry.demos?.map((demo, i) => (
           <div key={i} className="animate-fade-up" style={{ animationDelay: `${80 + i * 60}ms` }}>
             <Preview demo={demo} />
@@ -73,7 +75,7 @@ export function DocPage({ section, entry, prev, next, onNavigate }: DocPageProps
         </section>
       )}
 
-      <nav className="mt-16 grid gap-3 border-t border-white/5 pt-8 sm:grid-cols-2">
+      <nav className={embed ? 'hidden' : 'mt-16 grid gap-3 border-t border-white/5 pt-8 sm:grid-cols-2'}>
         {prev ? (
           <button
             onClick={() => onNavigate(`/${prev.section.id}/${prev.entry.slug}`)}

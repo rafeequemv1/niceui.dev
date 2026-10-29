@@ -85,7 +85,11 @@ const libItems = (id, kind, category) =>
     status: "ready",
     lib: true,
     badge: e.badge,
-    path: "/library/#/" + id + "/" + e.slug,
+    sec: id,
+    slug: e.slug,
+    page: e.page,
+    thumb: "/assets/thumbs/" + id + "--" + e.slug + ".webp",
+    embed: "/library/?embed=1#/" + id + "/" + e.slug,
   }));
 const libGuides = libSection("intro").entries.filter((e) => e.slug !== "home");
 const libCount = library.filter((sec) => sec.id !== "intro").reduce((n, sec) => n + sec.entries.length, 0);
@@ -104,6 +108,24 @@ const navGroups = [
   { title: "Dashboards", list: libItems("examples", "dashboard", "Dashboards") },
   { title: "Templates", list: [...libItems("apps", "template", "App templates"), ...roadmap.filter((i) => i.kind === "template")] },
 ];
+const catDesc = {
+  Components: "Buttons, inputs, overlays, motion primitives and everything in between.",
+  "AI Agents": "Chat, streaming, tool calls, citations and agent activity — interfaces for AI products.",
+  Blocks: "Composed, production-ready sections: search, uploads, wallets, menus, footers and more.",
+  "Landing Pages": "Complete, animated landing pages you can ship as-is.",
+  Dashboards: "Full dashboard templates for analytics, finance, commerce and infrastructure.",
+  Templates: "Whole applications and starters.",
+};
+for (const g of navGroups) {
+  g.slug = slugify(g.title);
+  g.path = "/c/" + g.slug;
+  g.desc = catDesc[g.title] || "";
+  for (const it of g.list) {
+    it.group = g;
+    if (it.lib) it.path = g.path + "/" + it.slug;
+  }
+}
+const groupOf = (it) => navGroups.find((g) => g.list.includes(it));
 const totalReady = navGroups.reduce((n, g) => n + g.list.filter((i) => i.status === "ready").length, 0);
 
 // ─── assets ──────────────────────────────────────────────────────────
@@ -113,6 +135,7 @@ const CSS = hashed("styles.css");
 const JS = hashed("app.js");
 cpSync("assets/favicon.svg", join(OUT, "favicon.svg"));
 if (existsSync("assets/og.png")) cpSync("assets/og.png", join(OUT, "og.png"));
+if (existsSync("assets/thumbs")) cpSync("assets/thumbs", join(OUT, "assets/thumbs"), { recursive: true });
 
 // ─── layout ──────────────────────────────────────────────────────────
 const icon = {
@@ -145,18 +168,13 @@ function sidebar(activePath) {
   const link = (href, label, extra = "") =>
     `<a href="${href}" class="sb-item${href === activePath ? " on" : ""}"${href === activePath ? ' aria-current="page"' : ""}><span>${esc(label)}</span>${extra}</a>`;
   let html = `<div class="sb-group"><p class="sb-label">Getting started</p>${link("/", "Introduction")}${link("/docs/installation", "Installation")}${link("/#mcp", "Connect your agent", '<em class="tag-ai">MCP</em>')}${link("/llms.txt", "llms.txt", '<em class="tag-ai">AI</em>')}${libGuides.map((e) => link("/library/#/intro/" + e.slug, e.name === "OpenUI" ? "Design system" : e.name)).join("")}</div>`;
+  html += `<div class="sb-group sb-cats"><p class="sb-label">Library</p>`;
   for (const g of navGroups) {
     const n = g.list.filter((i) => i.status === "ready").length;
-    const open = g.list.some((i) => i.path === activePath);
-    html += `<details class="sb-cat" data-cat="${slugify(g.title)}"${open ? " open" : ""}><summary><span class="sb-cat-ico">${catIcon[g.title] || ""}</span><span class="sb-cat-t">${g.title}</span><span class="sb-cat-n">${n}</span><svg class="sb-cat-chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></summary><div class="sb-cat-list">`;
-    for (const it of g.list) {
-      html +=
-        it.status === "ready"
-          ? link(it.path, it.name, it.badge === "New" ? '<em class="tag-new">New</em>' : "")
-          : `<span class="sb-item soon" data-name="${esc(it.name.toLowerCase())}"><span>${esc(it.name)}</span><em>Soon</em></span>`;
-    }
-    html += "</div></details>";
+    const on = activePath === g.path || g.list.some((i) => i.path === activePath);
+    html += `<a href="${g.path}" class="sb-cat-link${on ? " on" : ""}"${activePath === g.path ? ' aria-current="page"' : ""}><span class="sb-cat-ico">${catIcon[g.title] || ""}</span><span class="sb-cat-t">${g.title}</span><span class="sb-cat-n">${n}</span></a>`;
   }
+  html += "</div>";
   return html;
 }
 
@@ -341,7 +359,7 @@ const MCP_PROMPTS = ["Add the @niceui/hero-horizon block to my landing page", "I
         .filter((g) => g.list.some((i) => i.lib))
         .map((g) => {
           const live = g.list.filter((i) => i.status === "ready");
-          return `<a class="ex-tile" href="${live[0].path}"><div class="ex-top"><b>${g.title}</b><span>${live.length}</span></div><p>${live.slice(0, 5).map((i) => esc(i.name)).join(" · ")}</p><span class="ex-go">Browse ${icon.arrow}</span></a>`;
+          return `<a class="ex-tile" href="${g.path}"><div class="ex-top"><b>${g.title}</b><span>${live.length}</span></div><p>${live.slice(0, 5).map((i) => esc(i.name)).join(" · ")}</p><span class="ex-go">Browse ${icon.arrow}</span></a>`;
         })
         .join("")}
       </div>
@@ -414,7 +432,7 @@ ${it.usage.trim()}
 
   const main = `
     <article class="doc">
-      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Library</a><span>/</span><span>${section}</span><span>/</span><span aria-current="page">${esc(it.name)}</span></nav>
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Library</a><span>/</span><a href="${groupOf(it).path}">${groupOf(it).title}</a><span>/</span><span aria-current="page">${esc(it.name)}</span></nav>
       <header class="doc-head">
         <h1>${esc(it.name)}</h1>
         <p class="lede">${esc(it.description)}</p>
@@ -489,7 +507,7 @@ ${it.usage.trim()}
         "@type": "BreadcrumbList",
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Library", item: site.url },
-          { "@type": "ListItem", position: 2, name: section, item: site.url + "/#library" },
+          { "@type": "ListItem", position: 2, name: groupOf(it).title, item: site.url + groupOf(it).path },
           { "@type": "ListItem", position: 3, name: it.name, item: url },
         ],
       },
@@ -535,6 +553,80 @@ ${it.usage.trim()}
     )
   );
 });
+
+// ─── category pages + library item pages ────────────────────────────
+const thumbCard = (it) => `
+        <a class="card" href="${it.path}" data-kind="${it.kind}">
+          <div class="card-stage card-thumb"><img src="${it.thumb}" alt="${esc(it.name)} preview" loading="lazy" decoding="async" width="640" height="400" /></div>
+          <div class="card-meta"><span class="card-name">${esc(it.name)}${it.badge === "New" ? ' <em class="tag-new">New</em>' : ""}</span><span class="card-cat">${esc(it.category)}</span></div>
+        </a>`;
+const anyCard = (it) => (it.lib ? thumbCard(it) : card({ ...it, wide: false, thumb: it.thumb && it.thumb < 0.6 ? 0.36 : it.thumb }));
+
+for (const g of navGroups) {
+  const live = g.list.filter((i) => i.status === "ready");
+  const later = g.list.filter((i) => i.status !== "ready");
+  const main = `
+    <section class="doc cat-page">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Library</a><span>/</span><span aria-current="page">${g.title}</span></nav>
+      <header class="doc-head cat-head">
+        <div class="cat-title"><span class="sb-cat-ico big">${catIcon[g.title] || ""}</span><h1>${g.title}</h1><span class="cat-count">${live.length}</span></div>
+        <p class="lede">${esc(g.desc)}</p>
+      </header>
+      <div class="cards">${live.map(anyCard).join("")}
+      </div>
+      ${later.length ? `<div class="sec-title cat-soon"><h2>Coming <em>soon</em></h2></div><div class="soon-grid">${later.map(soonCard).join("")}</div>` : ""}
+    </section>`;
+  const ld = {
+    "@context": "https://schema.org",
+    "@graph": [
+      org,
+      website,
+      {
+        "@type": "CollectionPage",
+        name: g.title + " — NiceUI",
+        url: site.url + g.path,
+        description: g.desc,
+        mainEntity: { "@type": "ItemList", numberOfItems: live.length, itemListElement: live.map((it, i) => ({ "@type": "ListItem", position: i + 1, name: it.name, url: site.url + it.path })) },
+      },
+      { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Library", item: site.url }, { "@type": "ListItem", position: 2, name: g.title, item: site.url + g.path }] },
+    ],
+  };
+  write(g.path.slice(1) + ".html", layout({ title: `${g.title} — ${live.length} free React & Tailwind ${g.title.toLowerCase()} | NiceUI`, description: g.desc + " Free and open source.", path: g.path, main, ld }));
+
+  live.forEach((it, idx) => {
+    if (!it.lib) return;
+    const prev = live[idx - 1];
+    const next = live[idx + 1];
+    const itemMain = `
+    <article class="doc">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Library</a><span>/</span><a href="${g.path}">${g.title}</a><span>/</span><span aria-current="page">${esc(it.name)}</span></nav>
+      <header class="doc-head">
+        <h1>${esc(it.name)}${it.badge === "New" ? ' <em class="tag-new big">New</em>' : ""}</h1>
+        <p class="lede">${esc(it.description)}</p>
+        <div class="doc-tags"><span>React</span><span>Tailwind CSS</span><span>TypeScript</span><span>${esc(g.title)}</span><span class="t-sky">MIT · Free</span></div>
+      </header>
+      <div class="embed-frame${it.page ? " embed-page" : ""}">
+        <div class="embed-loading" aria-hidden="true"><img src="${it.thumb}" alt="" /></div>
+        <iframe src="${it.embed}" title="${esc(it.name)} live preview" loading="lazy" data-autosize></iframe>
+      </div>
+      <nav class="pager" aria-label="Pagination">
+        ${prev ? `<a href="${prev.path}" class="pg"><span class="dim">Previous</span><b>${esc(prev.name)}</b></a>` : "<span></span>"}
+        ${next ? `<a href="${next.path}" class="pg pg-next"><span class="dim">Next</span><b>${esc(next.name)}</b></a>` : "<span></span>"}
+      </nav>
+    </article>`;
+    const url = site.url + it.path;
+    const itemLd = {
+      "@context": "https://schema.org",
+      "@graph": [
+        org,
+        website,
+        { "@type": "SoftwareSourceCode", name: it.name + " — React & Tailwind", description: it.description, url, programmingLanguage: "TypeScript", runtimePlatform: "React", license: "https://opensource.org/licenses/MIT", isAccessibleForFree: true, image: site.url + it.thumb },
+        { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Library", item: site.url }, { "@type": "ListItem", position: 2, name: g.title, item: site.url + g.path }, { "@type": "ListItem", position: 3, name: it.name, item: url }] },
+      ],
+    };
+    write(it.path.slice(1) + ".html", layout({ title: `${it.name} — Free React & Tailwind ${g.title.replace(/s$/, "")} | NiceUI`, description: it.description + " Free, MIT licensed.", path: it.path, main: itemMain, ld: itemLd }));
+  });
+}
 
 // ─── installation docs ───────────────────────────────────────────────
 {
@@ -678,8 +770,9 @@ write(
 const urls = [
   { loc: site.url + "/", priority: "1.0", freq: "weekly" },
   { loc: site.url + "/docs/installation", priority: "0.7", freq: "monthly" },
-  { loc: site.url + "/library/", priority: "0.9", freq: "weekly" },
   ...readyOrder.map((it) => ({ loc: site.url + it.path, priority: "0.8", freq: "monthly" })),
+  ...navGroups.map((g) => ({ loc: site.url + g.path, priority: "0.9", freq: "weekly" })),
+  ...navGroups.flatMap((g) => g.list.filter((i) => i.lib).map((it) => ({ loc: site.url + it.path, priority: "0.7", freq: "monthly" }))),
 ];
 write(
   "sitemap.xml",
