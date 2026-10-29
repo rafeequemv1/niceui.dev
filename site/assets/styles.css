@@ -242,6 +242,75 @@ a.sb-item:hover { color: var(--text); background: rgba(255,255,255,.035); }
 .embed-frame.ready .embed-loading { display: none; }
 .embed-page { border-radius: 16px; }
 
+
+/* ── preview controls ── */
+.pv-ctrls { display: flex; align-items: center; gap: 6px; margin-right: 4px; }
+.pv-ctrl { display: inline-flex; gap: 2px; padding: 2px; border: 1px solid var(--line); border-radius: 9px; }
+.pv-ctrl button { width: 28px; height: 26px; display: grid; place-items: center; border-radius: 7px; color: var(--dim); transition: color .2s, background .2s; }
+.pv-ctrl button:hover { color: var(--text); }
+.pv-ctrl button.on { color: var(--text); background: rgba(255,255,255,.08); }
+.pv-ctrl button.on[data-pv-theme="light"] { color: #fde68a; }
+.pv-vp { width: 100%; max-width: var(--pv-w, 100%); margin: 0 auto; display: grid; place-items: center; min-height: inherit; transition: max-width .45s var(--ease); }
+.stage-block .pv-vp { display: block; }
+.pv:not([data-vp="desktop"])[data-vp] .pv-vp { padding: 28px 12px; border-left: 1px dashed var(--line-2); border-right: 1px dashed var(--line-2); }
+.pv-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.pv-bar-t { font-family: var(--mono); font-size: 11.5px; color: var(--dim); }
+.pv-lib .embed-frame iframe { max-width: var(--pv-w, 100%); margin: 0 auto; transition: max-width .45s var(--ease), opacity .4s; }
+.pv-lib[data-vp]:not([data-vp="desktop"]) .embed-frame { background: radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px) 0 0 / 18px 18px; border: 1px solid var(--line); border-radius: 16px; padding: 18px 0; }
+.pv-lib.pv-light .embed-frame { background-color: #f4f5f7; border-radius: 16px; }
+
+/* light preview for site components */
+.pv-light .stage { background: radial-gradient(rgba(0,0,0,.08) 1px, transparent 1px) 0 0 / 18px 18px, #f6f7f9; color: #0b0c0e; }
+.pv-light .stage-block { background: #fff; }
+.pv-light .x-btn-outline { border-color: rgba(0,0,0,.15); color: #0b0c0e; }
+.pv-light .x-btn-outline:hover { background: rgba(0,0,0,.04); }
+.pv-light .x-btn-ghost { color: #52525b; }
+.pv-light .x-btn-ghost:hover { color: #0b0c0e; background: rgba(0,0,0,.05); }
+.pv-light .x-btn-primary { background: #0ea5e9; color: #fff; box-shadow: 0 8px 24px -10px rgba(14,165,233,.7); }
+.pv-light .x-shimmer { background: #fff; color: #0369a1; border-color: rgba(14,165,233,.35); }
+.pv-light .x-badge-sky { color: #0369a1; background: rgba(14,165,233,.1); border-color: rgba(14,165,233,.3); }
+.pv-light .x-badge-neutral { background: rgba(0,0,0,.06); color: #3f3f46; }
+.pv-light .x-badge-outline { border-color: rgba(0,0,0,.15); color: #52525b; }
+.pv-light .x-field input { background: #fff; border-color: rgba(0,0,0,.15); color: #0b0c0e; }
+.pv-light .x-field input:focus + label, .pv-light .x-field input:not(:placeholder-shown) + label { color: #0284c7; }
+.pv-light .x-opts label { border-color: rgba(0,0,0,.08); }
+.pv-light .x-sw { background: #e4e4e7; box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }
+.pv-light .x-sw::after { background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.25); }
+.pv-light .x-sw:checked { background: #0ea5e9; }
+.pv-light .x-sw:checked::after { background: #fff; }
+.pv-light .x-seg { border-color: rgba(0,0,0,.12); }
+.pv-light .x-seg button { color: #71717a; }
+.pv-light .x-seg button.on { color: #fff; }
+.pv-light .x-seg-ind { background: #0ea5e9; }
+.pv-light .x-range-top, .pv-light .x-range-top .x-mono { color: #3f3f46; }
+.pv-light .x-range input { background: linear-gradient(90deg, #0ea5e9 var(--p, 64%), #e4e4e7 var(--p, 64%)); }
+.pv-light .x-range input::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgba(14,165,233,.2), 0 1px 3px rgba(0,0,0,.3); }
+.pv-light .x-stat { background: #fff; border-color: rgba(0,0,0,.08); box-shadow: 0 10px 30px -18px rgba(0,0,0,.3); }
+.pv-light .x-stat-top { color: #71717a; }
+.pv-light .x-stat-top em { color: #0284c7; }
+.pv-light .x-pal { background: #fff; border-color: rgba(0,0,0,.1); box-shadow: 0 30px 60px -30px rgba(0,0,0,.3); }
+.pv-light .x-pal-in { border-color: rgba(0,0,0,.08); }
+.pv-light .x-pal-in input { color: #0b0c0e; }
+.pv-light .x-pal li { color: #52525b; }
+.pv-light .x-pal li.on { background: rgba(14,165,233,.1); color: #0b0c0e; }
+.pv-light .x-pal li.on em { color: #0284c7; }
+.pv-light .x-pal kbd { border-color: rgba(0,0,0,.15); color: #71717a; }
+.pv-light .x-avs i { background: #f4f4f5; border-color: #fff; color: #52525b; }
+.pv-light .x-avs i:first-child { background: #0ea5e9; color: #fff; }
+.pv-light .x-avs .more { color: #0284c7; }
+.pv-light .x-marquee-track span { background: #fff; border-color: rgba(0,0,0,.1); color: #27272a; }
+.pv-light .x-hero, .pv-light .x-pricing { background: #fff; color: #0b0c0e; }
+.pv-light .x-hero-k { border-color: rgba(0,0,0,.1); color: #52525b; }
+.pv-light .x-hero-l, .pv-light .x-pr-card p { color: #52525b; }
+.pv-light .x-hero-arc { background: #fff; border-top-color: #38bdf8; box-shadow: 0 -1px 40px rgba(14,165,233,.35); }
+.pv-light .x-hero em, .pv-light .x-pricing em { color: #0284c7; }
+.pv-light .x-pr-toggle { border-color: rgba(0,0,0,.12); }
+.pv-light .x-pr-toggle button { color: #71717a; }
+.pv-light .x-pr-toggle button.on { background: #0ea5e9; color: #fff; }
+.pv-light .x-pr-card { border-color: rgba(0,0,0,.1); }
+.pv-light .x-pr-card.feat { background: #f0f9ff; border-color: rgba(14,165,233,.45); }
+.pv-light .x-pr-card ul { border-color: rgba(0,0,0,.08); color: #3f3f46; }
+
 /* ── footer ──────────────────────────────────────────────── */
 .foot { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; margin-top: 96px; padding: 28px 0 36px; border-top: 1px solid var(--line); font-size: 13px; }
 .foot-brand { display: flex; align-items: center; gap: 10px; font-weight: 500; }
@@ -476,6 +545,8 @@ code.inline { font-size: 12.5px; padding: 2px 6px; border-radius: 6px; backgroun
   .card.wide { grid-column: auto; }
   .soon-grid { grid-template-columns: 1fr 1fr; }
   .frame-actions .act span { display: none; }
+  .frame-bar { flex-wrap: wrap; }
+  .pv-ctrl button { width: 26px; }
   .stage { min-height: 320px; padding: 36px 16px; }
   .pager { grid-template-columns: 1fr; }
   .ex-grid { grid-template-columns: 1fr; }

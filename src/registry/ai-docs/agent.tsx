@@ -1,4 +1,5 @@
 import type { DocEntry } from '@/docs/types';
+import { AgentTerminalDemo, DiffSuggestionDemo, McpToolPickerDemo, ParallelAgentsDemo, FeatureTabsDemo, NetworkPulseDemo } from '@/components/ai/AgentWorkflow';
 import { TodoListDemo } from '@/components/ai/TodoList';
 import { ToolApprovalDemo } from '@/components/ai/ToolApproval';
 import { FileDiffDemo } from '@/components/ai/FileDiff';
@@ -182,5 +183,111 @@ export function Answer({ sources }) {
       { name: 'onHover', type: '(id: number | null) => void', description: 'Sync hover state with the source list.' },
       { name: 'sources', type: 'Source[]', description: 'SourceList only: sources to render as cards.' },
     ],
+  },
+  {
+    slug: 'agent-terminal',
+    name: 'Agent Terminal',
+    description: 'A terminal that types out an agent run log line by line when it scrolls into view, with replay.',
+    badge: 'New',
+    demos: [{ title: 'Run log', component: AgentTerminalDemo, height: 360, code: `import { AgentTerminal } from '@/components/ai/AgentWorkflow';
+
+<AgentTerminal
+  command="northstar run NS-482"
+  lines={['Reading ticket …', 'Planning 3 components', 'Writing PricingCard.tsx', '✓ Opened PR #318']}
+/>` }],
+    props: [
+      { name: 'command', type: 'string', description: 'The command shown on the first line.' },
+      { name: 'lines', type: 'string[]', description: 'Output lines, typed in order. The last line is highlighted.' },
+      { name: 'interval', type: 'number', default: '650', description: 'Milliseconds between lines.' },
+      { name: 'label', type: 'string', default: "'agent'", description: 'Badge text in the title bar.' },
+    ],
+  },
+  {
+    slug: 'diff-suggestion',
+    name: 'Diff Suggestion',
+    description: 'An inline review suggestion: removed lines swap for added lines with one Apply click, and back with Undo.',
+    badge: 'New',
+    demos: [{ title: 'Review suggestion', component: DiffSuggestionDemo, height: 340, code: `import { DiffSuggestion } from '@/components/ai/AgentWorkflow';
+
+<DiffSuggestion
+  file="useCart.ts"
+  head="export function useCart() {"
+  tail="}"
+  before={['useEffect(() => save(items))']}
+  after={['useEffect(() => save(items), [items])']}
+  issue="Missing dependency array"
+/>` }],
+    props: [
+      { name: 'file', type: 'string', description: 'File name shown in the header.' },
+      { name: 'before / after', type: 'string[]', description: 'Lines removed and added by the suggestion.' },
+      { name: 'head / tail', type: 'string', description: 'Optional context lines around the change.' },
+      { name: 'issue', type: 'string', description: 'Why the change is suggested.' },
+      { name: 'onApply', type: '(applied: boolean) => void', description: 'Called when the suggestion is applied or undone.' },
+    ],
+  },
+  {
+    slug: 'mcp-tool-picker',
+    name: 'MCP Tool Picker',
+    description: 'A searchable list of MCP servers with one-click install toggles and a live installed count.',
+    badge: 'New',
+    demos: [{ title: 'Server picker', component: McpToolPickerDemo, height: 380, code: `import { McpToolPicker } from '@/components/ai/AgentWorkflow';
+
+<McpToolPicker
+  tools={[
+    { name: 'Figma', installed: true, hint: 'Design files' },
+    { name: 'GitHub', installed: true },
+    { name: 'Linear' },
+  ]}
+  onChange={(tools) => save(tools)}
+/>` }],
+    props: [
+      { name: 'tools', type: 'McpTool[]', description: '{ name, installed?, hint? } for each server.' },
+      { name: 'placeholder', type: 'string', default: "'Search MCP servers…'", description: 'Search input placeholder.' },
+      { name: 'onChange', type: '(tools: McpTool[]) => void', description: 'Called after a server is installed or removed.' },
+    ],
+  },
+  {
+    slug: 'parallel-agents',
+    name: 'Parallel Agents',
+    description: 'Agents on a shared timeline that slide in and fill their progress bars as they scroll into view.',
+    badge: 'New',
+    demos: [{ title: 'Parallel run', component: ParallelAgentsDemo, height: 380, code: `import { ParallelAgents } from '@/components/ai/AgentWorkflow';
+
+<ParallelAgents
+  agents={[
+    { who: 'designer@team', task: 'Drafting variants', progress: 82, tokens: '18k' },
+    { who: 'builder@team', task: 'Writing components', progress: 54, tokens: '31k' },
+  ]}
+/>` }],
+    props: [{ name: 'agents', type: 'AgentRun[]', description: '{ who, task, progress (0–100), tokens? } per agent.' }],
+  },
+  {
+    slug: 'feature-tabs',
+    name: 'Auto Feature Tabs',
+    description: 'Auto-advancing feature tabs with a glowing progress underline; each tab swaps in its own live content.',
+    badge: 'New',
+    demos: [{ title: 'Feature showcase', component: FeatureTabsDemo, height: 520, code: `import { FeatureTabs } from '@/components/ai/AgentWorkflow';
+
+<FeatureTabs
+  duration={6000}
+  tabs={[
+    { label: 'Generate', title: 'Components from a sentence', body: '…', content: <Preview /> },
+    { label: 'Review', title: 'Reviews that read the diff', body: '…', content: <Diff /> },
+  ]}
+/>` }],
+    props: [
+      { name: 'tabs', type: 'FeatureTab[]', description: '{ label, icon?, title, body, content } per tab.' },
+      { name: 'duration', type: 'number', default: '6000', description: 'Milliseconds before advancing to the next tab.' },
+    ],
+  },
+  {
+    slug: 'network-pulse',
+    name: 'Network Pulse',
+    description: 'A hub-and-spoke constellation with pulses travelling from the core to breathing nodes. Pure SVG.',
+    badge: 'New',
+    demos: [{ title: 'Constellation', component: NetworkPulseDemo, height: 400, code: `import { NetworkPulse } from '@/components/ai/AgentWorkflow';
+
+<NetworkPulse nodes={9} />` }],
+    props: [{ name: 'nodes', type: 'number', default: '9', description: 'Number of outer nodes.' }],
   },
 ];

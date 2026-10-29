@@ -164,6 +164,11 @@ const catIcon = {
   Templates: ico('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M9 10h12"/>'),
 };
 
+const pvControls = `<div class="pv-ctrls">
+  <div class="pv-ctrl" role="group" aria-label="Preview theme"><button data-pv-theme="dark" class="on" aria-label="Dark preview" title="Dark"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button><button data-pv-theme="light" aria-label="Light preview" title="Light"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button></div>
+  <div class="pv-ctrl" role="group" aria-label="Preview size"><button data-pv-vp="desktop" class="on" aria-label="Desktop" title="Desktop"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button><button data-pv-vp="tablet" aria-label="Tablet" title="Tablet · 768px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M11 18h2"/></svg></button><button data-pv-vp="mobile" aria-label="Mobile" title="Mobile · 375px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></button></div>
+</div>`;
+
 function sidebar(activePath) {
   const link = (href, label, extra = "") =>
     `<a href="${href}" class="sb-item${href === activePath ? " on" : ""}"${href === activePath ? ' aria-current="page"' : ""}><span>${esc(label)}</span>${extra}</a>`;
@@ -440,18 +445,19 @@ ${it.usage.trim()}
         <div class="doc-tags"><span>React</span><span>Tailwind CSS</span><span>TypeScript</span><span>${esc(it.category)}</span><span class="t-sky">MIT · Free</span></div>
       </header>
 
-      <div class="frame" data-tabs>
+      <div class="frame pv" data-tabs data-pv>
         <div class="frame-bar">
           <div class="tabs" role="tablist">
             <button role="tab" class="tab on" data-tab="preview" aria-selected="true">Preview</button>
             <button role="tab" class="tab" data-tab="code" aria-selected="false">Code</button>
           </div>
           <div class="frame-actions">
+            ${pvControls}
             <button class="act" data-copy-key="prompt" title="Copy a ready-made prompt for Claude, Cursor or v0">${icon.spark}<span>Copy prompt</span></button>
             <button class="act" data-copy-key="code">${icon.copy}<span>Copy code</span></button>
           </div>
         </div>
-        <div class="panel stage${it.kind === "block" ? " stage-block" : ""}" data-panel="preview">${it.preview}</div>
+        <div class="panel stage${it.kind === "block" ? " stage-block" : ""}" data-panel="preview"><div class="pv-vp">${it.preview}</div></div>
         <div class="panel" data-panel="code" hidden><div class="code-file">${it.target}</div><pre class="code"><code>${highlight(it.code.trim())}</code></pre></div>
       </div>
 
@@ -606,9 +612,12 @@ for (const g of navGroups) {
         <p class="lede">${esc(it.description)}</p>
         <div class="doc-tags"><span>React</span><span>Tailwind CSS</span><span>TypeScript</span><span>${esc(g.title)}</span><span class="t-sky">MIT · Free</span></div>
       </header>
+      <div class="pv pv-lib" data-pv>
+      <div class="pv-bar"><span class="pv-bar-t">Live preview</span>${pvControls}</div>
       <div class="embed-frame${it.page ? " embed-page" : ""}">
         <div class="embed-loading" aria-hidden="true"><img src="${it.thumb}" alt="" /></div>
         <iframe src="${it.embed}" title="${esc(it.name)} live preview" loading="lazy" data-autosize></iframe>
+      </div>
       </div>
       <nav class="pager" aria-label="Pagination">
         ${prev ? `<a href="${prev.path}" class="pg"><span class="dim">Previous</span><b>${esc(prev.name)}</b></a>` : "<span></span>"}

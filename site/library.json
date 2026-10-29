@@ -50,6 +50,14 @@
     "title": "Landing Pages",
     "entries": [
       {
+        "slug": "agent-platform-landing",
+        "name": "AI Agent Platform Landing",
+        "description": "A framed, grid-lined landing page for an AI dev product: auto-advancing feature tabs, live agent demos, constellation, marquee testimonials, pricing and FAQ.",
+        "badge": "New",
+        "page": true,
+        "demos": 0
+      },
+      {
         "slug": "saas-landing",
         "name": "SaaS Landing Page",
         "description": "A premium SaaS product landing page with hero, features, pricing, testimonials and dither footer.",
@@ -240,6 +248,54 @@
         "name": "Citations",
         "description": "Inline numbered citation chips with hover source previews and a linked source list.",
         "badge": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "agent-terminal",
+        "name": "Agent Terminal",
+        "description": "A terminal that types out an agent run log line by line when it scrolls into view, with replay.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "diff-suggestion",
+        "name": "Diff Suggestion",
+        "description": "An inline review suggestion: removed lines swap for added lines with one Apply click, and back with Undo.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "mcp-tool-picker",
+        "name": "MCP Tool Picker",
+        "description": "A searchable list of MCP servers with one-click install toggles and a live installed count.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "parallel-agents",
+        "name": "Parallel Agents",
+        "description": "Agents on a shared timeline that slide in and fill their progress bars as they scroll into view.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "feature-tabs",
+        "name": "Auto Feature Tabs",
+        "description": "Auto-advancing feature tabs with a glowing progress underline; each tab swaps in its own live content.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "network-pulse",
+        "name": "Network Pulse",
+        "description": "A hub-and-spoke constellation with pulses travelling from the core to breathing nodes. Pure SVG.",
+        "badge": "New",
         "page": false,
         "demos": 1
       },

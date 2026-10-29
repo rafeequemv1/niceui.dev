@@ -135,7 +135,8 @@
     const fit = () => {
       try {
         const doc = frame.contentDocument;
-        const h = Math.max(doc.documentElement.scrollHeight, doc.body ? doc.body.scrollHeight : 0);
+        const root = doc.getElementById("root");
+        const h = root ? root.getBoundingClientRect().height : doc.documentElement.scrollHeight;
         if (h > 0) frame.style.height = h + "px";
       } catch {}
     };
@@ -143,11 +144,52 @@
       fit();
       setTimeout(() => wrap.classList.add("ready"), 150);
       try {
-        new ResizeObserver(fit).observe(frame.contentDocument.body);
+        new ResizeObserver(fit).observe(frame.contentDocument.getElementById("root") || frame.contentDocument.body);
       } catch {}
       let n = 0;
       const t = setInterval(() => (fit(), ++n > 20 && clearInterval(t)), 250);
     });
+  });
+
+  // ── preview controls: light/dark canvas + viewport width ─
+  const VP = { desktop: "100%", tablet: "768px", mobile: "375px" };
+  const LIGHT_CSS =
+    "html.pv-light,html.pv-light body,html.pv-light #root>div{background:#f4f5f7!important}" +
+    "html.pv-light .dot-bg{background-color:#f4f5f7!important;background-image:radial-gradient(rgba(0,0,0,.09) 1px,transparent 1px)!important}" +
+    "html.pv-light .space-y-3>div:first-child>h3,html.pv-light article>section>h2{color:#18181b!important}" +
+    "html.pv-light .space-y-3>div:first-child>p{color:#52525b!important}" +
+    "html.pv-light .shadow-card{box-shadow:0 0 0 1px rgba(0,0,0,.08),0 8px 24px -12px rgba(0,0,0,.18)!important}";
+  const frameTheme = (frame, light) => {
+    try {
+      const doc = frame.contentDocument;
+      if (!doc.getElementById("pv-light-css")) {
+        const st = doc.createElement("style");
+        st.id = "pv-light-css";
+        st.textContent = LIGHT_CSS;
+        doc.head.appendChild(st);
+      }
+      doc.documentElement.classList.toggle("pv-light", light);
+    } catch {}
+  };
+  $$("[data-pv]").forEach((root) => {
+    const frame = $("iframe", root);
+    let light = false;
+    $$("[data-pv-theme]", root).forEach((b) =>
+      b.addEventListener("click", () => {
+        light = b.dataset.pvTheme === "light";
+        $$("[data-pv-theme]", root).forEach((x) => x.classList.toggle("on", x === b));
+        root.classList.toggle("pv-light", light);
+        if (frame) frameTheme(frame, light);
+      })
+    );
+    $$("[data-pv-vp]", root).forEach((b) =>
+      b.addEventListener("click", () => {
+        $$("[data-pv-vp]", root).forEach((x) => x.classList.toggle("on", x === b));
+        root.dataset.vp = b.dataset.pvVp;
+        root.style.setProperty("--pv-w", VP[b.dataset.pvVp]);
+      })
+    );
+    frame?.addEventListener("load", () => frameTheme(frame, light));
   });
 
   // ── home filters ─────────────────────────────────────────

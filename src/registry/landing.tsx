@@ -5,8 +5,16 @@ import { LandingPageAurelia } from '@/pages/landing/LandingPageAurelia';
 import { LandingPageLattice } from '@/pages/landing/LandingPageLattice';
 import { LandingPageSaaS } from '@/pages/landing/LandingPageSaaS';
 import { LandingPageStudio } from '@/pages/landing/LandingPageStudio';
+import { LandingPageNorthstar } from '@/pages/landing/LandingPageNorthstar';
 
 export const landingEntries: DocEntry[] = [
+  {
+    slug: 'agent-platform-landing',
+    name: 'AI Agent Platform Landing',
+    description: 'A framed, grid-lined landing page for an AI dev product: auto-advancing feature tabs, live agent demos, constellation, marquee testimonials, pricing and FAQ.',
+    badge: 'New',
+    page: LandingPageNorthstar,
+  },
   {
     slug: 'saas-landing',
     name: 'SaaS Landing Page',
