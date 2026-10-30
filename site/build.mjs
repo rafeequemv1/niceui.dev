@@ -128,9 +128,17 @@ const aiItems = libItems("ai", "ai").sort(byName);
 const aiSections = groupSections(aiItems, AI_GROUPS, "AI products");
 const crmItems = libItems("crm", "crm").sort(byName);
 const crmSections = groupSections(crmItems, CRM_GROUPS, "CRM apps");
+const GALLERY_GROUPS = [
+  { id: "3d", title: "3D carousels", blurb: "Coverflow, rings, card stacks, parallax sliders and tilting cards.", slugs: ["coverflow-carousel", "ring-carousel", "stack-carousel", "parallax-carousel", "tilt-gallery", "gallery-wall"] },
+  { id: "grids", title: "Grids & viewers", blurb: "Masonry, bento, lightbox, filmstrip and before/after viewers.", slugs: ["masonry-gallery", "bento-gallery", "lightbox", "filmstrip-viewer", "before-after"] },
+  { id: "motion", title: "Motion & scroll", blurb: "Marquees, expanding panels, scroll stacks and hover reveals.", slugs: ["marquee-gallery", "expanding-panels", "scroll-stack-gallery", "hover-reveal-list"] },
+];
+const galleryItems = libItems("gallery", "gallery").sort(byName);
+const gallerySections = groupSections(galleryItems, GALLERY_GROUPS, "image galleries");
 const navGroups = [
   { title: "AI Agents", list: aiSections.flatMap((sub) => sub.items) },
   { title: "CRM", list: crmSections.flatMap((sub) => sub.items) },
+  { title: "Gallery", list: gallerySections.flatMap((sub) => sub.items) },
   { title: "Components", list: dedupe([...ready.filter((i) => i.kind === "component"), ...libItems("components", "component")]).sort(byName).concat(roadmap.filter((i) => i.kind === "component").sort(byName)) },
   { title: "Blocks", list: dedupe([...ready.filter((i) => i.kind === "block"), ...libItems("blocks", "block"), ...libItems("footers", "block", "Footers")]).sort(byName).concat(roadmap.filter((i) => i.kind === "block").sort(byName)) },
   { title: "Marketing", list: libItems("marketing", "marketing") },
@@ -141,6 +149,7 @@ const navGroups = [
 const catDesc = {
   Components: "Buttons, inputs, overlays, motion primitives and everything in between.",
   "AI Agents": "Every kind of AI agent interface in one place: chat, reasoning, tool calls and approvals, browser and research agents, traces, workflows, memory and voice.",
+  Gallery: "Premium image galleries and carousels: 3D coverflow, rings and card stacks, masonry, bento, lightbox, filmstrips, before/after sliders and scroll-driven motion.",
   CRM: "Everything a modern CRM needs: record tables, filters and views, pipeline boards, deal cards, profiles, activity timelines, tasks, email and outreach, plus a complete CRM app template.",
   Blocks: "Composed, production-ready sections: search, uploads, wallets, menus, footers and more.",
   Marketing: "Heroes, feature grids, bento, logo clouds, testimonials, pricing, FAQ, CTAs, footers, changelog, team and blog — every section a marketing site needs.",
@@ -188,6 +197,7 @@ const mark =
 
 const ico = (d) => `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const catIcon = {
+  Gallery: ico('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/>'),
   CRM: ico('<path d="M16 20v-1.5a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V20"/><circle cx="9" cy="7.5" r="3.5"/><path d="M22 20v-1.5a4 4 0 0 0-3-3.87"/><path d="M16 4.13a4 4 0 0 1 0 7.75"/>'),
   Components: ico('<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>'),
   "AI Agents": ico('<path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>'),
@@ -655,7 +665,7 @@ for (const g of navGroups) {
         <div class="cat-title"><span class="sb-cat-ico big">${catIcon[g.title] || ""}</span><h1>${g.title}</h1><span class="cat-count">${live.length}</span></div>
         <p class="lede">${esc(g.desc)}</p>
       </header>
-      ${g.title === "AI Agents" ? aiCategoryBody() : g.title === "CRM" ? crmFeature() + groupedBody(crmSections, "crm", "CRM") : `<div class="cards">${live.map(anyCard).join("")}
+      ${g.title === "AI Agents" ? aiCategoryBody() : g.title === "CRM" ? crmFeature() + groupedBody(crmSections, "crm", "CRM") : g.title === "Gallery" ? groupedBody(gallerySections, "gal", "Gallery") : `<div class="cards">${live.map(anyCard).join("")}
       </div>`}
       ${later.length ? `<div class="sec-title cat-soon"><h2>Coming <em>soon</em></h2></div><div class="soon-grid">${later.map(soonCard).join("")}</div>` : ""}
     </section>`;
@@ -674,7 +684,7 @@ for (const g of navGroups) {
       { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Library", item: site.url }, { "@type": "ListItem", position: 2, name: g.title, item: site.url + g.path }] },
     ],
   };
-  const catTitle = g.title === "AI Agents" ? `AI agent UI components — ${live.length} free React & Tailwind interfaces | NiceUI` : g.title === "CRM" ? `CRM UI components — ${live.length} free React & Tailwind blocks and a full CRM template | NiceUI` : `${g.title} — ${live.length} free React & Tailwind ${g.title.toLowerCase()} | NiceUI`;
+  const catTitle = g.title === "AI Agents" ? `AI agent UI components — ${live.length} free React & Tailwind interfaces | NiceUI` : g.title === "Gallery" ? `Image gallery & 3D carousel components — ${live.length} free React & Tailwind | NiceUI` : g.title === "CRM" ? `CRM UI components — ${live.length} free React & Tailwind blocks and a full CRM template | NiceUI` : `${g.title} — ${live.length} free React & Tailwind ${g.title.toLowerCase()} | NiceUI`;
   write(g.path.slice(1) + ".html", layout({ title: catTitle, description: g.desc + " Free and open source.", path: g.path, main, ld }));
 
   live.forEach((it, idx) => {
