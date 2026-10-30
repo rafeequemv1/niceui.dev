@@ -172,7 +172,7 @@ export function DashboardView() {
   const W = 560;
   const H = 150;
   const max = Math.max(...REVENUE) * 1.1;
-  const pts = REVENUE.map((v, i) => [(i / (REVENUE.length - 1)) * W, H - (v / max) * H] as const);
+  const pts = REVENUE.map((v, i) => [16 + (i / (REVENUE.length - 1)) * (W - 32), H - (v / max) * H] as const);
   const line = pts.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
 
   const kpis = [

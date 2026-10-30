@@ -1,7 +1,9 @@
 import type { DocEntry } from '@/docs/types';
 import { AssistantApp } from '@/pages/apps/assistant/AssistantApp';
+import { crmTemplateEntries } from './crm-template';
 
 export const appEntries: DocEntry[] = [
+  ...crmTemplateEntries,
   {
     slug: 'ai-assistant',
     name: 'AI Chat Assistant',

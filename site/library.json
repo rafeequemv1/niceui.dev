@@ -120,6 +120,14 @@
     "title": "App Templates",
     "entries": [
       {
+        "slug": "crm-app",
+        "name": "CRM App",
+        "description": "A complete CRM workspace with people and company tables, a deal pipeline, record pages with a timeline, tasks, notes, workflows, a dashboard and a command menu.",
+        "badge": "New",
+        "page": true,
+        "demos": 0
+      },
+      {
         "slug": "ai-assistant",
         "name": "AI Chat Assistant",
         "description": "A complete chat assistant app with streaming, reasoning, web search, artifacts, image and video generation previews.",

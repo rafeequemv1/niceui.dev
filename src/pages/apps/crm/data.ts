@@ -64,7 +64,7 @@ export type Person = {
 
 const P = (id: string, name: string, title: string, companyId: string, city: string, lifecycle: Lifecycle, intent: number, lastContact: string, owner: string, phone: string): Person => {
   const c = COMPANIES.find((x) => x.id === companyId)!;
-  const [first, last] = name.toLowerCase().split(' ');
+  const [first, last] = name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().split(' ');
   return { id, name, email: `${first}.${last}@${c.domain}`, phone, title, companyId, city, lifecycle, intent, lastContact, owner };
 };
 
