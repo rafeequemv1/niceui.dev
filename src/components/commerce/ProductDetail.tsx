@@ -56,7 +56,7 @@ export function ProductDetail({ product: p, onAdd, className }: ProductDetailPro
           onPointerLeave={() => setZoom(null)}
         >
           <div className="absolute inset-0 transition-transform duration-300 ease-out" style={{ transform: zoom ? 'scale(1.9)' : 'scale(1)', transformOrigin: zoom ? `${zoom.x}% ${zoom.y}%` : 'center' }}>
-            <Print key={shots[shot]} art={shots[shot]} frame={frame.hex} className="absolute inset-0 animate-fade-in" />
+            <Print key={shots[shot]} art={shots[shot]} frame={frame.hex} className="h-full w-full animate-fade-in" />
           </div>
           {p.badge && <span className="absolute left-3 top-3 rounded-full bg-rose-500 px-2 py-0.5 text-[10.5px] font-medium text-white">{p.badge}</span>}
           <span className="absolute bottom-3 right-3 rounded-full bg-black/50 px-2 py-0.5 font-mono text-[10px] text-white/80 backdrop-blur">Hover to zoom</span>

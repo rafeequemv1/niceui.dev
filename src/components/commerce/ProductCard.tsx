@@ -23,8 +23,12 @@ export function ProductCard({ product: p, onAdd, className }: ProductCardProps) 
     <article className={cn('group flex min-w-0 flex-col', className)}>
       <div className="relative overflow-hidden rounded-2xl bg-ink-900 shadow-card">
         <div className="relative aspect-[4/5]">
-          <Print art={p.art[0]} frame={frame.hex} className="absolute inset-0 transition-opacity duration-500 group-hover:opacity-0" />
-          <Print art={p.art[1]} frame={frame.hex} zoom={1.06} className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+          <div className="absolute inset-0 transition-opacity duration-500 group-hover:opacity-0">
+            <Print art={p.art[0]} frame={frame.hex} className="h-full w-full" />
+          </div>
+          <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+            <Print art={p.art[1]} frame={frame.hex} zoom={1.06} className="h-full w-full" />
+          </div>
         </div>
         {p.badge && (
           <span className={cn('absolute left-3 top-3 rounded-full px-2 py-0.5 text-[10.5px] font-medium', p.badge === 'Sale' ? 'bg-rose-500 text-white' : p.badge === 'New' ? 'bg-brand-400 text-ink-950' : 'bg-white/90 text-ink-950')}>
