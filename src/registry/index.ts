@@ -6,6 +6,7 @@ import { exampleEntries } from './examples';
 import { aiEntries } from './ai';
 import { crmEntries } from './crm';
 import { galleryEntries } from './gallery';
+import { effectEntries } from './effects';
 import { coreEntries } from './components-core';
 import { motionEntries } from './components-motion';
 import { blockEntries } from './blocks';
@@ -22,6 +23,7 @@ export const sections: Section[] = [
   { id: 'ai', title: 'AI Agents', entries: aiEntries },
   { id: 'crm', title: 'CRM', entries: crmEntries },
   { id: 'gallery', title: 'Gallery', entries: galleryEntries },
+  { id: 'effects', title: 'Effects', entries: effectEntries },
   { id: 'components', title: 'Components', entries: [...coreEntries, ...motionEntries] },
   { id: 'blocks', title: 'Blocks', entries: blockEntries },
   { id: 'marketing', title: 'Marketing', entries: [...heroEntries, ...showcaseEntries, ...conversionEntries] },

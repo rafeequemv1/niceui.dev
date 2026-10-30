@@ -906,6 +906,102 @@
     ]
   },
   {
+    "id": "effects",
+    "title": "Effects",
+    "entries": [
+      {
+        "slug": "aurora-background",
+        "name": "Aurora Background",
+        "description": "Slow, blurred gradient ribbons that drift behind a hero or section. Pure CSS.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "animated-grid",
+        "name": "Animated Grid",
+        "description": "A perspective grid floor whose cells light up at random, faded with a radial mask.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "meteors",
+        "name": "Meteors",
+        "description": "Falling light streaks across a card, with staggered timing.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "particles",
+        "name": "Particles",
+        "description": "Canvas particles that drift slowly and lean away from the pointer.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "border-beam",
+        "name": "Border Beam",
+        "description": "A short beam of light that travels around a card border, drawn with a conic gradient.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "typewriter-text",
+        "name": "Typewriter",
+        "description": "Types, holds and deletes rotating phrases behind a blinking caret.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "scramble-text",
+        "name": "Scramble Text",
+        "description": "Characters cycle through random glyphs and lock into place when the text appears or is hovered.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "gradient-text",
+        "name": "Animated Gradient Text",
+        "description": "Text filled with a flowing gradient, with a light sweep passing over it.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "number-ticker",
+        "name": "Number Ticker",
+        "description": "Digit columns roll into place when a number scrolls into view, with locale formatting.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "word-rotate",
+        "name": "Word Rotate",
+        "description": "One word of a headline swaps with a blur-and-slide while the line width animates.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      }
+    ]
+  },
+  {
     "id": "components",
     "title": "Components",
     "entries": [
