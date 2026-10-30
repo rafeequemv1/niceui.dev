@@ -133,12 +133,19 @@ const GALLERY_GROUPS = [
   { id: "grids", title: "Grids & viewers", blurb: "Masonry, bento, lightbox, filmstrip and before/after viewers.", slugs: ["masonry-gallery", "bento-gallery", "lightbox", "filmstrip-viewer", "before-after"] },
   { id: "motion", title: "Motion & scroll", blurb: "Marquees, expanding panels, scroll stacks and hover reveals.", slugs: ["marquee-gallery", "expanding-panels", "scroll-stack-gallery", "hover-reveal-list"] },
 ];
+const EFFECT_GROUPS = [
+  { id: "backgrounds", title: "Backgrounds", blurb: "Aurora, animated grids, meteors, particles and border beams.", slugs: ["aurora-background", "animated-grid", "meteors", "particles", "border-beam"] },
+  { id: "text", title: "Text effects", blurb: "Typewriter, scramble, gradient text, number tickers and rotating words.", slugs: ["typewriter-text", "scramble-text", "gradient-text", "number-ticker", "word-rotate"] },
+];
+const effectItems = libItems("effects", "effect").sort(byName);
+const effectSections = groupSections(effectItems, EFFECT_GROUPS, "effects");
 const galleryItems = libItems("gallery", "gallery").sort(byName);
 const gallerySections = groupSections(galleryItems, GALLERY_GROUPS, "image galleries");
 const navGroups = [
   { title: "AI Agents", list: aiSections.flatMap((sub) => sub.items) },
   { title: "CRM", list: crmSections.flatMap((sub) => sub.items) },
   { title: "Gallery", list: gallerySections.flatMap((sub) => sub.items) },
+  { title: "Effects", list: effectSections.flatMap((sub) => sub.items) },
   { title: "Components", list: dedupe([...ready.filter((i) => i.kind === "component"), ...libItems("components", "component")]).sort(byName).concat(roadmap.filter((i) => i.kind === "component").sort(byName)) },
   { title: "Blocks", list: dedupe([...ready.filter((i) => i.kind === "block"), ...libItems("blocks", "block"), ...libItems("footers", "block", "Footers")]).sort(byName).concat(roadmap.filter((i) => i.kind === "block").sort(byName)) },
   { title: "Marketing", list: libItems("marketing", "marketing") },
@@ -149,6 +156,7 @@ const navGroups = [
 const catDesc = {
   Components: "Buttons, inputs, overlays, motion primitives and everything in between.",
   "AI Agents": "Every kind of AI agent interface in one place: chat, reasoning, tool calls and approvals, browser and research agents, traces, workflows, memory and voice.",
+  Effects: "Animated backgrounds and text effects: aurora, grids, meteors, particles, border beams, typewriter, scramble, gradient text, number tickers and word rotators.",
   Gallery: "Premium image galleries and carousels: 3D coverflow, rings and card stacks, masonry, bento, lightbox, filmstrips, before/after sliders and scroll-driven motion.",
   CRM: "Everything a modern CRM needs: record tables, filters and views, pipeline boards, deal cards, profiles, activity timelines, tasks, email and outreach, plus a complete CRM app template.",
   Blocks: "Composed, production-ready sections: search, uploads, wallets, menus, footers and more.",
@@ -197,6 +205,7 @@ const mark =
 
 const ico = (d) => `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const catIcon = {
+  Effects: ico('<path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M5 3v4M3 5h4M19 17v4M17 19h4"/>'),
   Gallery: ico('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/>'),
   CRM: ico('<path d="M16 20v-1.5a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V20"/><circle cx="9" cy="7.5" r="3.5"/><path d="M22 20v-1.5a4 4 0 0 0-3-3.87"/><path d="M16 4.13a4 4 0 0 1 0 7.75"/>'),
   Components: ico('<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>'),
@@ -665,7 +674,7 @@ for (const g of navGroups) {
         <div class="cat-title"><span class="sb-cat-ico big">${catIcon[g.title] || ""}</span><h1>${g.title}</h1><span class="cat-count">${live.length}</span></div>
         <p class="lede">${esc(g.desc)}</p>
       </header>
-      ${g.title === "AI Agents" ? aiCategoryBody() : g.title === "CRM" ? crmFeature() + groupedBody(crmSections, "crm", "CRM") : g.title === "Gallery" ? groupedBody(gallerySections, "gal", "Gallery") : `<div class="cards">${live.map(anyCard).join("")}
+      ${g.title === "AI Agents" ? aiCategoryBody() : g.title === "CRM" ? crmFeature() + groupedBody(crmSections, "crm", "CRM") : g.title === "Gallery" ? groupedBody(gallerySections, "gal", "Gallery") : g.title === "Effects" ? groupedBody(effectSections, "fx", "Effects") : `<div class="cards">${live.map(anyCard).join("")}
       </div>`}
       ${later.length ? `<div class="sec-title cat-soon"><h2>Coming <em>soon</em></h2></div><div class="soon-grid">${later.map(soonCard).join("")}</div>` : ""}
     </section>`;

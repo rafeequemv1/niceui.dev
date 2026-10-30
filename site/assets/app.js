@@ -60,7 +60,7 @@
   const modal = $("[data-search]");
   const input = $("[data-search-input]");
   const list = $("[data-search-list]");
-  const kindLabel = { component: "Component", block: "Block", template: "Template", ai: "AI agent", crm: "CRM", gallery: "Gallery", marketing: "Marketing section", landing: "Landing page", dashboard: "Dashboard" };
+  const kindLabel = { component: "Component", block: "Block", template: "Template", ai: "AI agent", crm: "CRM", gallery: "Gallery", effect: "Effect", marketing: "Marketing section", landing: "Landing page", dashboard: "Dashboard" };
   let results = [];
   let active = 0;
 
