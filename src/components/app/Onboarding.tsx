@@ -91,7 +91,6 @@ export function Onboarding({ onFinish, className }: { onFinish?: (d: OnboardingD
             <label className="block">
               <span className="text-xs font-medium text-ink-400">Workspace name</span>
               <input
-                autoFocus
                 value={data.workspace}
                 onChange={(e) => setData({ ...data, workspace: e.target.value, url: e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') })}
                 className="focus-ring mt-1.5 h-10 w-full rounded-lg border border-white/10 bg-ink-950/60 px-3 text-sm text-ink-50 outline-none focus:border-brand-400/60"
