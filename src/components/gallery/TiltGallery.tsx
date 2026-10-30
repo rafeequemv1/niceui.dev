@@ -66,7 +66,7 @@ export function TiltGallery({ items = ARTWORKS.slice(0, 6), src = (a) => artwork
 
   return (
     <div ref={box} className={cn('relative w-full', className)}>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4" style={{ perspective: 900 }}>
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
         {items.map((it) => {
           const t = tilt?.id === it.id ? tilt : null;
           return (
@@ -78,7 +78,7 @@ export function TiltGallery({ items = ARTWORKS.slice(0, 6), src = (a) => artwork
               onPointerLeave={() => setTilt((cur) => (cur?.id === it.id ? null : cur))}
               onClick={(e) => expand(it, e.currentTarget)}
               className={cn('focus-ring group relative aspect-[4/3] rounded-2xl', open?.item.id === it.id && 'opacity-0')}
-              style={{ transformStyle: 'preserve-3d', transform: `rotateX(${t?.rx ?? 0}deg) rotateY(${t?.ry ?? 0}deg) scale(${t ? 1.03 : 1})`, transition: t ? 'transform 80ms linear' : 'transform 500ms cubic-bezier(.16,1,.3,1)' }}
+              style={{ transformStyle: 'preserve-3d', transform: `perspective(900px) rotateX(${t?.rx ?? 0}deg) rotateY(${t?.ry ?? 0}deg) scale(${t ? 1.03 : 1})`, transition: t ? 'transform 80ms linear' : 'transform 500ms cubic-bezier(.16,1,.3,1)' }}
             >
               <span className="absolute inset-0 overflow-hidden rounded-2xl shadow-card ring-1 ring-white/10">
                 <img src={urls.get(it.id)} alt="" draggable={false} className="h-full w-full object-cover" />
@@ -88,7 +88,7 @@ export function TiltGallery({ items = ARTWORKS.slice(0, 6), src = (a) => artwork
                   style={{ background: `radial-gradient(circle at ${t?.gx ?? 50}% ${t?.gy ?? 50}%, rgba(255,255,255,0.55), transparent 55%)` }}
                 />
               </span>
-              <span className="absolute inset-x-3 bottom-3 text-left" style={{ transform: 'translateZ(40px)' }}>
+              <span className="absolute inset-x-3 bottom-3 text-left" style={{ transform: 'translateZ(28px)' }}>
                 <span className="block truncate text-[13px] font-medium text-white drop-shadow sm:text-sm">{it.title}</span>
                 <span className="mt-0.5 hidden items-center gap-1 text-[11px] text-white/70 sm:flex">
                   <MapPin className="h-3 w-3" /> {it.place}

@@ -10,7 +10,7 @@ const SLOTS = [
   'col-span-1 row-span-2',
   'col-span-1 row-span-1',
   'col-span-2 row-span-1',
-  'col-span-1 row-span-1',
+  'col-span-2 row-span-1',
 ];
 
 export type BentoGalleryProps = { items?: Artwork[]; className?: string };
@@ -69,7 +69,7 @@ export function BentoGallery({ items = ARTWORKS.slice(0, 6), className }: BentoG
             className={cn(
               'focus-ring group relative overflow-hidden rounded-2xl bg-ink-900 text-left shadow-card',
               SLOTS[slot] ?? 'col-span-1 row-span-1',
-              slot === 4 && 'max-sm:col-span-1',
+              (slot === 4 || slot === 5) && 'max-sm:col-span-1',
               slot === 2 && 'max-sm:row-span-1',
             )}
           >

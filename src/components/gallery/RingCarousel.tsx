@@ -62,7 +62,7 @@ export function RingCarousel({ items = ARTWORKS.slice(0, 10), src = (a) => artwo
     return () => cancelAnimationFrame(raf);
   }, [hover, paused, speed]);
 
-  const cardW = Math.round(Math.min(190, Math.max(108, width * 0.2)));
+  const cardW = Math.round(Math.min(210, Math.max(110, width * 0.24)));
   const radius = Math.round((cardW / 2 / Math.tan(Math.PI / n)) * 1.18);
   const front = (((-Math.round(rot / step)) % n) + n) % n;
 

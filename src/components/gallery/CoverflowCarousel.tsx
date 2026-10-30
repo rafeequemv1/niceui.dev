@@ -78,7 +78,7 @@ export function CoverflowCarousel({ items = ARTWORKS, src = (a) => artwork(a.id,
         onPointerUp={onUp}
         onPointerCancel={onUp}
         className="focus-ring relative cursor-grab touch-pan-y overflow-hidden rounded-2xl active:cursor-grabbing"
-        style={{ height: size * 1.75, perspective: 1100 }}
+        style={{ height: size * 1.48, perspective: 1100 }}
       >
         <div className="absolute inset-x-0 top-[8%] h-full" style={{ transformStyle: 'preserve-3d' }}>
           {items.map((it, i) => {
