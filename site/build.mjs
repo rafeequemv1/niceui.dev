@@ -91,6 +91,7 @@ const libItems = (id, kind, category) =>
     page: e.page,
     thumb: "/assets/thumbs/" + id + "--" + e.slug + ".webp",
     embed: "/library/?embed=1#/" + id + "/" + e.slug,
+    full: e.page ? "/library/?embed=1&full=1#/" + id + "/" + e.slug : null,
   }));
 const libGuides = libSection("intro").entries.filter((e) => e.slug !== "home");
 const libCount = library.filter((sec) => sec.id !== "intro").reduce((n, sec) => n + sec.entries.length, 0);
@@ -689,7 +690,7 @@ for (const g of navGroups) {
         <div class="doc-tags"><span>React</span><span>Tailwind CSS</span><span>TypeScript</span><span>${esc(g.title)}</span><span class="t-sky">MIT · Free</span></div>
       </header>
       <div class="pv pv-lib" data-pv>
-      <div class="pv-bar"><span class="pv-bar-t">Live preview</span>${pvControls}</div>
+      <div class="pv-bar"><span class="pv-bar-t">Live preview</span>${it.page ? `<a class="pv-open" href="/preview/${g.slug}/${it.slug}">Open full page <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>` : ""}${pvControls}</div>
       <div class="embed-frame${it.page ? " embed-page" : ""}" data-native="${it.theme}">
         <div class="embed-loading" aria-hidden="true"><img src="${it.thumb}" alt="" /></div>
         <iframe src="${it.embed}" title="${esc(it.name)} live preview" loading="lazy" data-autosize></iframe>
@@ -780,6 +781,51 @@ write(
     ld: { "@context": "https://schema.org", ...website },
   }).replace('<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />', '<meta name="robots" content="noindex" />')
 );
+
+// ─── full-page previews for landing pages, dashboards and templates ──
+for (const g of navGroups)
+  for (const it of g.list.filter((i) => i.lib && i.page)) {
+    write(
+      `preview/${g.slug}/${it.slug}.html`,
+      `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script>try{if(localStorage.getItem("niceui-theme")==="light")document.documentElement.dataset.theme="light"}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>${esc(it.name)} — full preview | NiceUI</title>
+<meta name="description" content="${esc(it.description)}" />
+<meta name="robots" content="noindex, follow" />
+<link rel="canonical" href="${site.url}${it.path}" />
+<meta name="theme-color" content="#000000" />
+<meta name="color-scheme" content="dark light" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" />
+<link rel="stylesheet" href="${CSS}" />
+<script defer data-site="truvwhp1" data-domain="niceui.dev" src="https://piqo.app/piqo.js"></script>
+</head>
+<body class="fp-body">
+<div class="fp" data-pv>
+  <header class="fp-bar">
+    <a class="fp-back" href="${it.path}" aria-label="Back to ${esc(it.name)}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg><span>Back</span></a>
+    <span class="fp-sep"></span>
+    <span class="fp-name">${esc(it.name)}</span>
+    <span class="fp-cat">${esc(g.title)}</span>
+    ${pvControls}
+    <a class="fp-raw top-icon" href="${it.full}" target="_blank" rel="noopener" aria-label="Open without the toolbar" title="Open without the toolbar"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14 4h6v6M20 4l-8 8M10 5H5v14h14v-5"/></svg></a>
+  </header>
+  <main class="fp-stage" data-native="${it.theme}">
+    <iframe src="${it.full}" title="${esc(it.name)} full preview"></iframe>
+  </main>
+</div>
+<script src="${JS}" defer></script>
+</body>
+</html>
+`
+    );
+  }
 
 // ─── registry index, llms, sitemap, robots, manifest ────────────────
 write(

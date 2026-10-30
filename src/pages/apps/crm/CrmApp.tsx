@@ -235,7 +235,7 @@ export function CrmApp(_: { onNavigate?: (to: string) => void }) {
 
   return (
     <CrmContext.Provider value={crm}>
-      <div className="relative flex h-[720px] overflow-hidden bg-[var(--bg)] font-sans text-[13px] text-[var(--fg)] antialiased sm:h-[760px]" style={{ ...THEMES[theme], colorScheme: theme }} data-theme={theme}>
+      <div data-fill className="relative flex h-[720px] overflow-hidden bg-[var(--bg)] font-sans text-[13px] text-[var(--fg)] antialiased sm:h-[760px]" style={{ ...THEMES[theme], colorScheme: theme }} data-theme={theme}>
         <div className="hidden md:flex">
           <Sidebar current={obj} collapsed={collapsed} onCollapse={() => setCollapsed((c) => !c)} onSearch={() => setCmd(true)} theme={theme} onTheme={() => setTheme((t) => (t === 'light' ? 'dark' : 'light'))} onSettings={() => setSettings(true)} />
         </div>

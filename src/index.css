@@ -131,3 +131,8 @@ html.pv-light:not([data-native='light']) .shadow-card {
 html.pv-light:not([data-native='light']) .shadow-pop {
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 18px 48px -14px rgba(255, 255, 255, 0.32), 0 4px 12px rgba(255, 255, 255, 0.1);
 }
+
+/* Full-page previews (?embed=1&full=1): app templates fill the viewport. */
+html.full [data-fill] {
+  height: 100vh !important;
+}

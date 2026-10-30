@@ -27,6 +27,8 @@ function App() {
 
   // ?embed=1 — used by niceui.dev item pages, which supply their own header, breadcrumbs and sidebar.
   if (new URLSearchParams(window.location.search).has('embed')) {
+    // ?full=1 — dedicated full-page preview: fixed-height apps grow to the viewport.
+    document.documentElement.classList.toggle('full', new URLSearchParams(window.location.search).has('full'));
     const leave = (to: string) => {
       window.top!.location.href = '/library/#' + to;
     };

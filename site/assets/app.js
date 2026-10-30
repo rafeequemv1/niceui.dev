@@ -55,6 +55,7 @@
   $(".sb .on")?.scrollIntoView({ block: "center" });
 
   // ── search palette ───────────────────────────────────────
+  if ($("#search-data")) {
   const data = JSON.parse($("#search-data").textContent);
   const modal = $("[data-search]");
   const input = $("[data-search-input]");
@@ -128,6 +129,7 @@
       setMenu(false);
     }
   });
+  }
 
   // ── embedded library previews: size the iframe to its content ─
   $$("iframe[data-autosize]").forEach((frame) => {

@@ -102,7 +102,7 @@ export function AssistantApp() {
   const lastUser = messages ? [...messages].reverse().find((m) => m.role === 'user')?.id : undefined;
 
   return (
-    <div className="relative flex h-[calc(100vh-3.5rem)] overflow-hidden bg-ink-950 text-ink-100">
+    <div data-fill className="relative flex h-[calc(100vh-3.5rem)] overflow-hidden bg-ink-950 text-ink-100">
       <div className={cn('hidden shrink-0 overflow-hidden transition-[width] duration-500 ease-smooth lg:block', sidebar ? 'w-[272px]' : 'w-0')}>
         <Sidebar {...sidebarProps} onClose={() => setSidebar(false)} />
       </div>
