@@ -571,3 +571,14 @@ code.inline { font-size: 12.5px; padding: 2px 6px; border-radius: 6px; backgroun
 .ai-kit { margin-top: 8px; }
 .ai-kit .kicker { margin-bottom: 14px; }
 .ai-kit-cta { margin-top: 18px; display: flex; justify-content: center; }
+
+/* CRM: featured template */
+.crm-feature { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 28px; align-items: center; margin: 10px 0 8px; padding: 14px; border: 1px solid var(--line); border-radius: 20px; background: var(--s1); transition: border-color .3s, box-shadow .4s, transform .4s var(--ease); }
+.crm-feature:hover { border-color: var(--sky-line); box-shadow: 0 30px 70px -36px rgba(56,189,248,.35); transform: translateY(-2px); }
+.crm-feature img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); display: block; }
+.crm-feature-copy { padding: 6px 14px 6px 0; }
+.crm-feature-copy h2 { margin: 10px 0 8px; font-size: clamp(26px, 3vw, 36px); font-weight: 500; letter-spacing: -0.045em; }
+.crm-feature-copy p.mute { font-size: 14.5px; line-height: 1.6; }
+.crm-feature-copy .ex-go { margin-top: 16px; display: inline-flex; }
+.crm-feature:hover .ex-go { color: var(--sky); }
+@media (max-width: 760px) { .crm-feature { grid-template-columns: minmax(0, 1fr); gap: 14px; } .crm-feature-copy { padding: 0 6px 6px; } }

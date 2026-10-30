@@ -109,13 +109,26 @@ const AI_GROUPS = [
   { id: "build", title: "Build, trace & memory", blurb: "Agent builders, workflows, traces, knowledge, memory, checkpoints and artifacts.", slugs: ["agent-builder", "agent-flow", "agent-trace", "knowledge-base", "memory-panel", "checkpoints", "artifact-panel"] },
   { id: "media", title: "Voice, media & motion", blurb: "Voice orbs, image generation and animated AI visuals.", slugs: ["voice-orb", "image-generation", "network-pulse", "feature-tabs"] },
 ];
+const CRM_GROUPS = [
+  { id: "records", title: "Records & tables", blurb: "Data grids, filters and saved views, imports and relation pickers.", slugs: ["record-table", "filter-bar", "csv-import", "relation-picker"] },
+  { id: "pipeline", title: "Pipeline & deals", blurb: "Kanban pipelines, deal cards, lead scores and sales dashboards.", slugs: ["pipeline-board", "deal-card", "lead-score", "sales-dashboard"] },
+  { id: "profiles", title: "Profiles & activity", blurb: "Person and company records, activity timelines and tasks.", slugs: ["person-profile", "company-card", "activity-timeline", "crm-tasks"] },
+  { id: "engage", title: "Email & outreach", blurb: "Composers, inbox threads and multi-step outreach sequences.", slugs: ["email-composer", "email-threads", "sequence-builder"] },
+];
+const groupSections = (items, groups, label) => {
+  const secs = groups.map((sub) => ({ ...sub, items: sub.slugs.map((s) => items.find((i) => i.slug === s)).filter(Boolean) })).filter((sub) => sub.items.length);
+  const rest = items.filter((i) => !groups.some((sub) => sub.slugs.includes(i.slug)));
+  if (rest.length) secs.push({ id: "more", title: "More", blurb: `Everything else for ${label}.`, items: rest });
+  for (const sub of secs) for (const it of sub.items) it.category = sub.title;
+  return secs;
+};
 const aiItems = libItems("ai", "ai").sort(byName);
-const aiSections = AI_GROUPS.map((sub) => ({ ...sub, items: sub.slugs.map((s) => aiItems.find((i) => i.slug === s)).filter(Boolean) })).filter((sub) => sub.items.length);
-const aiRest = aiItems.filter((i) => !AI_GROUPS.some((sub) => sub.slugs.includes(i.slug)));
-if (aiRest.length) aiSections.push({ id: "more", title: "More", blurb: "Everything else for AI products.", items: aiRest });
-for (const sub of aiSections) for (const it of sub.items) it.category = sub.title;
+const aiSections = groupSections(aiItems, AI_GROUPS, "AI products");
+const crmItems = libItems("crm", "crm").sort(byName);
+const crmSections = groupSections(crmItems, CRM_GROUPS, "CRM apps");
 const navGroups = [
   { title: "AI Agents", list: aiSections.flatMap((sub) => sub.items) },
+  { title: "CRM", list: crmSections.flatMap((sub) => sub.items) },
   { title: "Components", list: dedupe([...ready.filter((i) => i.kind === "component"), ...libItems("components", "component")]).sort(byName).concat(roadmap.filter((i) => i.kind === "component").sort(byName)) },
   { title: "Blocks", list: dedupe([...ready.filter((i) => i.kind === "block"), ...libItems("blocks", "block"), ...libItems("footers", "block", "Footers")]).sort(byName).concat(roadmap.filter((i) => i.kind === "block").sort(byName)) },
   { title: "Marketing", list: libItems("marketing", "marketing") },
@@ -126,6 +139,7 @@ const navGroups = [
 const catDesc = {
   Components: "Buttons, inputs, overlays, motion primitives and everything in between.",
   "AI Agents": "Every kind of AI agent interface in one place: chat, reasoning, tool calls and approvals, browser and research agents, traces, workflows, memory and voice.",
+  CRM: "Everything a modern CRM needs: record tables, filters and views, pipeline boards, deal cards, profiles, activity timelines, tasks, email and outreach, plus a complete CRM app template.",
   Blocks: "Composed, production-ready sections: search, uploads, wallets, menus, footers and more.",
   Marketing: "Heroes, feature grids, bento, logo clouds, testimonials, pricing, FAQ, CTAs, footers, changelog, team and blog — every section a marketing site needs.",
   "Landing Pages": "Complete, animated landing pages you can ship as-is.",
@@ -172,6 +186,7 @@ const mark =
 
 const ico = (d) => `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const catIcon = {
+  CRM: ico('<path d="M16 20v-1.5a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V20"/><circle cx="9" cy="7.5" r="3.5"/><path d="M22 20v-1.5a4 4 0 0 0-3-3.87"/><path d="M16 4.13a4 4 0 0 1 0 7.75"/>'),
   Components: ico('<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>'),
   "AI Agents": ico('<path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>'),
   Blocks: ico('<path d="M12 3 3 7.5l9 4.5 9-4.5z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/>'),
@@ -593,6 +608,25 @@ const thumbCard = (it) => `
           <div class="card-stage card-thumb"><img src="${it.thumb}" alt="${esc(it.name)} preview" loading="lazy" decoding="async" width="640" height="400" /></div>
           <div class="card-meta"><span class="card-name">${esc(it.name)}${it.badge === "New" ? ' <em class="tag-new">New</em>' : ""}</span><span class="card-cat">${esc(it.category)}</span></div>
         </a>`;
+const crmTemplate = () => navGroups.find((g) => g.title === "Templates")?.list.find((i) => i.slug === "crm-app");
+const crmFeature = () => {
+  const t = crmTemplate();
+  return t
+    ? `<a class="crm-feature" href="${t.path}"><img src="${t.thumb}" alt="CRM App template preview" loading="lazy" decoding="async" width="640" height="400" /><div class="crm-feature-copy"><p class="kicker"><span class="dot"></span>Full template</p><h2>CRM App</h2><p class="mute">${esc(t.description)}</p><span class="ex-go">Open the template ${icon.arrow}</span></div></a>`
+    : "";
+};
+const groupedBody = (sections, prefix, label) => `
+      <nav class="ai-nav" aria-label="${label} sections">${sections.map((sub) => `<a class="ai-nav-chip" href="#${prefix}-${sub.id}">${esc(sub.title)}<span>${sub.items.length}</span></a>`).join("")}</nav>
+      ${sections
+        .map(
+          (sub) => `
+      <section class="ai-sub" id="${prefix}-${sub.id}" aria-labelledby="${prefix}-${sub.id}-h">
+        <div class="ai-sub-head"><h2 id="${prefix}-${sub.id}-h">${esc(sub.title)}</h2><span class="ai-sub-n">${sub.items.length}</span><p class="mute">${esc(sub.blurb)}</p></div>
+        <div class="cards">${sub.items.map(thumbCard).join("")}
+        </div>
+      </section>`
+        )
+        .join("")}`;
 const aiCategoryBody = () => `
       <nav class="ai-nav" aria-label="AI Agents sections">${aiSections.map((sub) => `<a class="ai-nav-chip" href="#ai-${sub.id}">${esc(sub.title)}<span>${sub.items.length}</span></a>`).join("")}</nav>
       ${aiSections
@@ -617,7 +651,7 @@ for (const g of navGroups) {
         <div class="cat-title"><span class="sb-cat-ico big">${catIcon[g.title] || ""}</span><h1>${g.title}</h1><span class="cat-count">${live.length}</span></div>
         <p class="lede">${esc(g.desc)}</p>
       </header>
-      ${g.title === "AI Agents" ? aiCategoryBody() : `<div class="cards">${live.map(anyCard).join("")}
+      ${g.title === "AI Agents" ? aiCategoryBody() : g.title === "CRM" ? crmFeature() + groupedBody(crmSections, "crm", "CRM") : `<div class="cards">${live.map(anyCard).join("")}
       </div>`}
       ${later.length ? `<div class="sec-title cat-soon"><h2>Coming <em>soon</em></h2></div><div class="soon-grid">${later.map(soonCard).join("")}</div>` : ""}
     </section>`;
@@ -636,7 +670,7 @@ for (const g of navGroups) {
       { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Library", item: site.url }, { "@type": "ListItem", position: 2, name: g.title, item: site.url + g.path }] },
     ],
   };
-  const catTitle = g.title === "AI Agents" ? `AI agent UI components — ${live.length} free React & Tailwind interfaces | NiceUI` : `${g.title} — ${live.length} free React & Tailwind ${g.title.toLowerCase()} | NiceUI`;
+  const catTitle = g.title === "AI Agents" ? `AI agent UI components — ${live.length} free React & Tailwind interfaces | NiceUI` : g.title === "CRM" ? `CRM UI components — ${live.length} free React & Tailwind blocks and a full CRM template | NiceUI` : `${g.title} — ${live.length} free React & Tailwind ${g.title.toLowerCase()} | NiceUI`;
   write(g.path.slice(1) + ".html", layout({ title: catTitle, description: g.desc + " Free and open source.", path: g.path, main, ld }));
 
   live.forEach((it, idx) => {
@@ -788,6 +822,10 @@ NiceUI components are plain React + Tailwind CSS source files with no runtime de
 ## AI agent UI
 
 ${aiSections.map((sub) => `### ${sub.title}\n\n${sub.items.map((i) => `- [${i.name}](${site.url}${i.path}): ${i.description}`).join("\n")}`).join("\n\n")}
+
+## CRM UI
+
+${crmTemplate() ? `- [CRM App template](${site.url}${crmTemplate().path}): ${crmTemplate().description}\n` : ""}${crmSections.map((sub) => `\n### ${sub.title}\n\n${sub.items.map((i) => `- [${i.name}](${site.url}${i.path}): ${i.description}`).join("\n")}`).join("\n")}
 
 ## Components
 
