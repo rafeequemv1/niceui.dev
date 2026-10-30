@@ -20,6 +20,9 @@ function App() {
     document.title = route.found ? `${route.current.entry.name} — NiceUI` : 'Not found — NiceUI';
   }, [path, route.found, route.current.entry.name]);
 
+  // Light-native entries opt out of the automatic light rendering (see .pv-light in index.css).
+  document.documentElement.dataset.native = route.current.entry.theme ?? 'dark';
+
   const go = (to: string) => navigate(to);
 
   // ?embed=1 — used by niceui.dev item pages, which supply their own header, breadcrumbs and sidebar.

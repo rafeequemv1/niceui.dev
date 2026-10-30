@@ -85,6 +85,7 @@ const libItems = (id, kind, category) =>
     status: "ready",
     lib: true,
     badge: e.badge,
+    theme: e.theme || "dark",
     sec: id,
     slug: e.slug,
     page: e.page,
@@ -225,6 +226,7 @@ function layout({ title, description, path, main, ld, md }) {
 <html lang="en">
 <head>
 <meta charset="utf-8" />
+<script>try{if(localStorage.getItem("niceui-theme")==="light")document.documentElement.dataset.theme="light"}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}" />
@@ -243,7 +245,7 @@ function layout({ title, description, path, main, ld, md }) {
 <meta name="twitter:description" content="${esc(description)}" />
 <meta name="twitter:image" content="${site.url}/og.png" />
 <meta name="theme-color" content="#000000" />
-<meta name="color-scheme" content="dark" />
+<meta name="color-scheme" content="dark light" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt" />${md ? `\n<link rel="alternate" type="text/markdown" href="${md}" />` : ""}
@@ -264,6 +266,7 @@ function layout({ title, description, path, main, ld, md }) {
     <a class="top-link top-tab" href="/#mcp">${icon.spark} Connect agent</a>
     <a class="top-link hide-sm" href="/docs/installation">Docs</a>
     <a class="top-link hide-sm" href="/llms.txt">llms.txt</a>
+    <button class="top-icon theme-toggle" data-theme-toggle aria-label="Switch to light theme" title="Light or dark theme"><svg class="i-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
     <a class="top-icon" href="${site.github}" target="_blank" rel="noopener" aria-label="GitHub">${icon.github}</a>
   </nav>
 </header>
@@ -604,7 +607,7 @@ ${it.usage.trim()}
 
 // ─── category pages + library item pages ────────────────────────────
 const thumbCard = (it) => `
-        <a class="card" href="${it.path}" data-kind="${it.kind}">
+        <a class="card" href="${it.path}" data-kind="${it.kind}" data-native="${it.theme}">
           <div class="card-stage card-thumb"><img src="${it.thumb}" alt="${esc(it.name)} preview" loading="lazy" decoding="async" width="640" height="400" /></div>
           <div class="card-meta"><span class="card-name">${esc(it.name)}${it.badge === "New" ? ' <em class="tag-new">New</em>' : ""}</span><span class="card-cat">${esc(it.category)}</span></div>
         </a>`;
@@ -687,7 +690,7 @@ for (const g of navGroups) {
       </header>
       <div class="pv pv-lib" data-pv>
       <div class="pv-bar"><span class="pv-bar-t">Live preview</span>${pvControls}</div>
-      <div class="embed-frame${it.page ? " embed-page" : ""}">
+      <div class="embed-frame${it.page ? " embed-page" : ""}" data-native="${it.theme}">
         <div class="embed-loading" aria-hidden="true"><img src="${it.thumb}" alt="" /></div>
         <iframe src="${it.embed}" title="${esc(it.name)} live preview" loading="lazy" data-autosize></iframe>
       </div>

@@ -153,35 +153,21 @@
 
   // ── preview controls: light/dark canvas + viewport width ─
   const VP = { desktop: "100%", tablet: "768px", mobile: "375px" };
-  const LIGHT_CSS =
-    "html.pv-light,html.pv-light body,html.pv-light #root>div{background:#f4f5f7!important}" +
-    "html.pv-light .dot-bg{background-color:#f4f5f7!important;background-image:radial-gradient(rgba(0,0,0,.09) 1px,transparent 1px)!important}" +
-    "html.pv-light .space-y-3>div:first-child>h3,html.pv-light article>section>h2{color:#18181b!important}" +
-    "html.pv-light .space-y-3>div:first-child>p{color:#52525b!important}" +
-    "html.pv-light .shadow-card{box-shadow:0 0 0 1px rgba(0,0,0,.08),0 8px 24px -12px rgba(0,0,0,.18)!important}";
   const frameTheme = (frame, light) => {
     try {
-      const doc = frame.contentDocument;
-      if (!doc.getElementById("pv-light-css")) {
-        const st = doc.createElement("style");
-        st.id = "pv-light-css";
-        st.textContent = LIGHT_CSS;
-        doc.head.appendChild(st);
-      }
-      doc.documentElement.classList.toggle("pv-light", light);
+      frame.contentDocument.documentElement.classList.toggle("pv-light", light);
     } catch {}
   };
   $$("[data-pv]").forEach((root) => {
     const frame = $("iframe", root);
     let light = false;
-    $$("[data-pv-theme]", root).forEach((b) =>
-      b.addEventListener("click", () => {
-        light = b.dataset.pvTheme === "light";
-        $$("[data-pv-theme]", root).forEach((x) => x.classList.toggle("on", x === b));
-        root.classList.toggle("pv-light", light);
-        if (frame) frameTheme(frame, light);
-      })
-    );
+    root.setTheme = (l) => {
+      light = l;
+      $$("[data-pv-theme]", root).forEach((x) => x.classList.toggle("on", (x.dataset.pvTheme === "light") === l));
+      root.classList.toggle("pv-light", l);
+      if (frame) frameTheme(frame, l);
+    };
+    $$("[data-pv-theme]", root).forEach((b) => b.addEventListener("click", () => root.setTheme(b.dataset.pvTheme === "light")));
     $$("[data-pv-vp]", root).forEach((b) =>
       b.addEventListener("click", () => {
         $$("[data-pv-vp]", root).forEach((x) => x.classList.toggle("on", x === b));
@@ -191,6 +177,20 @@
     );
     frame?.addEventListener("load", () => frameTheme(frame, light));
   });
+
+  // ── site theme: dark by default, light on request; previews follow it ─
+  const html = document.documentElement;
+  const applyTheme = (light, save) => {
+    if (light) html.dataset.theme = "light";
+    else delete html.dataset.theme;
+    if (save) try { localStorage.setItem("niceui-theme", light ? "light" : "dark"); } catch {}
+    $('meta[name="theme-color"]')?.setAttribute("content", light ? "#ffffff" : "#000000");
+    $$(".card-stage:not(.card-thumb)").forEach((el) => el.classList.toggle("pv-light", light));
+    $$("[data-pv]").forEach((pv) => pv.setTheme?.(light));
+    $$("[data-theme-toggle]").forEach((b) => b.setAttribute("aria-label", light ? "Switch to dark theme" : "Switch to light theme"));
+  };
+  applyTheme(html.dataset.theme === "light", false);
+  $$("[data-theme-toggle]").forEach((b) => b.addEventListener("click", () => applyTheme(html.dataset.theme !== "light", true)));
 
   // ── home filters ─────────────────────────────────────────
   $$("[data-filter]").forEach((chip) =>

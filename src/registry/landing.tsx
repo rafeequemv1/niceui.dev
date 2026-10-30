@@ -11,6 +11,7 @@ import { LandingPageRushes } from '@/pages/landing/LandingPageRushes';
 export const landingEntries: DocEntry[] = [
   {
     slug: 'video-editor-landing',
+    theme: 'light',
     name: 'AI Video Editor Landing',
     description: 'A white, editorial landing page for an AI video editor: a working editor in the hero (transcript, dithered player, AI Director, multitrack timeline), live bento demos, dithered art, pricing and FAQ.',
     badge: 'New',
@@ -39,6 +40,7 @@ export const landingEntries: DocEntry[] = [
   },
   {
     slug: 'wealth-landing',
+    theme: 'light',
     name: 'Wealth Landing Page',
     description: 'A warm, editorial light-theme fintech landing page with bento features, sticky steps, pricing toggle and story carousel.',
     badge: 'New',
@@ -46,6 +48,7 @@ export const landingEntries: DocEntry[] = [
   },
   {
     slug: 'design-tool-landing',
+    theme: 'light',
     name: 'AI Design Tool Landing',
     description: 'A Figma-style landing page with a live, interactive canvas editor, AI generation, multiplayer, prototyping and Dev Mode.',
     badge: 'New',
@@ -53,6 +56,7 @@ export const landingEntries: DocEntry[] = [
   },
   {
     slug: 'social-scheduler-landing',
+    theme: 'light',
     name: 'Social Scheduler Landing',
     description: 'A warm, animated landing page for a social media scheduling app with real network logos, live composer previews, heatmaps and analytics.',
     badge: 'New',

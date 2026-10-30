@@ -9,7 +9,7 @@ try {
   const manifest = sections.map((s) => ({
     id: s.id,
     title: s.title,
-    entries: s.entries.map((e) => ({ slug: e.slug, name: e.name, description: e.description, badge: e.badge || null, page: !!e.page, demos: (e.demos || []).length })),
+    entries: s.entries.map((e) => ({ slug: e.slug, name: e.name, description: e.description, badge: e.badge || null, theme: e.theme || null, page: !!e.page, demos: (e.demos || []).length })),
   }));
   writeFileSync("site/library.json", JSON.stringify(manifest, null, 2) + "\n");
   console.log("library.json:", manifest.map((s) => s.id + "=" + s.entries.length).join(" "));

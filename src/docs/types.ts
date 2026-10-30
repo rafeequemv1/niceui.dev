@@ -23,6 +23,8 @@ export type DocEntry = {
   badge?: 'New' | 'Pro';
   demos?: Demo[];
   props?: PropDef[];
+  /** Designed for a light background. Light-native entries are never auto-inverted by the site's light theme. */
+  theme?: 'light' | 'dark';
   /** When set, the entry renders as a full-width page instead of a documentation page. */
   page?: ComponentType<{ onNavigate?: (to: string) => void }>;
 };
