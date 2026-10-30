@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
-import { Briefcase, Building2, CalendarDays, Check, CircleDot, DollarSign, Globe, Hash, Mail, MapPin, Percent, Phone, ShieldCheck, Star, Target as TargetIcon, UserRound, Users, type LucideIcon } from 'lucide-react';
+import { Briefcase, Building2, CalendarDays, Check, CircleDot, DollarSign, Globe, Mail, MapPin, Percent, Phone, ShieldCheck, Star, Target as TargetIcon, UserRound, Users, type LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { INDUSTRIES, LIFECYCLES, MEMBERS, STAGES } from './data';
 import { useCrm } from './store';
@@ -252,4 +252,3 @@ function ListEditor({ items, current, searchable, onPick, onCancel }: { items: {
   );
 }
 
-export const HashIcon = Hash;

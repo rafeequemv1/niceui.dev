@@ -550,6 +550,132 @@
     ]
   },
   {
+    "id": "crm",
+    "title": "CRM",
+    "entries": [
+      {
+        "slug": "record-table",
+        "name": "Record Table",
+        "description": "A spreadsheet-style record grid with sticky columns, typed cells, inline editing, keyboard navigation and bulk actions.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "filter-bar",
+        "name": "Filter & Sort Bar",
+        "description": "Saved views, a step-by-step filter builder, sort chips and search over a list that filters live, with a save-view state.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "pipeline-board",
+        "name": "Pipeline Board",
+        "description": "An opportunities kanban with drag and drop between stages, column totals and weighted pipeline, and a celebration on Won.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "deal-card",
+        "name": "Deal Card",
+        "description": "An opportunity summary with a clickable stage stepper, win-probability ring, health, next step, buying group and an AI next action.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "csv-import",
+        "name": "CSV Import",
+        "description": "A four-step importer: drop a file, preview rows, map columns with confidence scores, review duplicates and invalid rows, then import.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "person-profile",
+        "name": "Person Profile",
+        "description": "A contact record header with quick email and call actions, plus a field list you edit inline: email, phone, title, city, tags and owner.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "company-card",
+        "name": "Company Card",
+        "description": "A company record with domain, firmographics, an ICP-fit ring, people and open deals, and an Enrich action that fills empty fields with sourced AI data.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "activity-timeline",
+        "name": "Activity Timeline",
+        "description": "Everything that happened on a record, grouped by day: emails, calls, meetings, notes, stage changes and field updates, with filters and load more.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "crm-tasks",
+        "name": "Tasks",
+        "description": "Tasks grouped into overdue, today and upcoming, with assignees and linked records, an animated complete, and quick add that reads dates like “tomorrow 3pm”.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "relation-picker",
+        "name": "Relation Picker",
+        "description": "A searchable multi-select for linking people, companies and deals to a record, grouped with avatars, create-new and full keyboard control.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "email-composer",
+        "name": "Email Composer",
+        "description": "A sales email composer with recipient chips, templates, highlighted merge fields, AI rewrites, scheduled send and open tracking.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "email-threads",
+        "name": "Email Threads",
+        "description": "A CRM inbox: threads linked to companies, people and deals, with unread states, search, a thread view and quick reply.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "sequence-builder",
+        "name": "Sequence",
+        "description": "An outreach sequence over days: email, LinkedIn, call and wait steps with live sent, open and reply rates.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "sales-dashboard",
+        "name": "Sales Dashboard",
+        "description": "KPI tiles with sparklines, revenue against quota, a pipeline funnel and a rep leaderboard, switchable by period.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "lead-score",
+        "name": "Lead Score",
+        "description": "A lead score gauge with a hot, warm or cold label, the factors behind it, an AI explanation and a 30-day trend.",
+        "badge": "New",
+        "page": false,
+        "demos": 1
+      }
+    ]
+  },
+  {
     "id": "components",
     "title": "Components",
     "entries": [

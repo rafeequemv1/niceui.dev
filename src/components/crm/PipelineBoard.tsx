@@ -193,8 +193,10 @@ export function PipelineBoard({ initialDeals, onMove, className }: PipelineBoard
                 />
               );
             })}
-          <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-xl bg-emerald-500/15 px-3 py-2 text-[12.5px] font-medium text-emerald-200 ring-1 ring-emerald-400/30 backdrop-blur animate-fade-up">
-            <PartyPopper className="h-4 w-4" /> {burst.text}
+          <div className="absolute inset-x-0 bottom-3 flex justify-center px-3">
+            <div className="flex items-center gap-2 rounded-xl bg-emerald-500/15 px-3 py-2 text-[12.5px] font-medium text-emerald-200 ring-1 ring-emerald-400/30 backdrop-blur animate-fade-up">
+              <PartyPopper className="h-4 w-4 shrink-0" /> <span className="truncate">{burst.text}</span>
+            </div>
           </div>
         </div>
       )}

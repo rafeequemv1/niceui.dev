@@ -405,7 +405,8 @@ export function RecordTable({ initialRows, initialSelected = [], onChange, class
       </div>
 
       {selected.size > 0 && (
-        <div className="absolute bottom-12 left-1/2 z-40 flex -translate-x-1/2 items-center gap-0.5 whitespace-nowrap rounded-xl bg-ink-800 p-1 text-[12.5px] shadow-pop animate-fade-up">
+        <div className="pointer-events-none absolute inset-x-0 bottom-12 z-40 flex justify-center px-3">
+        <div className="pointer-events-auto flex items-center gap-0.5 whitespace-nowrap rounded-xl bg-ink-800 p-1 text-[12.5px] shadow-pop animate-fade-up">
           <span className="px-2.5 font-medium text-ink-100">
             <span className="tabular-nums text-brand-300">{selected.size}</span> selected
           </span>
@@ -423,9 +424,11 @@ export function RecordTable({ initialRows, initialSelected = [], onChange, class
             <X className="h-3.5 w-3.5" />
           </button>
         </div>
+        </div>
       )}
       {undo && selected.size === 0 && (
-        <div role="status" className="absolute bottom-12 left-1/2 z-40 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-xl bg-ink-800 py-1.5 pl-3 pr-1.5 text-[12.5px] text-ink-200 shadow-pop animate-fade-up">
+        <div className="pointer-events-none absolute inset-x-0 bottom-12 z-40 flex justify-center px-3">
+        <div role="status" className="pointer-events-auto flex items-center gap-2 whitespace-nowrap rounded-xl bg-ink-800 py-1.5 pl-3 pr-1.5 text-[12.5px] text-ink-200 shadow-pop animate-fade-up">
           Deleted {undo.n} record{undo.n > 1 ? 's' : ''}
           <button
             onClick={() => {
@@ -436,6 +439,7 @@ export function RecordTable({ initialRows, initialSelected = [], onChange, class
           >
             <Undo2 className="h-3.5 w-3.5" /> Undo
           </button>
+        </div>
         </div>
       )}
     </div>

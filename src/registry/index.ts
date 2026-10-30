@@ -4,6 +4,7 @@ import { landingEntries } from './landing';
 import { appEntries } from './apps';
 import { exampleEntries } from './examples';
 import { aiEntries } from './ai';
+import { crmEntries } from './crm';
 import { coreEntries } from './components-core';
 import { motionEntries } from './components-motion';
 import { blockEntries } from './blocks';
@@ -18,6 +19,7 @@ export const sections: Section[] = [
   { id: 'apps', title: 'App Templates', entries: appEntries },
   { id: 'examples', title: 'Dashboards', entries: exampleEntries },
   { id: 'ai', title: 'AI Agents', entries: aiEntries },
+  { id: 'crm', title: 'CRM', entries: crmEntries },
   { id: 'components', title: 'Components', entries: [...coreEntries, ...motionEntries] },
   { id: 'blocks', title: 'Blocks', entries: blockEntries },
   { id: 'marketing', title: 'Marketing', entries: [...heroEntries, ...showcaseEntries, ...conversionEntries] },
