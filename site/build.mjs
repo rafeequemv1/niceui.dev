@@ -75,6 +75,13 @@ const readyOrder = groups.flatMap((g) => g.list.filter((i) => i.status === "read
 
 // ─── full library (React app served at /library/, manifest from scripts/library-manifest.mjs) ──
 const library = existsSync("library.json") ? JSON.parse(readFileSync("library.json", "utf8")) : [];
+// Full source of every library entry (written by scripts/library-manifest.mjs).
+const libSrc = existsSync("library-src.json") ? JSON.parse(readFileSync("library-src.json", "utf8")) : {};
+// Installed layout: src/components/x → components/niceui/x, src/pages/x → components/niceui/pages/x.
+const regPath = (p) => p.replace(/^src\/components\//, "components/niceui/").replace(/^src\/pages\//, "components/niceui/pages/");
+const regContent = (c) => c.replace(/(['"])@\/components\//g, "$1@/components/niceui/").replace(/(['"])@\/pages\//g, "$1@/components/niceui/pages/");
+const extDeps = (files) =>
+  [...new Set(files.flatMap((f) => [...f.content.matchAll(/from\s+['"]([^'"./@][^'"]*|@[^/'"][^'"]*)['"]/g)].map((m) => m[1].split("/").slice(0, m[1].startsWith("@") ? 2 : 1).join("/"))))].filter((d) => d !== "react" && d !== "react-dom");
 const libSection = (id) => library.find((sec) => sec.id === id) || { id, title: id, entries: [] };
 const libItems = (id, kind, category) =>
   libSection(id).entries.map((e) => ({
@@ -91,6 +98,8 @@ const libItems = (id, kind, category) =>
     page: e.page,
     thumb: "/assets/thumbs/" + id + "--" + e.slug + ".webp",
     embed: "/library/?embed=1#/" + id + "/" + e.slug,
+    rid: id + "-" + e.slug,
+    files: (libSrc[id + "/" + e.slug] || []).map((f) => ({ path: regPath(f.path), content: regContent(f.content) })),
     full: e.page ? "/library/?embed=1&full=1#/" + id + "/" + e.slug : null,
   }));
 const libGuides = libSection("intro").entries.filter((e) => e.slug !== "home");
@@ -134,16 +143,28 @@ const GALLERY_GROUPS = [
   { id: "motion", title: "Motion & scroll", blurb: "Marquees, expanding panels, scroll stacks and hover reveals.", slugs: ["marquee-gallery", "expanding-panels", "scroll-stack-gallery", "hover-reveal-list"] },
 ];
 const EFFECT_GROUPS = [
-  { id: "backgrounds", title: "Backgrounds", blurb: "Aurora, animated grids, meteors, particles and border beams.", slugs: ["aurora-background", "animated-grid", "meteors", "particles", "border-beam"] },
+  { id: "backgrounds", title: "Backgrounds", blurb: "Aurora, animated grids, meteors, particles and border beams.", slugs: ["aurora-background", "animated-grid", "meteors", "particles", "border-beam", "noise-gradient", "beams-background"] },
   { id: "text", title: "Text effects", blurb: "Typewriter, scramble, gradient text, number tickers and rotating words.", slugs: ["typewriter-text", "scramble-text", "gradient-text", "number-ticker", "word-rotate"] },
+  { id: "buttons", title: "Buttons & cards", blurb: "Shiny, rainbow, magnetic and ripple buttons, and spotlight cards.", slugs: ["shiny-button", "rainbow-button", "magnetic-button", "ripple-button", "spotlight-card"] },
 ];
 const effectItems = libItems("effects", "effect").sort(byName);
 const effectSections = groupSections(effectItems, EFFECT_GROUPS, "effects");
+const APP_GROUPS = [
+  { id: "auth", title: "Authentication", blurb: "Sign in, sign up, one-time codes, magic links and password reset.", slugs: ["sign-in", "sign-up", "otp-verify", "magic-link", "password-reset"] },
+  { id: "pages", title: "App pages", blurb: "Settings, onboarding, notifications, empty states, data tables and multi-step forms.", slugs: ["settings-page", "onboarding-flow", "notification-inbox", "data-table", "multi-step-form", "empty-states"] },
+];
+const appItems = libItems("application", "application").sort(byName);
+const appSections = groupSections(appItems, APP_GROUPS, "apps");
+const chartItems = libItems("charts", "chart").sort(byName);
+const commerceItems = libItems("commerce", "commerce").sort(byName);
 const galleryItems = libItems("gallery", "gallery").sort(byName);
 const gallerySections = groupSections(galleryItems, GALLERY_GROUPS, "image galleries");
 const navGroups = [
   { title: "AI Agents", list: aiSections.flatMap((sub) => sub.items) },
   { title: "CRM", list: crmSections.flatMap((sub) => sub.items) },
+  { title: "Application", list: appSections.flatMap((sub) => sub.items) },
+  { title: "Charts", list: chartItems },
+  { title: "E-commerce", list: commerceItems },
   { title: "Gallery", list: gallerySections.flatMap((sub) => sub.items) },
   { title: "Effects", list: effectSections.flatMap((sub) => sub.items) },
   { title: "Components", list: dedupe([...ready.filter((i) => i.kind === "component"), ...libItems("components", "component")]).sort(byName).concat(roadmap.filter((i) => i.kind === "component").sort(byName)) },
@@ -156,6 +177,9 @@ const navGroups = [
 const catDesc = {
   Components: "Buttons, inputs, overlays, motion primitives and everything in between.",
   "AI Agents": "Every kind of AI agent interface in one place: chat, reasoning, tool calls and approvals, browser and research agents, traces, workflows, memory and voice.",
+  Application: "The screens every SaaS needs: sign in and sign up, one-time codes, settings, onboarding, notifications, data tables and multi-step forms.",
+  Charts: "Hand-built SVG charts with tooltips, legends and draw-in motion: line, area, bar, donut, radar and KPI cards.",
+  "E-commerce": "Product cards and detail pages, cart drawer, checkout and reviews for online stores.",
   Effects: "Animated backgrounds and text effects: aurora, grids, meteors, particles, border beams, typewriter, scramble, gradient text, number tickers and word rotators.",
   Gallery: "Premium image galleries and carousels: 3D coverflow, rings and card stacks, masonry, bento, lightbox, filmstrips, before/after sliders and scroll-driven motion.",
   CRM: "Everything a modern CRM needs: record tables, filters and views, pipeline boards, deal cards, profiles, activity timelines, tasks, email and outreach, plus a complete CRM app template.",
@@ -205,6 +229,9 @@ const mark =
 
 const ico = (d) => `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const catIcon = {
+  Application: ico('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/>'),
+  Charts: ico('<path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/>'),
+  "E-commerce": ico('<path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/>'),
   Effects: ico('<path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M5 3v4M3 5h4M19 17v4M17 19h4"/>'),
   Gallery: ico('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/>'),
   CRM: ico('<path d="M16 20v-1.5a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V20"/><circle cx="9" cy="7.5" r="3.5"/><path d="M22 20v-1.5a4 4 0 0 0-3-3.87"/><path d="M16 4.13a4 4 0 0 1 0 7.75"/>'),
@@ -225,7 +252,7 @@ const pvControls = `<div class="pv-ctrls">
 function sidebar(activePath) {
   const link = (href, label, extra = "") =>
     `<a href="${href}" class="sb-item${href === activePath ? " on" : ""}"${href === activePath ? ' aria-current="page"' : ""}><span>${esc(label)}</span>${extra}</a>`;
-  let html = `<div class="sb-group"><p class="sb-label">Getting started</p>${link("/", "Introduction")}${link("/docs/installation", "Installation")}${link("/#mcp", "Connect your agent", '<em class="tag-ai">MCP</em>')}${link("/llms.txt", "llms.txt", '<em class="tag-ai">AI</em>')}${libGuides.map((e) => link("/library/#/intro/" + e.slug, e.name === "OpenUI" ? "Design system" : e.name)).join("")}</div>`;
+  let html = `<div class="sb-group"><p class="sb-label">Getting started</p>${link("/", "Introduction")}${link("/docs/installation", "Installation")}${link("/changelog", "Changelog")}${link("/saved", "Saved", '<em class="tag-ai" data-saved-count hidden></em>')}${link("/#mcp", "Connect your agent", '<em class="tag-ai">MCP</em>')}${link("/llms.txt", "llms.txt", '<em class="tag-ai">AI</em>')}${libGuides.map((e) => link("/library/#/intro/" + e.slug, e.name === "OpenUI" ? "Design system" : e.name)).join("")}</div>`;
   html += `<div class="sb-group sb-cats"><p class="sb-label">Library</p>`;
   for (const g of navGroups) {
     const n = g.list.filter((i) => i.status === "ready").length;
@@ -662,6 +689,32 @@ const aiCategoryBody = () => `
       </section>`
         )
         .join("")}`;
+const libCode = (it) => {
+  if (!it.files?.length) return "";
+  const cmd = `npx shadcn@latest add ${site.url}/r/${it.rid}.json`;
+  const deps = extDeps(it.files);
+  const prompt = `Add the "${it.name}" component from NiceUI to my React + Tailwind project. Install it with \`${cmd}\` (this also installs the NiceUI theme: colours, shadows and animations). Docs: ${site.url}${it.path}. Then use it where it fits and adapt the copy to my product.`;
+  const base = (p) => p.split("/").pop();
+  return `
+      <section class="doc-sec" aria-labelledby="install-h">
+        <h2 id="install-h">Installation</h2>
+        <div class="steps">
+          <div class="step"><span class="step-n">01</span><div><p>Install with the shadcn CLI. The NiceUI theme comes along the first time.</p>
+            <div class="cmdline"><code><span class="sky">$</span> ${esc(cmd)}</code><button class="icon-btn" data-copy="${esc(cmd)}" aria-label="Copy install command">${icon.copy}</button></div>
+          </div></div>
+          <div class="step"><span class="step-n">02</span><div><p>Or copy the source below${it.files.length > 1 ? ` (${it.files.length} files)` : ""}. Dependencies: ${deps.length ? deps.map((d) => `<code class="inline">${esc(d)}</code>`).join(" ") : "none"}.</p>
+            <button class="btn btn-cmd src-prompt" data-copy="${esc(prompt)}">${icon.spark} Copy prompt for your AI agent</button>
+          </div></div>
+        </div>
+      </section>
+      <section class="doc-sec" aria-labelledby="src-h">
+        <h2 id="src-h">Source</h2>
+        <div data-tabs>
+          ${it.files.length > 1 ? `<div class="tabs src-files" role="tablist">${it.files.map((f, i) => `<button role="tab" class="tab${i ? "" : " on"}" data-tab="f${i}" aria-selected="${!i}">${esc(base(f.path))}</button>`).join("")}</div>` : ""}
+          ${it.files.map((f, i) => `<div class="panel" data-panel="f${i}"${i ? " hidden" : ""}><div class="code-wrap"><div class="code-file">${esc(f.path)}</div><button class="icon-btn code-copy" data-copy="${esc(f.content)}" aria-label="Copy ${esc(base(f.path))}">${icon.copy}</button><pre class="code"><code>${highlight(f.content.trim())}</code></pre></div></div>`).join("")}
+        </div>
+      </section>`;
+};
 const anyCard = (it) => (it.lib ? thumbCard(it) : card({ ...it, wide: false, thumb: it.thumb && it.thumb < 0.6 ? 0.36 : it.thumb }));
 
 for (const g of navGroups) {
@@ -674,7 +727,7 @@ for (const g of navGroups) {
         <div class="cat-title"><span class="sb-cat-ico big">${catIcon[g.title] || ""}</span><h1>${g.title}</h1><span class="cat-count">${live.length}</span></div>
         <p class="lede">${esc(g.desc)}</p>
       </header>
-      ${g.title === "AI Agents" ? aiCategoryBody() : g.title === "CRM" ? crmFeature() + groupedBody(crmSections, "crm", "CRM") : g.title === "Gallery" ? groupedBody(gallerySections, "gal", "Gallery") : g.title === "Effects" ? groupedBody(effectSections, "fx", "Effects") : `<div class="cards">${live.map(anyCard).join("")}
+      ${g.title === "AI Agents" ? aiCategoryBody() : g.title === "CRM" ? crmFeature() + groupedBody(crmSections, "crm", "CRM") : g.title === "Gallery" ? groupedBody(gallerySections, "gal", "Gallery") : g.title === "Application" ? groupedBody(appSections, "app", "Application") : g.title === "Effects" ? groupedBody(effectSections, "fx", "Effects") : `<div class="cards">${live.map(anyCard).join("")}
       </div>`}
       ${later.length ? `<div class="sec-title cat-soon"><h2>Coming <em>soon</em></h2></div><div class="soon-grid">${later.map(soonCard).join("")}</div>` : ""}
     </section>`;
@@ -706,7 +759,7 @@ for (const g of navGroups) {
       <header class="doc-head">
         <h1>${esc(it.name)}${it.badge === "New" ? ' <em class="tag-new big">New</em>' : ""}</h1>
         <p class="lede">${esc(it.description)}</p>
-        <div class="doc-tags"><span>React</span><span>Tailwind CSS</span><span>TypeScript</span><span>${esc(g.title)}</span><span class="t-sky">MIT · Free</span></div>
+        <div class="doc-tags"><span>React</span><span>Tailwind CSS</span><span>TypeScript</span><span>${esc(g.title)}</span><span class="t-sky">MIT · Free</span><button class="save-btn" data-save="${it.path}" aria-pressed="false"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg><span>Save</span></button></div>
       </header>
       <div class="pv pv-lib" data-pv>
       <div class="pv-bar"><span class="pv-bar-t">Live preview</span>${it.page ? `<a class="pv-open" href="/preview/${g.slug}/${it.slug}">Open full page <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>` : ""}${pvControls}</div>
@@ -715,6 +768,7 @@ for (const g of navGroups) {
         <iframe src="${it.embed}" title="${esc(it.name)} live preview" loading="lazy" data-autosize></iframe>
       </div>
       </div>
+      ${libCode(it)}
       <nav class="pager" aria-label="Pagination">
         ${prev ? `<a href="${prev.path}" class="pg"><span class="dim">Previous</span><b>${esc(prev.name)}</b></a>` : "<span></span>"}
         ${next ? `<a href="${next.path}" class="pg pg-next"><span class="dim">Next</span><b>${esc(next.name)}</b></a>` : "<span></span>"}
@@ -781,6 +835,50 @@ for (const g of navGroups) {
       },
     ],
   };
+  // Changelog + saved items
+  const CHANGES = [
+    ["2026-10-30", "Application, Charts and E-commerce", "Sign-in and account screens, settings, onboarding, notifications, data tables and forms; hand-built SVG charts; product, cart, checkout and review components."],
+    ["2026-10-30", "Full source and one-command install everywhere", "Every library page now shows its complete source and a shadcn install command, with a shared NiceUI theme item."],
+    ["2026-10-30", "New templates and effects", "Portfolio, Blog, Store and Docs templates; shiny, rainbow, magnetic and ripple buttons, spotlight cards and more backgrounds."],
+    ["2026-10-30", "Effects and Gallery", "Animated backgrounds and text effects, plus 15 image galleries and 3D carousels."],
+    ["2026-10-30", "Full-page previews and light theme", "Every template opens in its own full-page preview; the whole site and every component can be viewed in white."],
+    ["2026-10-30", "CRM", "15 CRM components and a complete CRM app template."],
+    ["2026-10-29", "AI Agents: 46 components", "25 new agent interfaces, grouped into six sections."],
+    ["2026-10-29", "AI video editor landing page", "A white editorial landing page with a working editor in the hero."],
+    ["2026-10-29", "Marketing sections", "24 heroes, feature grids, testimonials, pricing, FAQ, CTAs and footers."],
+  ];
+  write(
+    "changelog.html",
+    layout({
+      title: "Changelog — NiceUI",
+      description: "What's new in NiceUI: new components, categories and templates.",
+      path: "/changelog",
+      ld: { "@context": "https://schema.org", "@graph": [org, website] },
+      main: `
+    <article class="doc">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Library</a><span>/</span><span aria-current="page">Changelog</span></nav>
+      <header class="doc-head"><h1>Changelog</h1><p class="lede">New components, categories and templates, newest first.</p></header>
+      <ol class="changes">${CHANGES.map(([d, t, b]) => `<li><time datetime="${d}">${new Date(d + "T12:00:00Z").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</time><div><h2>${esc(t)}</h2><p class="mute">${esc(b)}</p></div></li>`).join("")}</ol>
+    </article>`,
+    })
+  );
+  write(
+    "saved.html",
+    layout({
+      title: "Saved — NiceUI",
+      description: "Components and templates you saved on this device.",
+      path: "/saved",
+      ld: { "@context": "https://schema.org", "@graph": [org, website] },
+      main: `
+    <article class="doc">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Library</a><span>/</span><span aria-current="page">Saved</span></nav>
+      <header class="doc-head"><h1>Saved</h1><p class="lede">Items you saved with the Save button. They live in this browser only.</p></header>
+      <ul class="saved-list" data-saved-list></ul>
+      <p class="mute saved-empty" data-saved-empty hidden>Nothing saved yet. Open any component and press <b>Save</b>.</p>
+    </article>`,
+    })
+  );
+
   write("docs/installation.html", layout({ title: "Installation — NiceUI", description: "How to install free NiceUI React and Tailwind components with the shadcn CLI or by copying the source.", path: "/docs/installation", main, ld, md: "/docs/installation.md" }));
   write(
     "docs/installation.md",
@@ -846,6 +944,44 @@ for (const g of navGroups)
     );
   }
 
+// ─── shadcn registry items for every library entry ───────────────────
+const tailwindTheme = (await import("../tailwind.config.js")).default.theme;
+write(
+  "r/niceui-base.json",
+  JSON.stringify(
+    {
+      $schema: "https://ui.shadcn.com/schema/registry-item.json",
+      name: "niceui-base",
+      type: "registry:lib",
+      title: "NiceUI base",
+      description: "The cn() helper and the NiceUI Tailwind theme (ink and brand colours, shadows, keyframes) that every NiceUI library component uses.",
+      tailwind: { config: { theme: tailwindTheme } },
+      files: [{ path: "lib/cn.ts", type: "registry:lib", target: "lib/cn.ts", content: readFileSync("../src/lib/cn.ts", "utf8") }],
+    },
+    null,
+    2
+  )
+);
+for (const g of navGroups)
+  for (const it of g.list.filter((i) => i.lib && i.files?.length))
+    write(
+      `r/${it.rid}.json`,
+      JSON.stringify(
+        {
+          $schema: "https://ui.shadcn.com/schema/registry-item.json",
+          name: it.rid,
+          type: it.files.length > 1 ? "registry:block" : "registry:component",
+          title: it.name,
+          description: it.description,
+          dependencies: extDeps(it.files),
+          registryDependencies: [site.url + "/r/niceui-base.json"],
+          files: it.files.map((f) => ({ path: f.path, type: "registry:component", target: f.path, content: f.content })),
+        },
+        null,
+        2
+      )
+    );
+
 // ─── registry index, llms, sitemap, robots, manifest ────────────────
 write(
   "r/registry.json",
@@ -854,13 +990,20 @@ write(
       $schema: "https://ui.shadcn.com/schema/registry.json",
       name: "niceui",
       homepage: site.url,
-      items: readyOrder.map((it) => ({
+      items: [...readyOrder.map((it) => ({
         name: it.slug,
         type: it.kind === "block" ? "registry:block" : "registry:ui",
         title: it.name,
         description: it.description,
         files: [{ path: (it.kind === "block" ? "registry/blocks/" : "registry/ui/") + it.file, type: it.kind === "block" ? "registry:component" : "registry:ui" }],
       })),
+      ...navGroups.flatMap((g) => g.list.filter((i) => i.lib && i.files?.length)).map((it) => ({
+        name: it.rid,
+        type: it.files.length > 1 ? "registry:block" : "registry:component",
+        title: it.name,
+        description: it.description,
+        files: it.files.map((f) => ({ path: f.path, type: "registry:component" })),
+      }))],
     },
     null,
     2

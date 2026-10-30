@@ -60,7 +60,7 @@
   const modal = $("[data-search]");
   const input = $("[data-search-input]");
   const list = $("[data-search-list]");
-  const kindLabel = { component: "Component", block: "Block", template: "Template", ai: "AI agent", crm: "CRM", gallery: "Gallery", effect: "Effect", marketing: "Marketing section", landing: "Landing page", dashboard: "Dashboard" };
+  const kindLabel = { component: "Component", block: "Block", template: "Template", ai: "AI agent", crm: "CRM", gallery: "Gallery", effect: "Effect", application: "Application", chart: "Chart", commerce: "E-commerce", marketing: "Marketing section", landing: "Landing page", dashboard: "Dashboard" };
   let results = [];
   let active = 0;
 
@@ -179,6 +179,38 @@
     );
     frame?.addEventListener("load", () => frameTheme(frame, light));
   });
+
+  // ── saved items (localStorage) ─────────────────────────
+  const SAVED_KEY = "niceui-saved";
+  const getSaved = () => { try { return JSON.parse(localStorage.getItem(SAVED_KEY) || "[]"); } catch { return []; } };
+  const setSaved = (list) => { try { localStorage.setItem(SAVED_KEY, JSON.stringify(list)); } catch {} };
+  const syncSaved = () => {
+    const list = getSaved();
+    $$("[data-save]").forEach((b) => {
+      const on = list.includes(b.dataset.save);
+      b.setAttribute("aria-pressed", on);
+      b.classList.toggle("on", on);
+      $("span", b).textContent = on ? "Saved" : "Save";
+    });
+    $$("[data-saved-count]").forEach((el) => { el.hidden = !list.length; el.textContent = list.length; });
+    const ul = $("[data-saved-list]");
+    if (ul) {
+      const data = JSON.parse($("#search-data")?.textContent || "[]");
+      const rows = list.map((p) => data.find((d) => d.p === p)).filter(Boolean);
+      ul.innerHTML = rows.map((r) => `<li><a href="${r.p}"><b>${r.n}</b><small>${r.c}</small></a><button data-unsave="${r.p}" aria-label="Remove ${r.n}">Remove</button></li>`).join("");
+      $("[data-saved-empty]").hidden = rows.length > 0;
+      $$("[data-unsave]", ul).forEach((b) => b.addEventListener("click", () => { setSaved(getSaved().filter((p) => p !== b.dataset.unsave)); syncSaved(); }));
+    }
+  };
+  $$("[data-save]").forEach((b) =>
+    b.addEventListener("click", () => {
+      const list = getSaved();
+      const p = b.dataset.save;
+      setSaved(list.includes(p) ? list.filter((x) => x !== p) : [p, ...list]);
+      syncSaved();
+    })
+  );
+  syncSaved();
 
   // ── site theme: dark by default, light on request; previews follow it ─
   const html = document.documentElement;
