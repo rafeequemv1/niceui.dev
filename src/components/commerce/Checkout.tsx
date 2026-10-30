@@ -201,7 +201,7 @@ export function Checkout({ className }: { className?: string }) {
           {ITEMS.map(({ p, qty, frame, size }) => (
             <li key={p.id} className="flex items-center gap-3">
               <div className="relative">
-                <Print art={p.art[0]} className="h-16 w-13 w-[52px] rounded-lg" />
+                <Print art={p.art[0]} className="h-16 w-[52px] rounded-lg" />
                 <span className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-ink-700 text-[10px] font-medium text-ink-100">{qty}</span>
               </div>
               <div className="min-w-0 flex-1">

@@ -127,7 +127,7 @@ export function StoreApp() {
           </aside>
         )}
         {view && (
-          <div role="dialog" aria-label={view.name} className="absolute left-1/2 top-6 grid w-[min(760px,calc(100%-24px))] -translate-x-1/2 overflow-hidden rounded-2xl bg-white shadow-2xl animate-scale-in sm:grid-cols-2">
+          <div className="absolute inset-x-0 top-6 flex justify-center px-3"><div role="dialog" aria-label={view.name} className="grid w-full max-w-[760px] overflow-hidden rounded-2xl bg-white shadow-2xl animate-scale-in sm:grid-cols-2">
             <img src={artwork(view.art, 600, 720)} alt={view.name} className="h-56 w-full object-cover sm:h-full" />
             <div className="relative p-6">
               <button onClick={() => setView(null)} aria-label="Close" className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full hover:bg-stone-100"><X className="h-4 w-4" /></button>
@@ -139,7 +139,7 @@ export function StoreApp() {
               <div className="mt-4 flex gap-2">{view.colors.map((c) => <span key={c} className="h-6 w-6 rounded-full ring-2 ring-white ring-offset-1 ring-offset-stone-300" style={{ background: c }} />)}</div>
               <button onClick={() => (add(view), setView(null))} className="mt-6 flex h-11 w-full items-center justify-center rounded-full bg-stone-900 text-[14px] font-medium text-white hover:bg-stone-800">Add to bag · {money(view.price)}</button>
             </div>
-          </div>
+          </div></div>
         )}
       </div>
 

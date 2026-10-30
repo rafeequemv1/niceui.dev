@@ -309,7 +309,7 @@ function Palette({ onGo, onClose }: { onGo: (t: string) => void; onClose: () => 
   const [i, setI] = useState(0);
   const res = useMemo(() => FLAT.filter((f) => (f.title + ' ' + f.section).toLowerCase().includes(q.toLowerCase())), [q]);
   return (
-    <div role="dialog" aria-label="Search docs" className="absolute left-1/2 top-10 w-[min(560px,calc(100%-24px))] -translate-x-1/2 overflow-hidden rounded-2xl border border-white/10 bg-ink-900 shadow-pop animate-scale-in">
+    <div className="absolute inset-x-0 top-10 flex justify-center px-3"><div role="dialog" aria-label="Search docs" className="w-full max-w-[560px] overflow-hidden rounded-2xl border border-white/10 bg-ink-900 shadow-pop animate-scale-in">
       <div className="flex items-center gap-2 border-b border-white/[0.07] px-4">
         <Search className="h-4 w-4 text-ink-500" />
         <input
@@ -342,6 +342,6 @@ function Palette({ onGo, onClose }: { onGo: (t: string) => void; onClose: () => 
         ))}
         {!res.length && <li className="px-3 py-8 text-center text-[13px] text-ink-500">No results for “{q}”.</li>}
       </ul>
-    </div>
+    </div></div>
   );
 }
