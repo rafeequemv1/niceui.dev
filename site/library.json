@@ -142,6 +142,42 @@
         "demos": 0
       },
       {
+        "slug": "store",
+        "name": "Store",
+        "description": "A premium e-commerce storefront with hero, category tiles, a filterable product grid, quick view, wishlist and a cart drawer with a free-shipping meter.",
+        "badge": "New",
+        "theme": "light",
+        "page": true,
+        "demos": 0
+      },
+      {
+        "slug": "docs-site",
+        "name": "Docs Site",
+        "description": "A developer documentation site with a ⌘K search palette, collapsible nav, code blocks with tabs and copy, callouts, a scroll-spy table of contents and a version switcher.",
+        "badge": "New",
+        "theme": null,
+        "page": true,
+        "demos": 0
+      },
+      {
+        "slug": "portfolio",
+        "name": "Portfolio",
+        "description": "An editorial designer portfolio with filterable selected work, case-study overlays, a career timeline, services and a contact form.",
+        "badge": "New",
+        "theme": "light",
+        "page": true,
+        "demos": 0
+      },
+      {
+        "slug": "blog",
+        "name": "Blog",
+        "description": "A dark magazine-style blog with a featured story, category tabs, search, bookmarks, an article view with reading progress and contents, and a newsletter signup.",
+        "badge": "New",
+        "theme": null,
+        "page": true,
+        "demos": 0
+      },
+      {
         "slug": "ai-assistant",
         "name": "AI Chat Assistant",
         "description": "A complete chat assistant app with streaming, reasoning, web search, artifacts, image and video generation previews.",
@@ -765,6 +801,222 @@
     ]
   },
   {
+    "id": "application",
+    "title": "Application",
+    "entries": [
+      {
+        "slug": "sign-in",
+        "name": "Sign In",
+        "description": "A split sign-in screen with SSO buttons, inline validation, a show-password toggle, remember me and a loading-to-success button.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "sign-up",
+        "name": "Sign Up",
+        "description": "A sign-up card with a live password strength meter, requirement checklist, terms checkbox and plan badge.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "otp-verify",
+        "name": "One-Time Code",
+        "description": "A six-digit code input with paste support, auto-advance, arrow keys, a resend countdown, an error shake and a success state.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "magic-link",
+        "name": "Magic Link",
+        "description": "Passwordless sign-in: email a link, then an animated “check your inbox” state with open-mail-app buttons and resend.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "password-reset",
+        "name": "Password Reset",
+        "description": "A three-step reset flow: request a link, check email, set a new password with strength meter and confirm, then success.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "settings-page",
+        "name": "Settings",
+        "description": "Tabbed account settings with profile, team invites and roles, billing usage and invoices, and API keys with a save bar.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "onboarding-flow",
+        "name": "Onboarding",
+        "description": "A four-step workspace setup with progress, back and next, skip, and a success screen.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "empty-states",
+        "name": "Empty States",
+        "description": "Four illustrated empty states, for no projects, no results, inbox zero and errors, each with actions.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "notification-inbox",
+        "name": "Notification Inbox",
+        "description": "A bell popover with All, Mentions and Unread tabs, grouped by day, with mark read, archive with undo and live items.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "data-table",
+        "name": "Data Table",
+        "description": "A full data table with search, column visibility, sorting, row selection, row actions, status badges and pagination.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "multi-step-form",
+        "name": "Multi-step Form",
+        "description": "A three-step form with validation on each step, a review step with edit links, and a success state.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      }
+    ]
+  },
+  {
+    "id": "charts",
+    "title": "Charts",
+    "entries": [
+      {
+        "slug": "line-chart",
+        "name": "Line Chart",
+        "description": "A multi-series line chart in plain SVG with smooth curves, a crosshair tooltip, toggleable series and range tabs that redraw it.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "area-chart",
+        "name": "Area Chart",
+        "description": "Stacked or overlaid gradient areas with a reveal animation, a totals tooltip and legend toggles.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "bar-chart",
+        "name": "Bar Chart",
+        "description": "Grouped or stacked bars, vertical or horizontal, with grow-in animation, value labels and a per-category tooltip.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "donut-chart",
+        "name": "Donut Chart",
+        "description": "An interactive donut: segments grow on hover, the centre shows the hovered value, and the legend hides slices.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "radar-chart",
+        "name": "Radar Chart",
+        "description": "Compare two series across axes, with a springy reveal and an axis readout on hover or focus.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "chart-cards",
+        "name": "KPI Chart Cards",
+        "description": "Stat cards with counting values, deltas and a sparkline, mini bars or a progress ring.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      }
+    ]
+  },
+  {
+    "id": "commerce",
+    "title": "E-commerce",
+    "entries": [
+      {
+        "slug": "product-card",
+        "name": "Product Cards",
+        "description": "Product cards with frame swatches, a second image on hover, sale and new badges, a wishlist heart and quick add with a size picker.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "product-detail",
+        "name": "Product Detail",
+        "description": "A product page section with a zoomable gallery, frame and size pickers with stock, quantity, an add-to-cart button with states, a delivery estimate and details.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "cart-drawer",
+        "name": "Cart Drawer",
+        "description": "A slide-over cart with quantity steppers, remove with undo, a free-shipping progress bar, an upsell and a checkout button.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "checkout",
+        "name": "Checkout",
+        "description": "A one-page checkout with contact, shipping, delivery options, card fields that format and detect the card type, and an order summary with promo codes.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "product-reviews",
+        "name": "Reviews",
+        "description": "A reviews section with an average rating, distribution bars that filter by stars, helpful votes and a write-a-review dialog with star input.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      }
+    ]
+  },
+  {
     "id": "gallery",
     "title": "Gallery",
     "entries": [
@@ -994,6 +1246,69 @@
         "slug": "word-rotate",
         "name": "Word Rotate",
         "description": "One word of a headline swaps with a blur-and-slide while the line width animates.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "shiny-button",
+        "name": "Shiny Button",
+        "description": "A pill button with a soft light sweep, in solid, outline and glass variants.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "rainbow-button",
+        "name": "Rainbow Button",
+        "description": "A dark button framed by an animated rainbow border with a matching glow.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "magnetic-button",
+        "name": "Magnetic Button",
+        "description": "A button that leans toward the pointer on a spring, with a label that moves further for depth.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "ripple-button",
+        "name": "Ripple Button",
+        "description": "Ripples spread from the click point, then the button moves through loading and success.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "spotlight-card",
+        "name": "Spotlight Card",
+        "description": "Cards lit by a soft light that follows the pointer, with a matching border highlight.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "noise-gradient",
+        "name": "Noise Gradient Background",
+        "description": "A slowly shifting mesh gradient with SVG film grain, for heroes and banners.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "beams-background",
+        "name": "Light Beams",
+        "description": "Vertical light beams fall through a dark panel at their own pace, over faint guide lines.",
         "badge": "New",
         "theme": null,
         "page": false,

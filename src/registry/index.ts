@@ -7,6 +7,10 @@ import { aiEntries } from './ai';
 import { crmEntries } from './crm';
 import { galleryEntries } from './gallery';
 import { effectEntries } from './effects';
+import { appAuthEntries } from './app-docs/auth';
+import { appPageEntries } from './app-docs/pages';
+import { chartEntries } from './chart-docs/charts';
+import { commerceEntries } from './commerce-docs/shop';
 import { coreEntries } from './components-core';
 import { motionEntries } from './components-motion';
 import { blockEntries } from './blocks';
@@ -22,6 +26,9 @@ export const sections: Section[] = [
   { id: 'examples', title: 'Dashboards', entries: exampleEntries },
   { id: 'ai', title: 'AI Agents', entries: aiEntries },
   { id: 'crm', title: 'CRM', entries: crmEntries },
+  { id: 'application', title: 'Application', entries: [...appAuthEntries, ...appPageEntries] },
+  { id: 'charts', title: 'Charts', entries: chartEntries },
+  { id: 'commerce', title: 'E-commerce', entries: commerceEntries },
   { id: 'gallery', title: 'Gallery', entries: galleryEntries },
   { id: 'effects', title: 'Effects', entries: effectEntries },
   { id: 'components', title: 'Components', entries: [...coreEntries, ...motionEntries] },

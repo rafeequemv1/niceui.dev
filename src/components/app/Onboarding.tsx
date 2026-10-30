@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, ArrowRight, Check, Code2, Github, Megaphone, Palette, PenTool, Slack, Trello, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Code2, GitBranch, KanbanSquare, Megaphone, MessagesSquare, Palette, PenTool, X } from 'lucide-react';
 import { cn } from '@/lib/cn';
 
 const STEPS = ['Workspace', 'Your role', 'Invite', 'Integrations'] as const;
@@ -10,9 +10,9 @@ const ROLES = [
   { id: 'marketing', label: 'Marketing', icon: Megaphone },
 ];
 const APPS = [
-  { id: 'github', label: 'GitHub', desc: 'Link pull requests to tasks', icon: Github },
-  { id: 'slack', label: 'Slack', desc: 'Get updates in channels', icon: Slack },
-  { id: 'boards', label: 'Boards', desc: 'Import an existing board', icon: Trello },
+  { id: 'code', label: 'Code host', desc: 'Link pull requests to tasks', icon: GitBranch },
+  { id: 'chat', label: 'Team chat', desc: 'Get updates in channels', icon: MessagesSquare },
+  { id: 'boards', label: 'Boards', desc: 'Import an existing board', icon: KanbanSquare },
 ];
 
 export type OnboardingData = { workspace: string; url: string; role: string; invites: string[]; apps: string[] };
