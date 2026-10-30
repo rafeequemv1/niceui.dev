@@ -765,6 +765,147 @@
     ]
   },
   {
+    "id": "gallery",
+    "title": "Gallery",
+    "entries": [
+      {
+        "slug": "coverflow-carousel",
+        "name": "Coverflow Carousel",
+        "description": "A 3D coverflow with side covers that turn away, mirrored reflections, drag or swipe with inertia, arrow keys and captions.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "ring-carousel",
+        "name": "3D Ring Carousel",
+        "description": "Cards on a slowly turning cylinder: drag to spin it with momentum, click a card to bring it to the front, pause with one tap.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "stack-carousel",
+        "name": "Card Stack",
+        "description": "A swipeable stack of photo cards that tilt as you drag and fly out left or right, with keep and skip buttons, keyboard control and restack.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "parallax-carousel",
+        "name": "Parallax Slider",
+        "description": "Full-width slides whose images travel slower than the frame, with large serif captions, segmented autoplay progress and pause.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "tilt-gallery",
+        "name": "3D Tilt Gallery",
+        "description": "A grid of cards that tilt toward the pointer with a moving glare and floating captions; click one to zoom it open from where it sits.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "masonry-gallery",
+        "name": "Masonry Gallery",
+        "description": "A responsive masonry of mixed aspect ratios with tone filters, staggered reveals and hover captions.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "lightbox",
+        "name": "Lightbox",
+        "description": "A thumbnail grid that opens a viewer with zoom and pan, swipe, arrow keys, a filmstrip, a counter and a details panel.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "bento-gallery",
+        "name": "Bento Gallery",
+        "description": "An editorial bento grid with a featured tile; click any photo to swap it into the spotlight with a FLIP animation.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "filmstrip-viewer",
+        "name": "Filmstrip Viewer",
+        "description": "A cinematic stage with crossfades and Ken Burns motion, a synced filmstrip, arrows and an autoplay progress ring.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "hover-reveal-list",
+        "name": "Hover Reveal List",
+        "description": "An editorial index where hovering a title floats its photo beside the cursor with spring motion and a clip-path reveal.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "marquee-gallery",
+        "name": "Marquee Gallery",
+        "description": "Rows of images drifting in opposite directions that pause on hover and speed up when you scroll or drag.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "expanding-panels",
+        "name": "Expanding Panels",
+        "description": "A horizontal accordion of tall image panels: the active one opens with its caption and the rest show vertical titles.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "before-after",
+        "name": "Before / After",
+        "description": "A draggable comparison slider between an original and an edited image, with keyboard control and tap-to-flip on phones.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "gallery-wall",
+        "name": "3D Gallery Wall",
+        "description": "Framed artworks hung along a perspective wall; walk along it by dragging or with the arrow keys, and the focused piece steps forward.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "scroll-stack-gallery",
+        "name": "Scroll Stack",
+        "description": "Sticky image cards that pile up and recede as you scroll inside the gallery, with a live index counter.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      }
+    ]
+  },
+  {
     "id": "components",
     "title": "Components",
     "entries": [
