@@ -140,7 +140,9 @@ const crmSections = groupSections(crmItems, CRM_GROUPS, "CRM apps");
 const GALLERY_GROUPS = [
   { id: "3d", title: "3D carousels", blurb: "Coverflow, rings, card stacks, parallax sliders and tilting cards.", slugs: ["coverflow-carousel", "ring-carousel", "stack-carousel", "parallax-carousel", "tilt-gallery", "gallery-wall"] },
   { id: "grids", title: "Grids & viewers", blurb: "Masonry, bento, lightbox, filmstrip and before/after viewers.", slugs: ["masonry-gallery", "bento-gallery", "lightbox", "filmstrip-viewer", "before-after"] },
+  { id: "reels", title: "Showcase & reels", blurb: "Showreel players, reel grids, project cards, infinite canvases, pixel transitions and polaroids.", slugs: ["showreel-player", "reel-grid", "project-cards", "canvas-gallery", "pixel-transition", "polaroid-stack"] },
   { id: "motion", title: "Motion & scroll", blurb: "Marquees, expanding panels, scroll stacks and hover reveals.", slugs: ["marquee-gallery", "expanding-panels", "scroll-stack-gallery", "hover-reveal-list"] },
+  { id: "reveal", title: "Scroll & reveal", blurb: "Image trails, scroll reveals, zoom parallax, horizontal scroll, image-in-text and curtain transitions.", slugs: ["image-trail", "scroll-reveal-images", "zoom-parallax", "horizontal-scroll-gallery", "text-mask-image", "curtain-reveal"] },
 ];
 const EFFECT_GROUPS = [
   { id: "backgrounds", title: "Backgrounds", blurb: "Aurora, animated grids, meteors, particles and border beams.", slugs: ["aurora-background", "animated-grid", "meteors", "particles", "border-beam", "noise-gradient", "beams-background"] },
