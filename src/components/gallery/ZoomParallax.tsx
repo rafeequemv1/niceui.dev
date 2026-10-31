@@ -7,12 +7,12 @@ const reduced = () => typeof window !== 'undefined' && window.matchMedia('(prefe
 // Grid slots as % of the stage (left, top, width, height) and how far each starts zoomed in.
 const SLOTS: [number, number, number, number, number][] = [
   [33, 31, 34, 38, 2.9],
-  [8, 8, 22, 30, 4.2],
-  [36, 4, 28, 24, 5],
-  [70, 10, 22, 36, 4.6],
-  [6, 44, 24, 46, 5.4],
-  [70, 50, 24, 40, 4.8],
-  [36, 72, 28, 24, 5.8],
+  [8, 8, 22, 30, 3.4],
+  [36, 4, 28, 24, 3.6],
+  [70, 10, 22, 36, 3.5],
+  [6, 44, 24, 46, 3.8],
+  [70, 50, 24, 40, 3.6],
+  [36, 72, 28, 24, 4],
 ];
 
 export type ZoomParallaxProps = {
@@ -37,7 +37,7 @@ export function ZoomParallax({ images, height = 480, length = 3, className, auto
     const on = () => setP(Math.min(1, el.scrollTop / Math.max(1, el.scrollHeight - el.clientHeight)));
     el.addEventListener('scroll', on, { passive: true });
     let t = 0;
-    if (autoPreview && !reduced()) t = window.setTimeout(() => el.scrollTo({ top: (el.scrollHeight - el.clientHeight) * 0.45, behavior: 'smooth' }), 900);
+    if (autoPreview && !reduced()) t = window.setTimeout(() => el.scrollTo({ top: (el.scrollHeight - el.clientHeight) * 0.7, behavior: 'smooth' }), 900);
     return () => {
       el.removeEventListener('scroll', on);
       clearTimeout(t);

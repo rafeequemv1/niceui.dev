@@ -1154,6 +1154,114 @@
         "theme": null,
         "page": false,
         "demos": 1
+      },
+      {
+        "slug": "showreel-player",
+        "name": "Showreel Player",
+        "description": "A video-style showreel with slow pan-and-zoom, a scrubber with chapter markers and hover previews, a chapter list and timecode.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "reel-grid",
+        "name": "Reel Grid",
+        "description": "Vertical 9:16 reels that play a slow pan with a progress bar on hover or focus, with view and duration badges.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "project-cards",
+        "name": "Project Cards",
+        "description": "Portfolio case cards that cycle through project images on hover, with client, year, tags and an arrow reveal.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "canvas-gallery",
+        "name": "Infinite Canvas",
+        "description": "An endless wall of images you drag in any direction, with inertia, a slow drift and a lightbox for the one you click.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "pixel-transition",
+        "name": "Pixel Transition",
+        "description": "Canvas transitions between images: pixelate, dissolve or blinds, with captions and prev/next.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "polaroid-stack",
+        "name": "Polaroid Scatter",
+        "description": "Scattered polaroid photos with handwritten captions you can drag, bring to the front and shuffle.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "image-trail",
+        "name": "Image Trail",
+        "description": "Moving the pointer drops a trail of images that pop in, then shrink and fade.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "scroll-reveal-images",
+        "name": "Scroll Reveal",
+        "description": "Images wipe in with a clip-path and settle from a slight zoom as they scroll into view.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "zoom-parallax",
+        "name": "Zoom Parallax",
+        "description": "A full-frame image zooms out into a grid of surrounding images as you scroll.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "horizontal-scroll-gallery",
+        "name": "Horizontal Scroll",
+        "description": "Scrolling down slides a track of large captioned images sideways, with a progress line.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "text-mask-image",
+        "name": "Image in Text",
+        "description": "A huge headline with a slowly panning image showing through its letters; hover a label to swap it.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "curtain-reveal",
+        "name": "Curtain Reveal",
+        "description": "Slides change behind a curtain of strips that pull away up and down, with captions and autoplay.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
       }
     ]
   },
