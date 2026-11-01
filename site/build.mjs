@@ -161,6 +161,7 @@ const appItems = libItems("application", "application").sort(byName);
 const appSections = groupSections(appItems, APP_GROUPS, "apps");
 const chartItems = libItems("charts", "chart").sort(byName);
 const commerceItems = libItems("commerce", "commerce").sort(byName);
+const designItems = libItems("design", "design");
 const galleryItems = libItems("gallery", "gallery").sort(byName);
 const gallerySections = groupSections(galleryItems, GALLERY_GROUPS, "image galleries");
 const navGroups = [
@@ -169,6 +170,7 @@ const navGroups = [
   { title: "Application", list: appSections.flatMap((sub) => sub.items) },
   { title: "Charts", list: chartItems },
   { title: "E-commerce", list: commerceItems },
+  { title: "Design Tools", list: designItems },
   { title: "Gallery", list: gallerySections.flatMap((sub) => sub.items) },
   { title: "Effects", list: effectSections.flatMap((sub) => sub.items) },
   { title: "Components", list: dedupe([...ready.filter((i) => i.kind === "component"), ...libItems("components", "component")]).sort(byName).concat(roadmap.filter((i) => i.kind === "component").sort(byName)) },
@@ -184,6 +186,7 @@ const catDesc = {
   Application: "The screens every SaaS needs: sign in and sign up, one-time codes, settings, onboarding, notifications, data tables and multi-step forms.",
   Charts: "Hand-built SVG charts with tooltips, legends and draw-in motion: line, area, bar, donut, radar and KPI cards.",
   "E-commerce": "Product cards and detail pages, cart drawer, checkout and reviews for online stores.",
+  "Design Tools": "A light, precise control kit for creative tools: segmented pills, in-track sliders, unit inputs, toggle rows, export menus, swatch rails and canvas toolbars, plus a full badge-maker app.",
   Effects: "Animated backgrounds and text effects: aurora, grids, meteors, particles, border beams, typewriter, scramble, gradient text, number tickers and word rotators.",
   Gallery: "Premium image galleries and carousels: 3D coverflow, rings and card stacks, masonry, bento, lightbox, filmstrips, before/after sliders and scroll-driven motion.",
   CRM: "Everything a modern CRM needs: record tables, filters and views, pipeline boards, deal cards, profiles, activity timelines, tasks, email and outreach, plus a complete CRM app template.",
@@ -233,6 +236,7 @@ const mark =
 
 const ico = (d) => `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const catIcon = {
+  "Design Tools": ico('<path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.6 7.6"/><circle cx="11" cy="11" r="2"/>'),
   Application: ico('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/>'),
   Charts: ico('<path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/>'),
   "E-commerce": ico('<path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/>'),
@@ -662,6 +666,12 @@ const thumbCard = (it) => `
           <div class="card-stage card-thumb"><img src="${it.thumb}" alt="${esc(it.name)} preview" loading="lazy" decoding="async" width="640" height="400" /></div>
           <div class="card-meta"><span class="card-name">${esc(it.name)}${it.badge === "New" ? ' <em class="tag-new">New</em>' : ""}</span><span class="card-cat">${esc(it.category)}</span></div>
         </a>`;
+const designFeature = () => {
+  const t = navGroups.find((g) => g.title === "Templates")?.list.find((i) => i.slug === "badge-maker");
+  return t
+    ? `<a class="crm-feature" href="${t.path}"><img src="${t.thumb}" alt="Badge Maker template preview" loading="lazy" decoding="async" width="640" height="400" /><div class="crm-feature-copy"><p class="kicker"><span class="dot"></span>Full template</p><h2>Badge Maker</h2><p class="mute">${esc(t.description)}</p><span class="ex-go">Open the template ${icon.arrow}</span></div></a>`
+    : "";
+};
 const crmTemplate = () => navGroups.find((g) => g.title === "Templates")?.list.find((i) => i.slug === "crm-app");
 const crmFeature = () => {
   const t = crmTemplate();
@@ -731,7 +741,7 @@ for (const g of navGroups) {
         <div class="cat-title"><span class="sb-cat-ico big">${catIcon[g.title] || ""}</span><h1>${g.title}</h1><span class="cat-count">${live.length}</span></div>
         <p class="lede">${esc(g.desc)}</p>
       </header>
-      ${g.title === "AI Agents" ? aiCategoryBody() : g.title === "CRM" ? crmFeature() + groupedBody(crmSections, "crm", "CRM") : g.title === "Gallery" ? groupedBody(gallerySections, "gal", "Gallery") : g.title === "Application" ? groupedBody(appSections, "app", "Application") : g.title === "Effects" ? groupedBody(effectSections, "fx", "Effects") : `<div class="cards">${live.map(anyCard).join("")}
+      ${g.title === "AI Agents" ? aiCategoryBody() : g.title === "CRM" ? crmFeature() + groupedBody(crmSections, "crm", "CRM") : g.title === "Gallery" ? groupedBody(gallerySections, "gal", "Gallery") : g.title === "Design Tools" ? designFeature() + `<div class="cards">${live.map(anyCard).join("")}</div>` : g.title === "Application" ? groupedBody(appSections, "app", "Application") : g.title === "Effects" ? groupedBody(effectSections, "fx", "Effects") : `<div class="cards">${live.map(anyCard).join("")}
       </div>`}
       ${later.length ? `<div class="sec-title cat-soon"><h2>Coming <em>soon</em></h2></div><div class="soon-grid">${later.map(soonCard).join("")}</div>` : ""}
     </section>`;
