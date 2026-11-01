@@ -39,6 +39,17 @@ export function AskAIToolbar({ paragraphs: initial, respond, initialSelection, c
 
   const selected = sel ? paras[sel.para].slice(sel.start, sel.end) : '';
 
+  // Re-measure when the layout shifts (web fonts loading, resizes).
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    const r = root.current;
+    if (!r) return;
+    const ro = new ResizeObserver(() => setTick((t) => t + 1));
+    ro.observe(r);
+    document.fonts?.ready.then(() => setTick((t) => t + 1));
+    return () => ro.disconnect();
+  }, []);
+
   // Position the toolbar above the highlighted text.
   useEffect(() => {
     const m = mark.current;
@@ -48,7 +59,7 @@ export function AskAIToolbar({ paragraphs: initial, respond, initialSelection, c
     const b = r.getBoundingClientRect();
     const x = Math.min(Math.max(a.left - b.left + a.width / 2, 150), b.width - 150);
     setPos({ x, y: a.top - b.top, yb: a.bottom - b.top });
-  }, [sel, paras]);
+  }, [sel, paras, tick]);
 
   const capture = () => {
     const s = window.getSelection();
