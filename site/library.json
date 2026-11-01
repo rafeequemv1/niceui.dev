@@ -142,6 +142,15 @@
         "demos": 0
       },
       {
+        "slug": "badge-maker",
+        "name": "Badge Maker",
+        "description": "A light 2D design tool for metallic badges and icons: an inspector with Shape, Material and Scene tabs, a dark canvas with a finish rail and view toolbar, undo and redo, and SVG, PNG and CSS export.",
+        "badge": "New",
+        "theme": "light",
+        "page": true,
+        "demos": 0
+      },
+      {
         "slug": "store",
         "name": "Store",
         "description": "A premium e-commerce storefront with hero, category tiles, a filterable product grid, quick view, wishlist and a cart drawer with a free-shipping meter.",
@@ -1281,6 +1290,102 @@
         "description": "A reviews section with an average rating, distribution bars that filter by stars, helpful votes and a write-a-review dialog with star input.",
         "badge": "New",
         "theme": null,
+        "page": false,
+        "demos": 1
+      }
+    ]
+  },
+  {
+    "id": "design",
+    "title": "Design Tools",
+    "entries": [
+      {
+        "slug": "segmented-pills",
+        "name": "Segmented Pills",
+        "description": "A soft track with a white pill that glides to the active option. Works with text, icons or both, and the arrow keys move between options.",
+        "badge": "New",
+        "theme": "light",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "inline-slider",
+        "name": "Inline Slider",
+        "description": "A slider with its label inside the track and the value on the right. Drag anywhere to scrub, use the arrow keys (Shift for ×10), or double-click the value to type one.",
+        "badge": "New",
+        "theme": "light",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "toggle-row",
+        "name": "Toggle Row",
+        "description": "A settings row with a soft background and a switch. It can carry a description, and a row can be disabled when it depends on another one.",
+        "badge": "New",
+        "theme": "light",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "unit-input",
+        "name": "Unit Input",
+        "description": "Compact number fields with a prefix letter and a unit. Drag the letter to scrub, ↑ ↓ to nudge, and out-of-range values turn red. The demo locks the aspect ratio between W and H.",
+        "badge": "New",
+        "theme": "light",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "icon-tabs",
+        "name": "Icon Tabs",
+        "description": "Inspector tabs where the active tab is a raised white tab joined to the panel below it. Each tab here holds real controls.",
+        "badge": "New",
+        "theme": "light",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "file-card",
+        "name": "File Card",
+        "description": "The current asset: a thumbnail tile, name and meta, a menu to replace or remove it, and a drop state when a file is dragged over.",
+        "badge": "New",
+        "theme": "light",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "export-menu",
+        "name": "Export Menu",
+        "description": "A dark pill button that opens a light popover of export formats, with icon tiles, shortcuts, simulated progress per row and a privacy note.",
+        "badge": "New",
+        "theme": "light",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "view-switcher",
+        "name": "View Toolbar",
+        "description": "A floating pill toolbar for the canvas: a Fit / 100% / Pixel segment, tool buttons with tooltips and shortcuts, and zoom controls.",
+        "badge": "New",
+        "theme": "light",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "swatch-rail",
+        "name": "Swatch Rail",
+        "description": "A rail of material spheres (chrome, glass, clay, gold, pearl, holographic, ink) drawn with CSS gradients, with a selected ring, tooltips and arrow-key navigation.",
+        "badge": "New",
+        "theme": "light",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "measure-bar",
+        "name": "Measure Bar",
+        "description": "A dark translucent chip bar of live measurements whose numbers tween when they change. Drag the handle (or use the arrow keys on it) to resize the shape.",
+        "badge": "New",
+        "theme": "light",
         "page": false,
         "demos": 1
       }

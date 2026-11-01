@@ -1,11 +1,13 @@
 import type { DocEntry } from '@/docs/types';
 import { AssistantApp } from '@/pages/apps/assistant/AssistantApp';
 import { crmTemplateEntries } from './crm-template';
+import { facetTemplateEntries } from './templates-docs/facet';
 import { contentTemplateEntries } from './templates-docs/content';
 import { siteTemplateEntries } from './templates-docs/sites';
 
 export const appEntries: DocEntry[] = [
   ...crmTemplateEntries,
+  ...facetTemplateEntries,
   ...siteTemplateEntries,
   ...contentTemplateEntries,
   {

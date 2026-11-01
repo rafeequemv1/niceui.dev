@@ -79,7 +79,7 @@ export function SegmentedPillsDemo() {
       <Panel className="space-y-5">
         <div className="space-y-2">
           <p className="text-[12px] font-medium text-zinc-500">Vectorize</p>
-          <SegmentedPills full label="Vectorize mode" value={mode} onChange={setMode} options={[{ value: 'trace', label: 'Trace' }, { value: 'posterize', label: 'Posterize' }, { value: 'outline', label: 'Outline' }, { value: 'centerline', label: 'Centerline' }]} />
+          <SegmentedPills full label="Vectorize mode" value={mode} onChange={setMode} options={[{ value: 'trace', label: 'Trace' }, { value: 'posterize', label: 'Posterize' }, { value: 'outline', label: 'Outline' }]} />
         </div>
         <div className="space-y-2">
           <p className="text-[12px] font-medium text-zinc-500">Detect shapes by</p>

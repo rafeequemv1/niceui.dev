@@ -83,7 +83,7 @@ export function UnitInputDemo() {
     <LightFrame className="mx-auto max-w-[440px]">
       <Panel>
         <SectionHead title="Size" meta={lock ? 'Height follows width' : 'Free resize'} />
-        <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)_minmax(0,1fr)] items-center gap-2">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)_minmax(0,1fr)]">
           <UnitInput prefix="W" label="Width" value={w} onChange={setWidth} max={4096} />
           <button
             onClick={() => {
@@ -97,7 +97,9 @@ export function UnitInputDemo() {
             {lock ? <Link2 className="h-3.5 w-3.5" /> : <Unlink2 className="h-3.5 w-3.5" />}
           </button>
           <UnitInput prefix="H" label="Height" value={h} onChange={setHeight} max={4096} />
-          <UnitInput prefix="R" label="Corner radius" value={d} onChange={setD} step={0.5} max={64} />
+          <div className="col-span-3 sm:col-span-1">
+            <UnitInput prefix="R" label="Corner radius" value={d} onChange={setD} step={0.5} max={64} />
+          </div>
         </div>
         <p className="mt-3 text-[12px] text-zinc-500">Drag a letter to scrub. ↑ ↓ nudge, Shift for ×10. Max 4096 px.</p>
       </Panel>

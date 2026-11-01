@@ -44,6 +44,7 @@ export function ViewSwitcher({ view, onView, tool, onTool, zoom, onZoom }: ViewS
         className="rounded-full [&>button]:rounded-full [&>span]:rounded-full"
         options={[{ value: 'fit', label: 'Fit' }, { value: '100', label: '100%' }, { value: 'pixel', label: 'Pixel' }]}
       />
+      <span className="hidden items-center sm:flex">
       <span className="mx-1 h-5 w-px shrink-0 bg-zinc-200" />
       <ToolButton label="Select" kbd="V" active={tool === 'select'} onClick={() => onTool('select')}>
         <MousePointer2 className="h-4 w-4" />
@@ -54,6 +55,7 @@ export function ViewSwitcher({ view, onView, tool, onTool, zoom, onZoom }: ViewS
       <ToolButton label="Measure" kbd="M" active={tool === 'ruler'} onClick={() => onTool('ruler')}>
         <Ruler className="h-4 w-4" />
       </ToolButton>
+      </span>
       <span className="mx-1 h-5 w-px shrink-0 bg-zinc-200" />
       <ToolButton label="Zoom out" kbd="−" onClick={() => onZoom(Math.max(25, zoom - 25))}>
         <ZoomOut className="h-4 w-4" />

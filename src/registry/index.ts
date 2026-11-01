@@ -6,6 +6,7 @@ import { exampleEntries } from './examples';
 import { aiEntries } from './ai';
 import { crmEntries } from './crm';
 import { galleryEntries } from './gallery';
+import { designControlEntries } from './design-docs/controls';
 import { effectEntries } from './effects';
 import { appAuthEntries } from './app-docs/auth';
 import { appPageEntries } from './app-docs/pages';
@@ -29,6 +30,7 @@ export const sections: Section[] = [
   { id: 'application', title: 'Application', entries: [...appAuthEntries, ...appPageEntries] },
   { id: 'charts', title: 'Charts', entries: chartEntries },
   { id: 'commerce', title: 'E-commerce', entries: commerceEntries },
+  { id: 'design', title: 'Design Tools', entries: designControlEntries },
   { id: 'gallery', title: 'Gallery', entries: galleryEntries },
   { id: 'effects', title: 'Effects', entries: effectEntries },
   { id: 'components', title: 'Components', entries: [...coreEntries, ...motionEntries] },
