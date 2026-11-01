@@ -656,6 +656,276 @@
         "theme": null,
         "page": false,
         "demos": 1
+      },
+      {
+        "slug": "grid-flicker",
+        "name": "Grid Flicker",
+        "description": "A tiny dot grid that flickers in waves, snakes, ripples or random sparks while the agent thinks.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "thinking-orbs",
+        "name": "Thinking Orbs",
+        "description": "Four small orbs for agent status: breathing, glass with a travelling highlight, dithered and a morphing blob.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "thinking-rings",
+        "name": "Thinking Rings",
+        "description": "Ring spinners for tool calls and searches: gradient arc, orbiting dots, pulsing halo and a radar sweep, with a done check.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "dot-wave",
+        "name": "Dot Wave",
+        "description": "Typing-style dots and bars that wave, bounce, fade or pulse like an equaliser.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "scan-line",
+        "name": "Scan Line",
+        "description": "A soft light that scans across whatever the agent is reading: a document, a card or a skeleton.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "braille-spinner",
+        "name": "Terminal Spinners",
+        "description": "Unicode spinners in the style of command-line coding agents, with labels, elapsed time and done ticks.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "thinking-text",
+        "name": "Thinking Text",
+        "description": "A \"Thinking…\" label with a shimmer sweep, a letter-by-letter glint or a gentle wave.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "scramble-status",
+        "name": "Scramble Status",
+        "description": "A status label that scramble-decodes into place each time its text changes.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "rotating-status",
+        "name": "Rotating Status",
+        "description": "Cycles through what the agent is doing with an icon per step, a soft slide-and-blur and an elapsed timer.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "agent-status-ring",
+        "name": "Agent Avatar Status",
+        "description": "An agent avatar with a ring that spins, breathes or settles for idle, thinking, tool use, waiting, done and error.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "thinking-states",
+        "name": "Thinking → Done",
+        "description": "One indicator that morphs from a resting dot to a sweeping arc, orbiting dots, a drawn check or a cross.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "gradient-blob",
+        "name": "Gradient Blob",
+        "description": "A soft morphing gradient blob that speeds up while thinking and settles when done, from 16 to 160px.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "inline-ai-edit",
+        "name": "Inline AI Edit",
+        "description": "Press ⌘K on selected lines to describe a change, watch the diff stream in, then accept, reject or retry.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "ghost-autocomplete",
+        "name": "Ghost Text",
+        "description": "Inline AI autocomplete: a grey continuation appears as you pause; Tab accepts it, → takes one word, Esc dismisses.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "ask-ai-toolbar",
+        "name": "Ask AI Toolbar",
+        "description": "Select text in a document to get a floating toolbar — improve, shorten, translate, explain or ask — with replace and insert.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "tool-permissions",
+        "name": "Tool Permissions",
+        "description": "A permission matrix for agent tools — Always, Ask or Never per tool — grouped by files, web, shell and MCP servers, with presets.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "sandbox-allowlist",
+        "name": "Sandbox Allowlist",
+        "description": "Folders and domains an agent may touch, with wildcard validation and a live checker that says whether a path or URL is allowed.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "rate-limit-notice",
+        "name": "Rate Limit",
+        "description": "A usage-limit notice with a live reset countdown, a usage meter, and options to switch model or upgrade.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "tool-failure-retry",
+        "name": "Tool Failure",
+        "description": "A failed tool call with collapsible error details, retry with exponential backoff, editable arguments and skip.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "connection-status",
+        "name": "Connection Status",
+        "description": "An offline → reconnecting → back-online bar above the composer, with messages that queue and send on reconnect.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "context-full",
+        "name": "Context Full",
+        "description": "A context-window warning that compacts the chat into a summary, or starts a new chat carrying that summary.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "refusal-message",
+        "name": "Polite Refusal",
+        "description": "A calm way to decline a request: a plain reason, alternatives the assistant can do instead, and a learn-more link.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "spend-cap",
+        "name": "Spend Cap",
+        "description": "An agent run paused at its budget cap, with a cost breakdown, a raise-cap control that asks to confirm, and stop.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "push-to-talk",
+        "name": "Push to Talk",
+        "description": "Hold the mic or Space to talk, with a live waveform, timer and slide-to-cancel, while the transcript streams into the composer.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "voice-conversation",
+        "name": "Voice Conversation",
+        "description": "Realtime voice mode with an orb, live captions for both sides, interrupt, mute, end call and a latency badge.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "attachment-dropzone",
+        "name": "Attachments",
+        "description": "A composer that takes files by drag and drop, paste or picker, with upload progress, image thumbnails and page or row counts.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "audio-recorder",
+        "name": "Audio Note",
+        "description": "Record a voice note, scrub it on a waveform with mouse, touch or arrow keys, then send or re-record.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "done-toast",
+        "name": "Task Done Toast",
+        "description": "Toasts that announce finished agent runs, with a progress state that turns into success in place, plus open and undo.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "task-dock",
+        "name": "Background Task Dock",
+        "description": "A downloads-tray style dock for background agents: progress rings, the current step, expandable details, cancel and a completed list.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "run-history",
+        "name": "Run History",
+        "description": "Past agent runs with status, duration, tokens and cost, a seven-day spend sparkline, status filters and per-step timings.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
       }
     ]
   },

@@ -156,9 +156,10 @@ export function AskAIToolbar({ paragraphs: initial, respond, initialSelection, c
         <div
           role="toolbar"
           aria-label="Ask AI about the selection"
-          className="absolute z-10 -translate-x-1/2 -translate-y-[calc(100%+10px)] animate-scale-in"
+          className="absolute z-10 -translate-x-1/2 -translate-y-[calc(100%+10px)]"
           style={{ left: pos.x, top: pos.y }}
         >
+          <div className="animate-scale-in">
           {asking ? (
             <form onSubmit={ask} className="flex w-[280px] items-center gap-1.5 rounded-xl border border-white/10 bg-ink-850 p-1.5 shadow-pop">
               <input
@@ -185,12 +186,13 @@ export function AskAIToolbar({ paragraphs: initial, respond, initialSelection, c
               </button>
             </div>
           )}
+          </div>
         </div>
       )}
 
       {sel && pos && result && (
-        <div className="absolute inset-x-4 z-10 animate-fade-up sm:inset-x-auto sm:left-[var(--x)] sm:w-[360px] sm:-translate-x-1/2" style={{ top: pos.yb + 10, '--x': `${pos.x}px` } as CSSProperties}>
-          <div className="rounded-xl border border-white/10 bg-ink-850 p-3 shadow-pop">
+        <div className="absolute inset-x-4 z-10 sm:inset-x-auto sm:left-[var(--x)] sm:w-[360px] sm:-translate-x-1/2" style={{ top: pos.yb + 10, '--x': `${pos.x}px` } as CSSProperties}>
+          <div className="rounded-xl border border-white/10 bg-ink-850 p-3 shadow-pop animate-fade-up">
             <div className="mb-2 flex items-center justify-between text-[11px] text-ink-500">
               <span className="flex items-center gap-1.5 capitalize">
                 {done ? <Sparkles className="h-3 w-3 text-brand-300" /> : <LoaderCircle className="h-3 w-3 animate-spin text-brand-300" />}
