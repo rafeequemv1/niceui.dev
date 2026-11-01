@@ -55,8 +55,8 @@ export function SegmentedPills({ options, value, onChange, size = 'md', full, la
             className={cn(
               'relative z-10 flex items-center justify-center gap-1.5 whitespace-nowrap rounded-[9px] font-medium transition-colors',
               focusRing,
-              size === 'sm' ? 'h-7 px-2.5 text-[12px]' : 'h-8 px-3.5 text-[13px]',
-              full && 'flex-1',
+              size === 'sm' ? 'h-7 px-2 text-[12px] sm:px-2.5' : 'h-8 px-2 text-[13px] sm:px-3.5',
+              full && 'min-w-0 flex-1 overflow-hidden text-ellipsis',
               on ? 'text-zinc-900' : 'text-zinc-500 hover:text-zinc-800',
             )}
           >

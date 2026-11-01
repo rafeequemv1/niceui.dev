@@ -2,9 +2,9 @@ import type { ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
 /** A light surface for demos, since the doc stage itself is dark. */
-export function LightFrame({ children, className }: { children: ReactNode; className?: string }) {
+export function LightFrame({ children, className, bare }: { children: ReactNode; className?: string; bare?: boolean }) {
   return (
-    <div className={cn('w-full rounded-2xl bg-[#fafafa] p-4 font-sans text-[13px] text-zinc-800 shadow-[0_1px_0_rgba(255,255,255,0.8)_inset,0_30px_60px_-30px_rgba(0,0,0,0.5)] ring-1 ring-zinc-200 sm:p-6', className)}>
+    <div className={cn('w-full rounded-2xl font-sans', bare ? 'overflow-hidden bg-[#f4f4f5]' : 'bg-[#fafafa] p-4 sm:p-6', ' text-[13px] text-zinc-800 shadow-[0_1px_0_rgba(255,255,255,0.8)_inset,0_30px_60px_-30px_rgba(0,0,0,0.5)] ring-1 ring-zinc-200', className)}>
       {children}
     </div>
   );
