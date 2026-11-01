@@ -23,7 +23,7 @@ export function DoneToastStack({ className }: DoneToastStackProps) {
     const q = QUEUE[k % QUEUE.length];
     const id = n.current++;
     const reduce = prefersReducedMotion();
-    setToasts((t) => [{ id, ...q, status: reduce ? 'done' : 'running', progress: reduce ? 1 : 0 }, ...t].slice(0, 3));
+    setToasts((t) => [{ id, ...q, status: (reduce ? 'done' : 'running') as AgentToast['status'], progress: reduce ? 1 : 0 }, ...t].slice(0, 3));
   };
 
   useEffect(() => {
