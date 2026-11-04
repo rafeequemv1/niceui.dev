@@ -779,7 +779,7 @@ for (const g of navGroups) {
       <div class="pv-bar"><span class="pv-bar-t">Live preview</span>${it.page ? `<a class="pv-open" href="/preview/${g.slug}/${it.slug}">Open full page <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>` : ""}${pvControls}</div>
       <div class="embed-frame${it.page ? " embed-page" : ""}" data-native="${it.theme}">
         <div class="embed-loading" aria-hidden="true"><img src="${it.thumb}" alt="" /></div>
-        <iframe src="${it.embed}" title="${esc(it.name)} live preview" loading="lazy" data-autosize></iframe>
+        <iframe src="${it.embed}" title="${esc(it.name)} live preview" loading="lazy" allow="microphone" data-autosize></iframe>
       </div>
       </div>
       ${libCode(it)}
@@ -948,7 +948,7 @@ for (const g of navGroups)
     <a class="fp-raw top-icon" href="${it.full}" target="_blank" rel="noopener" aria-label="Open without the toolbar" title="Open without the toolbar"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14 4h6v6M20 4l-8 8M10 5H5v14h14v-5"/></svg></a>
   </header>
   <main class="fp-stage" data-native="${it.theme}">
-    <iframe src="${it.full}" title="${esc(it.name)} full preview"></iframe>
+    <iframe src="${it.full}" allow="microphone" title="${esc(it.name)} full preview"></iframe>
   </main>
 </div>
 <script src="${JS}" defer></script>
