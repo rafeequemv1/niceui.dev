@@ -935,6 +935,33 @@
         "theme": null,
         "page": false,
         "demos": 1
+      },
+      {
+        "slug": "dither-orb",
+        "name": "Dither Voice Orb",
+        "description": "A liquid, lit sphere quantised to five tones with 8×8 ordered dithering. The rim ripples with the voice, a light sweeps around it while thinking, and it can listen to your mic.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 2
+      },
+      {
+        "slug": "dot-globe",
+        "name": "Dot Globe Orb",
+        "description": "A rotating 3D globe of evenly spread dots with depth shading. Ripples spread from the front while listening, frequency bands push out rings while speaking, and a scan band sweeps while thinking.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 2
+      },
+      {
+        "slug": "grid-orb",
+        "name": "Grid Voice Orb",
+        "description": "A shaded wireframe globe over a soft core and a reflective floor. The grid bulges with the voice bands, pulses as it speaks and twists around its axis while thinking.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
       }
     ]
   },

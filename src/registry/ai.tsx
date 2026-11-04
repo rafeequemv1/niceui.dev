@@ -12,5 +12,6 @@ import { thinkingBEntries } from './ai-docs/thinking-b';
 import { inlineEntries } from './ai-docs/inline';
 import { errorEntries } from './ai-docs/errors';
 import { ioEntries } from './ai-docs/io';
+import { voiceEntries } from './ai-docs/voice';
 
-export const aiEntries: DocEntry[] = [...conversationEntries, ...chatKitEntries, ...agentEntries, ...agentOpsEntries, ...agentControlEntries, ...agentGenEntries, ...agentBuildEntries, ...experienceEntries, ...thinkingAEntries, ...thinkingBEntries, ...inlineEntries, ...errorEntries, ...ioEntries];
+export const aiEntries: DocEntry[] = [...conversationEntries, ...chatKitEntries, ...agentEntries, ...agentOpsEntries, ...agentControlEntries, ...agentGenEntries, ...agentBuildEntries, ...experienceEntries, ...thinkingAEntries, ...thinkingBEntries, ...inlineEntries, ...errorEntries, ...ioEntries, ...voiceEntries];

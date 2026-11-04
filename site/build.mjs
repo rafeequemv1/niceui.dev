@@ -120,7 +120,7 @@ const AI_GROUPS = [
   { id: "errors", title: "Errors & recovery", blurb: "Rate limits, failed tools, reconnecting, full context, refusals and spend caps, designed calmly.", slugs: ["rate-limit-notice", "tool-failure-retry", "connection-status", "context-full", "refusal-message", "spend-cap"] },
   { id: "agents", title: "Agents at work", blurb: "Plans, live activity, browser and research agents, handoffs and queues.", slugs: ["agent-activity", "todo-list", "plan-review", "browser-agent", "research-progress", "agent-terminal", "parallel-agents", "agent-handoff", "agent-queue", "task-dock", "done-toast", "run-history"] },
   { id: "build", title: "Build, trace & memory", blurb: "Agent builders, workflows, traces, knowledge, memory, checkpoints and artifacts.", slugs: ["agent-builder", "agent-flow", "agent-trace", "knowledge-base", "memory-panel", "checkpoints", "artifact-panel"] },
-  { id: "media", title: "Voice, media & motion", blurb: "Voice orbs, image generation and animated AI visuals.", slugs: ["voice-orb", "voice-conversation", "push-to-talk", "audio-recorder", "image-generation", "network-pulse", "feature-tabs"] },
+  { id: "media", title: "Voice, media & motion", blurb: "Voice orbs (dithered, 3D dot globe, wireframe grid) that react to a live mic, plus image generation and animated AI visuals.", slugs: ["voice-orb", "dither-orb", "dot-globe", "grid-orb", "voice-conversation", "push-to-talk", "audio-recorder", "image-generation", "network-pulse", "feature-tabs"] },
 ];
 const CRM_GROUPS = [
   { id: "records", title: "Records & tables", blurb: "Data grids, filters and saved views, imports and relation pickers.", slugs: ["record-table", "filter-bar", "csv-import", "relation-picker"] },
