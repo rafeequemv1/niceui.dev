@@ -1,0 +1,79 @@
+import type { DocEntry } from '@/docs/types';
+import { HeroDuskDemo } from '@/components/marketing/heroes/HeroDusk';
+import { HeroMeadowDemo } from '@/components/marketing/heroes/HeroMeadow';
+
+export const scenicHeroEntries: DocEntry[] = [
+  {
+    slug: 'hero-dusk',
+    name: 'Hero — Dusk',
+    description:
+      'A cinematic dark hero over a grainy dusk landscape: a headline in an original 5×7 pixel face that decodes in, a boxed segmented nav with a sliding pill, pointer parallax and a divided partner-logo strip.',
+    badge: 'New',
+    theme: 'light',
+    demos: [
+      {
+        title: 'Cinematic dusk',
+        description: 'Move the pointer for parallax. Click the nav to slide the pill. The landscape is painted procedurally; pass `image` to use a photo.',
+        component: HeroDuskDemo,
+        height: 860,
+        code: `import { HeroDusk } from '@/components/marketing/heroes/HeroDusk';
+
+export default function Page() {
+  return (
+    <HeroDusk
+      title="See the signal in every hard call"
+      subtitle="Pull metrics, bets and debates into one calm view."
+      cta="Book a walkthrough"
+      image="/hero/dunes.jpg" // optional
+    />
+  );
+}
+
+// The pixel headline is reusable on its own:
+import { PixelText } from '@/components/marketing/heroes/PixelText';
+<h1 className="text-6xl"><PixelText text="Hello world" /></h1>`,
+      },
+    ],
+    props: [
+      { name: 'title', type: 'string', description: 'Headline, set in the pixel face (A–Z, 0–9 and basic punctuation).' },
+      { name: 'subtitle', type: 'string', description: 'Supporting line under the headline.' },
+      { name: 'cta', type: 'string', default: "'Book a walkthrough'", description: 'Main button label.' },
+      { name: 'image', type: 'string', description: 'Background photo URL. Without it a dusk dune scene is painted on canvas.' },
+      { name: 'className', type: 'string', description: 'Extra classes for the section.' },
+    ],
+  },
+  {
+    slug: 'hero-meadow',
+    name: 'Hero — Meadow',
+    description:
+      'A bright, airy hero over sky and flowering hills: a floating pill nav, a headline with tilted serif word chips where the second word rotates, a pressable 3D button and a live product dashboard rising out of the meadow.',
+    badge: 'New',
+    theme: 'light',
+    demos: [
+      {
+        title: 'Spring meadow with product',
+        description: 'The chip word rotates, KPIs count up, and the chart bars grow and show values on hover.',
+        component: HeroMeadowDemo,
+        height: 1080,
+        code: `import { HeroMeadow } from '@/components/marketing/heroes/HeroMeadow';
+
+export default function Page() {
+  return (
+    <HeroMeadow
+      words={['Momentum', 'Revenue', 'Readers']}
+      subtitle="Plan, ship and measure growth experiments in one calm place."
+      cta="Start growing"
+    />
+  );
+}`,
+      },
+    ],
+    props: [
+      { name: 'words', type: 'string[]', default: "['Momentum','Revenue','Readers']", description: 'Words that rotate inside the second chip.' },
+      { name: 'subtitle', type: 'string', description: 'Supporting line under the headline.' },
+      { name: 'cta', type: 'string', default: "'Start growing'", description: 'Main button label.' },
+      { name: 'image', type: 'string', description: 'Background photo URL. Without it a spring meadow is painted on canvas.' },
+      { name: 'className', type: 'string', description: 'Extra classes for the section.' },
+    ],
+  },
+];

@@ -2554,6 +2554,24 @@
         "demos": 1
       },
       {
+        "slug": "hero-dusk",
+        "name": "Hero — Dusk",
+        "description": "A cinematic dark hero over a grainy dusk landscape: a headline in an original 5×7 pixel face that decodes in, a boxed segmented nav with a sliding pill, pointer parallax and a divided partner-logo strip.",
+        "badge": "New",
+        "theme": "light",
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "hero-meadow",
+        "name": "Hero — Meadow",
+        "description": "A bright, airy hero over sky and flowering hills: a floating pill nav, a headline with tilted serif word chips where the second word rotates, a pressable 3D button and a live product dashboard rising out of the meadow.",
+        "badge": "New",
+        "theme": "light",
+        "page": false,
+        "demos": 1
+      },
+      {
         "slug": "feature-grid",
         "name": "Feature Grid — Spotlight",
         "description": "Six features in a hairline grid. A cursor-following spotlight lights each cell and traces its border; icons tilt and glow on hover.",

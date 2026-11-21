@@ -17,6 +17,7 @@ import { motionEntries } from './components-motion';
 import { blockEntries } from './blocks';
 import { footerEntries } from './footers';
 import { heroEntries } from './marketing-docs/heroes';
+import { scenicHeroEntries } from './marketing-docs/heroes-scenic';
 import { showcaseEntries } from './marketing-docs/showcase';
 import { conversionEntries } from './marketing-docs/conversion';
 
@@ -35,7 +36,7 @@ export const sections: Section[] = [
   { id: 'effects', title: 'Effects', entries: effectEntries },
   { id: 'components', title: 'Components', entries: [...coreEntries, ...motionEntries] },
   { id: 'blocks', title: 'Blocks', entries: blockEntries },
-  { id: 'marketing', title: 'Marketing', entries: [...heroEntries, ...showcaseEntries, ...conversionEntries] },
+  { id: 'marketing', title: 'Marketing', entries: [...heroEntries, ...scenicHeroEntries, ...showcaseEntries, ...conversionEntries] },
   { id: 'footers', title: 'Footers', entries: footerEntries },
 ];
 
