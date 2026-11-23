@@ -7,8 +7,16 @@ import { LandingPageSaaS } from '@/pages/landing/LandingPageSaaS';
 import { LandingPageStudio } from '@/pages/landing/LandingPageStudio';
 import { LandingPageNorthstar } from '@/pages/landing/LandingPageNorthstar';
 import { LandingPageRushes } from '@/pages/landing/LandingPageRushes';
+import { LandingPageQuarry } from '@/pages/landing/LandingPageQuarry';
 
 export const landingEntries: DocEntry[] = [
+  {
+    slug: 'ui-library-landing',
+    name: 'UI Library Landing',
+    description: 'An elegant, minimal dark landing page for a component library: a morphing mega menu, two-tone headline, a drifting wall of page previews, stack marquee, templates, a live agent demo, pricing with a rolling price toggle, FAQ and a light CTA card.',
+    badge: 'New',
+    page: LandingPageQuarry,
+  },
   {
     slug: 'video-editor-landing',
     theme: 'light',

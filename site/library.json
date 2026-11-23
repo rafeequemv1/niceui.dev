@@ -55,6 +55,15 @@
     "title": "Landing Pages",
     "entries": [
       {
+        "slug": "ui-library-landing",
+        "name": "UI Library Landing",
+        "description": "An elegant, minimal dark landing page for a component library: a morphing mega menu, two-tone headline, a drifting wall of page previews, stack marquee, templates, a live agent demo, pricing with a rolling price toggle, FAQ and a light CTA card.",
+        "badge": "New",
+        "theme": null,
+        "page": true,
+        "demos": 0
+      },
+      {
         "slug": "video-editor-landing",
         "name": "AI Video Editor Landing",
         "description": "A white, editorial landing page for an AI video editor: a working editor in the hero (transcript, dithered player, AI Director, multitrack timeline), live bento demos, dithered art, pricing and FAQ.",
@@ -2548,6 +2557,15 @@
         "slug": "hero-rotating-word",
         "name": "Hero — Rotating Word",
         "description": "Editorial, oversized type where one word cycles with a blur-slide transition and a drawn underline.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "mega-menu",
+        "name": "Mega Menu",
+        "description": "A desktop mega menu with one shared panel that morphs its size and position between menus, hover intent, an icon grid or described list per menu, a preview card that follows the hovered link, keyboard support and an accordion sheet on phones.",
         "badge": "New",
         "theme": null,
         "page": false,
