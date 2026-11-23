@@ -94,7 +94,7 @@
   };
   const closeSearch = () => (modal.hidden = true);
 
-  $("[data-search-open]").addEventListener("click", openSearch);
+  $$("[data-search-open]").forEach((b) => b.addEventListener("click", openSearch));
   modal.addEventListener("click", (e) => e.target === modal && closeSearch());
   input.addEventListener("input", render);
   list.addEventListener("mousemove", (e) => {
@@ -320,4 +320,124 @@
     })
   );
   $$("[data-count]").forEach((el) => io.observe(el));
+  // ── home mega menu ───────────────────────────────────────
+  (() => {
+    const root = $("[data-mk]");
+    if (!root) return;
+    const bar = $(".mk-bar", root);
+    const panel = $("[data-mk-panel]", root);
+    const trigs = $$("[data-mk-trig]", root);
+    const panes = $$("[data-mk-pane]", root);
+    const fine = matchMedia("(hover: hover) and (pointer: fine)");
+    let open = -1;
+    let t = 0;
+    const place = (i) => {
+      const pane = panes[i];
+      const w = pane.offsetWidth;
+      const h = pane.offsetHeight;
+      const br = bar.getBoundingClientRect();
+      const tr = trigs[i].getBoundingClientRect();
+      const x = Math.max(0, Math.min(br.width - w, tr.left - br.left + tr.width / 2 - w / 2));
+      panel.style.left = x + "px";
+      panel.style.width = w + "px";
+      panel.style.height = h + "px";
+    };
+    const show = (i) => {
+      clearTimeout(t);
+      if (i === open) return;
+      const was = open;
+      open = i;
+      trigs.forEach((b, k) => b.setAttribute("aria-expanded", String(k === i)));
+      panes.forEach((p, k) => {
+        p.classList.toggle("on", k === i);
+        p.classList.toggle("from-l", i >= 0 && k > i);
+        p.setAttribute("aria-hidden", String(k !== i));
+      });
+      if (i < 0) {
+        panel.classList.toggle("open", false);
+        return;
+      }
+      if (was < 0) panel.classList.toggle("no-move", true);
+      place(i);
+      panel.classList.toggle("open", true);
+      if (was < 0) requestAnimationFrame(() => requestAnimationFrame(() => panel.classList.toggle("no-move", false)));
+    };
+    const later = (i, ms) => {
+      clearTimeout(t);
+      t = setTimeout(() => show(i), ms);
+    };
+    trigs.forEach((b, i) => {
+      b.addEventListener("pointerenter", (e) => {
+        if (e.pointerType !== "mouse" || !fine.matches) return;
+        if (open < 0) later(i, 70);
+        else show(i);
+      });
+      b.addEventListener("click", () => show(open === i ? -1 : i));
+      b.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          show(i);
+          setTimeout(() => $("a", panes[i])?.focus(), 40);
+        }
+      });
+    });
+    $$("[data-mk-plain]", root).forEach((a) => a.addEventListener("pointerenter", () => later(-1, 120)));
+    bar.addEventListener("pointerleave", () => later(-1, 200));
+    bar.addEventListener("pointerenter", () => clearTimeout(t));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && open >= 0) {
+        const b = trigs[open];
+        show(-1);
+        b.focus();
+      }
+    });
+    document.addEventListener("pointerdown", (e) => {
+      if (open >= 0 && !bar.contains(e.target)) show(-1);
+    });
+    addEventListener("resize", () => {
+      if (open >= 0) place(open);
+    });
+    // the preview card follows the hovered link
+    panes.forEach((pane) => {
+      const pv = $(".mk-pv", pane);
+      if (!pv) return;
+      const img = $("img", pv);
+      const meta = $(".mk-pv-meta", pv);
+      const title = $(".mk-pv-t", pv);
+      let cur = img.getAttribute("src");
+      let ft = 0;
+      const set = (a) => {
+        $$(".hot", pane).forEach((x) => x.classList.toggle("hot", false));
+        a.classList.toggle("hot", true);
+        if (a.dataset.pv === cur) return;
+        cur = a.dataset.pv;
+        pv.classList.toggle("swap", true);
+        clearTimeout(ft);
+        ft = setTimeout(() => {
+          img.src = a.dataset.pv;
+          pv.dataset.native = a.dataset.pvNative || "dark";
+          meta.textContent = a.dataset.pvM || "";
+          title.textContent = a.dataset.pvT || "";
+          pv.classList.toggle("swap", false);
+        }, 140);
+      };
+      $$("[data-pv]", pane).forEach((a, k) => {
+        if (k === 0) a.classList.toggle("hot", true);
+        a.addEventListener("pointerenter", () => set(a));
+        a.addEventListener("focus", () => set(a));
+      });
+    });
+    // phone sheet
+    const burger = $("[data-mk-sheet]", root);
+    const sheet = $("[data-mk-sheet-panel]", root);
+    if (burger && sheet) {
+      burger.addEventListener("click", () => {
+        const on = sheet.hidden;
+        sheet.hidden = !on;
+        burger.setAttribute("aria-expanded", String(on));
+        burger.setAttribute("aria-label", on ? "Close menu" : "Open menu");
+        document.body.classList.toggle("mk-locked", on);
+      });
+    }
+  })();
 })();
