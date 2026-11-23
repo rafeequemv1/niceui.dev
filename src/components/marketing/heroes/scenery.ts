@@ -86,7 +86,7 @@ function paintDunes(W: number, H: number) {
       if (v < yb) {
         col = ramp(SKY, clamp(v / 0.62));
         // low sun glow on the right horizon
-        const glow = Math.exp(-(((u - 0.86) / 0.32) ** 2) - (((v - 0.6) / 0.16) ** 2));
+        const glow = Math.exp(-(((u - 0.86) / 0.32) ** 2) - ((v - 0.6) / 0.16) ** 2);
         col = [col[0] + 70 * glow, col[1] + 38 * glow, col[2] + 16 * glow];
       } else {
         const depth = v - yb;
@@ -140,79 +140,138 @@ function paintMeadow(W: number, H: number) {
   sky.addColorStop(0.75, '#e6f3fb');
   g.fillStyle = sky;
   g.fillRect(0, 0, W, H);
+  /*
+   * Blur is applied once per layer: draw the layer sharp on its own canvas,
+   * then composite it with a single blurred drawImage. Setting ctx.filter and
+   * then issuing thousands of strokes would blur the whole canvas per stroke,
+   * which freezes (and can crash) the tab.
+   */
+  const layer = document.createElement('canvas');
+  layer.width = W;
+  layer.height = H;
+  const lg = layer.getContext('2d')!;
+  const inLayer = (blur: number, draw: (ctx: CanvasRenderingContext2D) => void) => {
+    if (!blur) return draw(g);
+    lg.clearRect(0, 0, W, H);
+    draw(lg);
+    g.filter = `blur(${blur}px)`;
+    g.drawImage(layer, 0, 0);
+    g.filter = 'none';
+  };
   // haze clouds
-  g.filter = `blur(${Math.round(W / 40)}px)`;
-  for (let i = 0; i < 7; i++) {
-    g.fillStyle = `rgba(255,255,255,${0.18 + rnd() * 0.2})`;
-    g.beginPath();
-    g.ellipse(rnd() * W, H * (0.2 + rnd() * 0.35), W * (0.12 + rnd() * 0.18), H * (0.04 + rnd() * 0.05), 0, 0, Math.PI * 2);
-    g.fill();
-  }
-  g.filter = 'none';
+  inLayer(Math.round(W / 40), (g) => {
+    for (let i = 0; i < 7; i++) {
+      g.fillStyle = `rgba(255,255,255,${0.18 + rnd() * 0.2})`;
+      g.beginPath();
+      g.ellipse(rnd() * W, H * (0.2 + rnd() * 0.35), W * (0.12 + rnd() * 0.18), H * (0.04 + rnd() * 0.05), 0, 0, Math.PI * 2);
+      g.fill();
+    }
+  });
 
   // hills, back to front
   const layers = [
-    { base: 0.6, amp: 0.05, f: 1.6, ph: 0.4, top: '#9cc9a2', bot: '#86b98e', blur: 4, flowers: 260, size: 1.1 },
-    { base: 0.66, amp: 0.06, f: 2.3, ph: 2.1, top: '#7dbb6c', bot: '#5d9f4c', blur: 2, flowers: 700, size: 1.6 },
-    { base: 0.73, amp: 0.07, f: 1.4, ph: 4.2, top: '#62ad48', bot: '#3e8a2c', blur: 1, flowers: 1400, size: 2.4 },
-    { base: 0.84, amp: 0.1, f: 1.1, ph: 1.0, top: '#4f9e36', bot: '#2c6e1f', blur: 0, flowers: 2400, size: 3.6 },
+    {
+      base: 0.6,
+      amp: 0.05,
+      f: 1.6,
+      ph: 0.4,
+      top: '#9cc9a2',
+      bot: '#86b98e',
+      blur: 4,
+      flowers: 260,
+      size: 1.1,
+    },
+    {
+      base: 0.66,
+      amp: 0.06,
+      f: 2.3,
+      ph: 2.1,
+      top: '#7dbb6c',
+      bot: '#5d9f4c',
+      blur: 2,
+      flowers: 700,
+      size: 1.6,
+    },
+    {
+      base: 0.73,
+      amp: 0.07,
+      f: 1.4,
+      ph: 4.2,
+      top: '#62ad48',
+      bot: '#3e8a2c',
+      blur: 1,
+      flowers: 1400,
+      size: 2.4,
+    },
+    {
+      base: 0.84,
+      amp: 0.1,
+      f: 1.1,
+      ph: 1.0,
+      top: '#4f9e36',
+      bot: '#2c6e1f',
+      blur: 0,
+      flowers: 2400,
+      size: 3.6,
+    },
   ];
   layers.forEach((L, li) => {
     const ridge = (u: number) => H * (L.base - L.amp * (Math.sin(u * L.f * Math.PI + L.ph) * 0.6 + Math.sin(u * L.f * 2.7 + L.ph * 2) * 0.4));
-    g.filter = L.blur ? `blur(${L.blur}px)` : 'none';
-    const grad = g.createLinearGradient(0, H * (L.base - L.amp), 0, H);
-    grad.addColorStop(0, L.top);
-    grad.addColorStop(1, L.bot);
-    g.fillStyle = grad;
-    g.beginPath();
-    g.moveTo(0, H);
-    for (let x = 0; x <= W; x += 6) g.lineTo(x, ridge(x / W));
-    g.lineTo(W, H);
-    g.closePath();
-    g.fill();
-    // grass strokes
-    g.lineWidth = 0.6 + li * 0.35;
-    for (let i = 0; i < L.flowers * 1.4; i++) {
-      const x = rnd() * W;
-      const top = ridge(x / W);
-      const y = top + Math.pow(rnd(), 1.3) * (H - top);
-      const len = (2 + rnd() * 5) * (0.6 + li * 0.45) * (0.6 + (y / H) * 0.8);
-      g.strokeStyle = rnd() > 0.5 ? 'rgba(170,220,120,0.35)' : 'rgba(30,80,20,0.3)';
+    inLayer(L.blur, (g) => {
+      const grad = g.createLinearGradient(0, H * (L.base - L.amp), 0, H);
+      grad.addColorStop(0, L.top);
+      grad.addColorStop(1, L.bot);
+      g.fillStyle = grad;
       g.beginPath();
-      g.moveTo(x, y);
-      g.lineTo(x + (rnd() - 0.5) * 2, y - len);
-      g.stroke();
-    }
-    // flowers, denser and larger toward the viewer
-    for (let i = 0; i < L.flowers; i++) {
-      const x = rnd() * W;
-      const top = ridge(x / W);
-      const t = Math.pow(rnd(), 0.8);
-      const y = top + 4 + t * (H - top);
-      const r = L.size * (0.5 + rnd() * 0.8) * (0.7 + (y / H) * 0.6);
-      const col = FLOWERS[Math.floor(rnd() * FLOWERS.length)];
-      g.globalAlpha = 0.75 + rnd() * 0.25;
-      g.fillStyle = col;
+      g.moveTo(0, H);
+      for (let x = 0; x <= W; x += 6) g.lineTo(x, ridge(x / W));
+      g.lineTo(W, H);
+      g.closePath();
+      g.fill();
+      // grass strokes
+      g.lineWidth = 0.6 + li * 0.35;
+      for (let i = 0; i < L.flowers * 1.4; i++) {
+        const x = rnd() * W;
+        const top = ridge(x / W);
+        const y = top + Math.pow(rnd(), 1.3) * (H - top);
+        const len = (2 + rnd() * 5) * (0.6 + li * 0.45) * (0.6 + (y / H) * 0.8);
+        g.strokeStyle = rnd() > 0.5 ? 'rgba(170,220,120,0.35)' : 'rgba(30,80,20,0.3)';
+        g.beginPath();
+        g.moveTo(x, y);
+        g.lineTo(x + (rnd() - 0.5) * 2, y - len);
+        g.stroke();
+      }
+      // flowers, denser and larger toward the viewer
+      for (let i = 0; i < L.flowers; i++) {
+        const x = rnd() * W;
+        const top = ridge(x / W);
+        const t = Math.pow(rnd(), 0.8);
+        const y = top + 4 + t * (H - top);
+        const r = L.size * (0.5 + rnd() * 0.8) * (0.7 + (y / H) * 0.6);
+        const col = FLOWERS[Math.floor(rnd() * FLOWERS.length)];
+        g.globalAlpha = 0.75 + rnd() * 0.25;
+        g.fillStyle = col;
+        g.beginPath();
+        g.arc(x, y, r, 0, Math.PI * 2);
+        g.fill();
+      }
+      g.globalAlpha = 1;
+    });
+  });
+  // out-of-focus foreground blooms in the corners
+  inLayer(Math.round(W / 140), (g) => {
+    for (let i = 0; i < 70; i++) {
+      const side = rnd() > 0.5 ? rnd() * 0.22 : 0.78 + rnd() * 0.22;
+      const x = side * W;
+      const y = H * (0.82 + rnd() * 0.2);
+      g.globalAlpha = 0.85;
+      g.fillStyle = FLOWERS[Math.floor(rnd() * FLOWERS.length)];
       g.beginPath();
-      g.arc(x, y, r, 0, Math.PI * 2);
+      g.arc(x, y, W * (0.006 + rnd() * 0.01), 0, Math.PI * 2);
       g.fill();
     }
     g.globalAlpha = 1;
   });
-  // out-of-focus foreground blooms in the corners
-  g.filter = `blur(${Math.round(W / 140)}px)`;
-  for (let i = 0; i < 70; i++) {
-    const side = rnd() > 0.5 ? rnd() * 0.22 : 0.78 + rnd() * 0.22;
-    const x = side * W;
-    const y = H * (0.82 + rnd() * 0.2);
-    g.globalAlpha = 0.85;
-    g.fillStyle = FLOWERS[Math.floor(rnd() * FLOWERS.length)];
-    g.beginPath();
-    g.arc(x, y, W * (0.006 + rnd() * 0.01), 0, Math.PI * 2);
-    g.fill();
-  }
-  g.globalAlpha = 1;
-  g.filter = 'none';
   // light grain
   const img = g.getImageData(0, 0, W, H);
   const dd = img.data;

@@ -260,7 +260,7 @@ const pvControls = `<div class="pv-ctrls">
 function sidebar(activePath) {
   const link = (href, label, extra = "") =>
     `<a href="${href}" class="sb-item${href === activePath ? " on" : ""}"${href === activePath ? ' aria-current="page"' : ""}><span>${esc(label)}</span>${extra}</a>`;
-  let html = `<div class="sb-group"><p class="sb-label">Getting started</p>${link("/", "Introduction")}${link("/docs/installation", "Installation")}${link("/changelog", "Changelog")}${link("/saved", "Saved", '<em class="tag-ai" data-saved-count hidden></em>')}${link("/#mcp", "Connect your agent", '<em class="tag-ai">MCP</em>')}${link("/llms.txt", "llms.txt", '<em class="tag-ai">AI</em>')}${libGuides.map((e) => link("/library/#/intro/" + e.slug, e.name === "OpenUI" ? "Design system" : e.name)).join("")}</div>`;
+  let html = `<div class="sb-group"><p class="sb-label">Getting started</p>${link("/", "Introduction")}${link("/browse", "All components")}${link("/docs/installation", "Installation")}${link("/changelog", "Changelog")}${link("/saved", "Saved", '<em class="tag-ai" data-saved-count hidden></em>')}${link("/#mcp", "Connect your agent", '<em class="tag-ai">MCP</em>')}${link("/llms.txt", "llms.txt", '<em class="tag-ai">AI</em>')}${libGuides.map((e) => link("/library/#/intro/" + e.slug, e.name === "OpenUI" ? "Design system" : e.name)).join("")}</div>`;
   html += `<div class="sb-group sb-cats"><p class="sb-label">Library</p>`;
   for (const g of navGroups) {
     const n = g.list.filter((i) => i.status === "ready").length;
@@ -473,7 +473,7 @@ const resRows = [
 const MENU = [
   {
     label: "Library",
-    pane: `<div class="mk-pane-in mk-grid"><div><p class="mk-h">Browse by category</p><div class="mk-cols"><div>${libGroups.slice(0, half).map(libLink).join("")}</div><div>${libGroups.slice(half).map(libLink).join("")}</div></div></div>${mkPreview(libFirst, libGroups[0].desc || libGroups[0].title, live(libGroups[0]).length + " live")}</div>`,
+    pane: `<div class="mk-pane-in mk-grid"><div><p class="mk-h mk-h-row">Browse by category<a href="/browse">View all ${totalReady} →</a></p><div class="mk-cols"><div>${libGroups.slice(0, half).map(libLink).join("")}</div><div>${libGroups.slice(half).map(libLink).join("")}</div></div></div>${mkPreview(libFirst, libGroups[0].desc || libGroups[0].title, live(libGroups[0]).length + " live")}</div>`,
     sheet: libGroups.map((g) => `<a href="${g.path}"><span class="mk-ico">${catIcon[g.title] || ""}</span>${g.title}<span class="mk-n">${live(g).length}</span></a>`).join(""),
   },
   {
@@ -504,7 +504,7 @@ const homeHeader = `<header class="mk-top" data-mk>
       <button class="mk-search" data-search-open aria-label="Search components">${icon.search}<span>Search</span><kbd>⌘K</kbd></button>
       <button class="top-icon theme-toggle" data-theme-toggle aria-label="Switch to light theme" title="Light or dark theme"><svg class="i-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
       <a class="top-icon mk-hide-sm" href="${site.github}" target="_blank" rel="noopener" aria-label="GitHub">${icon.github}</a>
-      <a class="mk-cta mk-hide-sm" href="/c/ai-agents">Browse library</a>
+      <a class="mk-cta mk-hide-sm" href="/browse">Browse library</a>
       <button class="mk-burger" data-mk-sheet aria-expanded="false" aria-label="Open menu">${icon.menu}</button>
     </div>
     <div class="mk-panel" id="mk-panel" data-mk-panel role="region" aria-label="Menu">
@@ -514,7 +514,7 @@ const homeHeader = `<header class="mk-top" data-mk>
   <div class="mk-sheet" data-mk-sheet-panel hidden>
     ${MENU.map((m) => `<details class="mk-acc"><summary>${m.label}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><div class="mk-acc-in">${m.sheet}</div></details>`).join("")}
     <a class="mk-sheet-link" href="/docs/installation">Docs</a>
-    <a class="btn btn-sky mk-sheet-cta" href="/c/ai-agents">Browse library ${icon.arrow}</a>
+    <a class="btn btn-sky mk-sheet-cta" href="/browse">Browse all components ${icon.arrow}</a>
   </div>
 </header>`;
 
@@ -546,7 +546,7 @@ const homeMain = `
     <h1 class="h-title"><span>Interfaces, <em>nicely</em> made.</span><span class="h-second">Free to copy. Ready to ship.</span></h1>
     <p class="h-lede">NiceUI is a free library of ${totalReady} React and Tailwind components, blocks and templates, with the most complete set of AI agent interfaces anywhere. Preview, copy the source, or install with the shadcn CLI. No account. No paywall.</p>
     <div class="h-cta">
-      <a class="btn btn-sky h-btn" href="#explore">Browse the library ${icon.arrow}</a>
+      <a class="btn btn-sky h-btn" href="/browse">Browse the library ${icon.arrow}</a>
       <button class="btn btn-cmd h-btn" data-copy="npx shadcn@latest add ${site.url}/r/button.json"><span class="sky">$</span> npx shadcn add niceui.dev/r/button.json ${icon.copy}</button>
     </div>
     <p class="h-meta"><b>${totalReady} live</b> · new every week · MIT licensed</p>
@@ -606,7 +606,7 @@ const homeMain = `
 </section>
 
 <section id="explore" class="h-sec h-wrap" aria-labelledby="ex-h">
-  <div class="h-head h-center"><h2 id="ex-h">The whole library.<span class="h-second">${libGroups.length} categories, one click away.</span></h2></div>
+  <div class="h-head h-center"><h2 id="ex-h">The whole library.<span class="h-second">${libGroups.length} categories, one click away.</span></h2><p class="h-sub">Or see <a class="ul" href="/browse">all ${totalReady} on one page</a>, with search and filters.</p></div>
   <div class="h-cats">${libGroups
     .map((g) => `<a class="h-cat" href="${g.path}"><span class="h-cat-ic">${catIcon[g.title] || ""}</span><span class="h-cat-t"><b>${g.title}</b><i>${live(g).length}</i></span><span class="h-cat-d">${esc(g.desc || live(g).slice(0, 4).map((i) => i.name).join(" · "))}</span></a>`)
     .join("")}</div>
@@ -615,7 +615,7 @@ const homeMain = `
 <section class="h-sec h-wrap h-narrow" aria-labelledby="free-h">
   <div class="h-head h-center"><p class="h-tag">Pricing</p><h2 id="free-h">Free. All of it.<span class="h-second">No tiers, no trial, no catch.</span></h2></div>
   <div class="h-free">
-    <div class="h-free-l"><p class="h-free-k">Everything</p><p class="h-free-p">$0<span>forever</span></p><p class="h-free-n">MIT licensed. Use it in personal and client work.</p><a class="btn btn-sky" href="#explore">Start building ${icon.arrow}</a></div>
+    <div class="h-free-l"><p class="h-free-k">Everything</p><p class="h-free-p">$0<span>forever</span></p><p class="h-free-n">MIT licensed. Use it in personal and client work.</p><a class="btn btn-sky" href="/browse">Start building ${icon.arrow}</a></div>
     <ul class="h-free-r">${[`All ${totalReady} components, blocks and templates`, `${aiItems.length} AI agent interfaces`, "Full source for every item", "shadcn CLI and registry JSON", "MCP and llms.txt for your agent", "Light and dark previews", "New drops every week"].map((f) => `<li>${mkIco.check}${f}</li>`).join("")}</ul>
   </div>
   <p class="h-free-foot">Like it? <a class="ul" href="${site.github}" target="_blank" rel="noopener">Star NiceUI on GitHub</a> — it keeps the lights on.</p>
@@ -630,7 +630,7 @@ const homeMain = `
   <div class="h-cta-card">
     <h2>Ship the next screen<span class="h-second">before the coffee cools.</span></h2>
     <p>${totalReady} components, blocks and templates. Free, today and tomorrow.</p>
-    <a class="h-cta-btn" href="#explore">Browse the library ${icon.arrow}</a>
+    <a class="h-cta-btn" href="/browse">Browse all ${totalReady} ${icon.arrow}</a>
   </div>
 </section>`;
 
@@ -1166,6 +1166,70 @@ for (const g of navGroups)
       )
     );
 
+// ─── /browse: every live item on one page, filterable ───────────────
+{
+  const seen = new Set();
+  const groups = navGroups.filter((g) => g.list.some((i) => i.status === "ready"));
+  const items = [];
+  for (const g of groups)
+    for (const it of g.list)
+      if (it.status === "ready" && it.path && !seen.has(it.path)) {
+        seen.add(it.path);
+        items.push({ it, g });
+      }
+  const cardHtml = items
+    .map(({ it, g }, i) => {
+      const hay = `${it.name} ${it.category || ""} ${g.title} ${(it.description || "").slice(0, 140)}`.toLowerCase().replace(/"/g, "");
+      return anyCard(it).replace(/^\s*<a /, (m) => `${m}data-br data-g="${g.slug}" data-i="${i}" data-n="${esc(it.name.toLowerCase())}" data-new="${it.badge === "New" ? 1 : 0}" data-h="${esc(hay)}" `);
+    })
+    .join("");
+  const chip = (slug, label, n, on) => `<button class="br-chip${on ? " on" : ""}" data-br-cat="${slug}" aria-pressed="${on}">${label}<span>${n}</span></button>`;
+  const main = `
+    <section class="doc br-page">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span aria-current="page">All components</span></nav>
+      <header class="doc-head br-head">
+        <h1>All components</h1>
+        <p class="lede">Every live NiceUI component, block, template and landing page in one place: ${items.length} of them, free and open source. Search, filter by category, or sort by what's new.</p>
+      </header>
+      <div class="br-bar" data-br-bar>
+        <label class="br-search">${icon.search}<input type="search" data-br-q placeholder="Filter ${items.length} items…" aria-label="Filter components" autocomplete="off" /></label>
+        <div class="br-sort" role="group" aria-label="Sort">
+          <button class="on" data-br-sort="cat" aria-pressed="true">Category</button><button data-br-sort="new" aria-pressed="false">New</button><button data-br-sort="az" aria-pressed="false">A–Z</button>
+        </div>
+      </div>
+      <div class="br-chips" role="group" aria-label="Category">${chip("all", "All", items.length, true)}${groups.map((g) => chip(g.slug, g.title, items.filter((x) => x.g === g).length, false)).join("")}</div>
+      <p class="br-count" data-br-count aria-live="polite">${items.length} items</p>
+      <div class="cards br-grid" data-br-grid>${cardHtml}
+      </div>
+      <div class="br-empty" data-br-empty hidden><p>Nothing matches <b data-br-term></b>.</p><button class="btn btn-cmd" data-br-reset>Clear filters</button></div>
+    </section>`;
+  const ld = {
+    "@context": "https://schema.org",
+    "@graph": [
+      org,
+      website,
+      {
+        "@type": "CollectionPage",
+        name: "All components — NiceUI",
+        url: site.url + "/browse",
+        description: "Every free React and Tailwind component, block and template in NiceUI.",
+        mainEntity: { "@type": "ItemList", numberOfItems: items.length, itemListElement: items.map(({ it }, i) => ({ "@type": "ListItem", position: i + 1, name: it.name, url: site.url + it.path })) },
+      },
+      { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: site.url }, { "@type": "ListItem", position: 2, name: "All components", item: site.url + "/browse" }] },
+    ],
+  };
+  write(
+    "browse.html",
+    layout({
+      title: `All components — ${items.length} free React & Tailwind components, blocks and templates | NiceUI`,
+      description: `Browse all ${items.length} free NiceUI components, AI agent interfaces, blocks, landing pages and templates. Search, filter by category and copy the source.`,
+      path: "/browse",
+      main,
+      ld,
+    })
+  );
+}
+
 // ─── registry index, llms, sitemap, robots, manifest ────────────────
 write(
   "r/registry.json",
@@ -1255,6 +1319,7 @@ write(
 
 const urls = [
   { loc: site.url + "/", priority: "1.0", freq: "weekly" },
+  { loc: site.url + "/browse", priority: "0.9", freq: "weekly" },
   { loc: site.url + "/docs/installation", priority: "0.7", freq: "monthly" },
   ...readyOrder.map((it) => ({ loc: site.url + it.path, priority: "0.8", freq: "monthly" })),
   ...navGroups.map((g) => ({ loc: site.url + g.path, priority: "0.9", freq: "weekly" })),

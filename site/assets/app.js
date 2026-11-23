@@ -440,4 +440,98 @@
       });
     }
   })();
+  // ── /browse: search, category chips, sort, URL state ─────
+  (() => {
+    const grid = $("[data-br-grid]");
+    if (!grid) return;
+    const cards = $$("[data-br]", grid);
+    const q = $("[data-br-q]");
+    const chips = $$("[data-br-cat]");
+    const sorts = $$("[data-br-sort]");
+    const count = $("[data-br-count]");
+    const empty = $("[data-br-empty]");
+    const term = $("[data-br-term]");
+    const params = new URLSearchParams(location.search);
+    let cat = params.get("cat") || "all";
+    let sort = params.get("sort") || "cat";
+    if (!chips.some((c) => c.dataset.brCat === cat)) cat = "all";
+    if (!sorts.some((b) => b.dataset.brSort === sort)) sort = "cat";
+    q.value = params.get("q") || "";
+
+    const order = {
+      cat: (a, b) => a.dataset.i - b.dataset.i,
+      new: (a, b) => b.dataset.new - a.dataset.new || a.dataset.i - b.dataset.i,
+      az: (a, b) => a.dataset.n.localeCompare(b.dataset.n),
+    };
+    const sync = () => {
+      const p = new URLSearchParams();
+      if (q.value.trim()) p.set("q", q.value.trim());
+      if (cat !== "all") p.set("cat", cat);
+      if (sort !== "cat") p.set("sort", sort);
+      const s = p.toString();
+      history.replaceState(null, "", location.pathname + (s ? "?" + s : ""));
+    };
+    const apply = () => {
+      const words = q.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+      let shown = 0;
+      cards.forEach((c) => {
+        const ok = (cat === "all" || c.dataset.g === cat) && words.every((w) => c.dataset.h.includes(w));
+        c.hidden = !ok;
+        if (ok) shown++;
+      });
+      chips.forEach((c) => {
+        const on = c.dataset.brCat === cat;
+        c.classList.toggle("on", on);
+        c.setAttribute("aria-pressed", String(on));
+      });
+      sorts.forEach((b) => {
+        const on = b.dataset.brSort === sort;
+        b.classList.toggle("on", on);
+        b.setAttribute("aria-pressed", String(on));
+      });
+      const label = cat === "all" ? "" : " in " + chips.find((c) => c.dataset.brCat === cat).firstChild.textContent;
+      count.textContent = `${shown} ${shown === 1 ? "item" : "items"}${label}`;
+      empty.hidden = shown > 0;
+      term.textContent = q.value.trim() ? `“${q.value.trim()}”` : "these filters";
+      sync();
+    };
+    const resort = () => {
+      const frag = document.createDocumentFragment();
+      [...cards].sort(order[sort]).forEach((c) => frag.appendChild(c));
+      grid.appendChild(frag);
+    };
+
+    let t = 0;
+    q.addEventListener("input", () => {
+      clearTimeout(t);
+      t = setTimeout(apply, 80);
+    });
+    chips.forEach((c) =>
+      c.addEventListener("click", () => {
+        cat = c.dataset.brCat;
+        apply();
+      })
+    );
+    sorts.forEach((b) =>
+      b.addEventListener("click", () => {
+        sort = b.dataset.brSort;
+        resort();
+        apply();
+      })
+    );
+    $("[data-br-reset]").addEventListener("click", () => {
+      q.value = "";
+      cat = "all";
+      apply();
+      q.focus();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && document.activeElement === q && q.value) {
+        q.value = "";
+        apply();
+      }
+    });
+    if (sort !== "cat") resort();
+    apply();
+  })();
 })();
