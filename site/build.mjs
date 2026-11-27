@@ -11,6 +11,7 @@ import { readdirSync } from "node:fs";
 const APP_MODULES = [];
 for (const f of existsSync("apps") ? readdirSync("apps").filter((x) => x.endsWith(".mjs")).sort() : []) APP_MODULES.push((await import("./apps/" + f)).default);
 import { FAMILIES, GRADIENTS, gradientCss, gradientTailwind, gradientColours } from "./gradients.mjs";
+import { PALETTES, PALETTE_TAGS } from "./palettes.mjs";
 
 const OUT = "dist";
 const today = new Date().toISOString().slice(0, 10);
@@ -1521,6 +1522,133 @@ for (const g of GRADIENTS) {
   write(gradPath(g).slice(1) + ".html", layout({ title: `${g.name} Gradient — CSS & Tailwind Code | NiceUI`, description: desc, path: gradPath(g), main, ld }));
 }
 
+// ─── palettes: /palettes gallery, tag pages, one page per palette ────
+// (data in palettes.mjs; the generator app lives at /apps/palette-generator)
+const PAL_URLS = [];
+let PAL_LLMS = "";
+{
+  const PCSS = hashed("palettes.css");
+  const pTag = (id) => PALETTE_TAGS.find((t) => t.id === id);
+  const tagPath = (id) => `/palettes/${id}-color-palettes`;
+  const palPath = (p) => `/palettes/${p.slug}`;
+  const genLink = (p) => `/apps/palette-generator#p=${p.colors.map((c) => c.slice(1)).join("-")}`;
+  // colour helpers
+  const rgbOf = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+  const lin = (c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+  const lumOf = (h) => {
+    const [r, g, b] = rgbOf(h).map((v) => lin(v / 255));
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+  const ratio = (a, b) => {
+    const [x, y] = [lumOf(a), lumOf(b)].sort((p, q) => q - p);
+    return (x + 0.05) / (y + 0.05);
+  };
+  const ink = (h) => (ratio(h, "#ffffff") >= ratio(h, "#0b0c0e") ? "#ffffff" : "#0b0c0e");
+  const hslOf = (h) => {
+    let [r, g, b] = rgbOf(h).map((v) => v / 255);
+    const mx = Math.max(r, g, b), mn = Math.min(r, g, b);
+    let H = 0, S = 0;
+    const L = (mx + mn) / 2;
+    if (mx !== mn) {
+      const d = mx - mn;
+      S = L > 0.5 ? d / (2 - mx - mn) : d / (mx + mn);
+      H = (mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4) * 60;
+    }
+    return `hsl(${Math.round(H)}, ${Math.round(S * 100)}%, ${Math.round(L * 100)}%)`;
+  };
+  const oklchOf = (h) => {
+    const [r, g, b] = rgbOf(h).map((v) => lin(v / 255));
+    const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+    const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+    const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+    const L = 0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s;
+    const A = 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s;
+    const B = 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s;
+    const C = Math.hypot(A, B);
+    const H = ((Math.atan2(B, A) * 180) / Math.PI + 360) % 360;
+    return `oklch(${(L * 100).toFixed(1)}% ${C.toFixed(3)} ${C < 0.002 ? 0 : H.toFixed(1)})`;
+  };
+  const strip = (p) => `<span class="pl-sw">${p.colors.map((c) => `<i style="background:${c}"></i>`).join("")}</span>`;
+  const palCard = (p) => `<div class="pl-box"><a class="pl-card" href="${palPath(p)}">${strip(p)}<span class="pl-meta"><b>${esc(p.name)}</b><span>${esc(p.tags.map((t) => t[0].toUpperCase() + t.slice(1)).join(" · "))}</span></span></a><button class="gr-copy" data-copy="${p.colors.join(", ")}" aria-label="Copy ${esc(p.name)} hex codes" title="Copy hex codes">${icon.copy}</button></div>`;
+  const tagChips = (active) => `<nav class="pop-links gr-fams" aria-label="Palette themes"><a href="/palettes"${active ? "" : ' aria-current="page"'}>All palettes</a>${PALETTE_TAGS.map((t) => `<a href="${tagPath(t.id)}"${active === t.id ? ' aria-current="page"' : ""}>${esc(t.name.replace(/ color palettes$/, ""))}</a>`).join("")}</nav>`;
+  const pgCta = (p) => `<a class="gm-cta" href="${p ? genLink(p) : "/apps/palette-generator"}"><span class="gm-cta-sw" style="background:linear-gradient(90deg,${(p ? p.colors : ["#fde2e4", "#bee1e6", "#6366f1", "#0f172a"]).map((c, i, a) => `${c} ${(i / a.length) * 100}% ${((i + 1) / a.length) * 100}%`).join(",")})"></span><span><b>${p ? "Edit this palette in the Palette Generator" : "Open the Palette Generator"}</b><span>Space to generate, lock colours, colours from an image, Tailwind 50–950 scales, contrast checks and CSS, Tailwind or shadcn export.</span></span>${icon.arrow}</a>`;
+  const palFaq = [
+    ["How do I use a color palette in CSS?", "Save each colour as a CSS custom property, for example :root { --color-1: #0ea5e9; }, then use var(--color-1) anywhere. Every palette page has the variables ready to copy."],
+    ["How do I add a color palette to Tailwind CSS?", "Add the colours under theme.extend.colors in tailwind.config.js (Tailwind v3) or as --color-* variables inside @theme (Tailwind v4). Then use classes such as bg-palette-100 or text-palette-500."],
+    ["How do I choose an accessible color palette?", "Make sure your text colour has a contrast ratio of at least 4.5:1 against its background (WCAG AA). Each palette page shows which pairs pass, and the Palette Generator checks every combination."],
+    ["Are these color palettes free to use?", "Yes. Use them in any personal or commercial project, no attribution needed."],
+  ];
+  const listLd = (list, name, path) => ({ "@type": "CollectionPage", name, url: site.url + path, mainEntity: { "@type": "ItemList", numberOfItems: list.length, itemListElement: list.map((p, i) => ({ "@type": "ListItem", position: i + 1, name: p.name + " color palette", url: site.url + palPath(p) })) } });
+  {
+    const main = `
+    <section class="doc">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span aria-current="page">Color palettes</span></nav>
+      <header class="doc-head"><h1>Color Palettes</h1><p class="lede">${PALETTES.length} free, hand-picked colour palettes for websites and apps: pastel, earth tones, neon, dark mode, retro, minimal and more. Copy the hex codes in a click, open any palette for CSS and Tailwind code, or make your own in the generator.</p></header>
+      ${tagChips(null)}
+      <div class="pl-grid">${PALETTES.map(palCard).join("")}</div>
+      ${pgCta(null)}
+      ${faqBlock(palFaq)}
+    </section>`;
+    const ld = { "@context": "https://schema.org", "@graph": [org, website, listLd(PALETTES, "Color palettes", "/palettes"), crumbsLd([["Home", "/"], ["Color palettes", "/palettes"]]), ...faqLd(palFaq)] };
+    write("palettes.html", layout({ title: "Color Palettes — Free Color Schemes with Hex, CSS & Tailwind Codes | NiceUI", description: `${PALETTES.length} free color palettes (pastel, earth tone, neon, dark, retro, minimal and more) with hex, RGB, HSL and OKLCH codes, contrast checks and CSS or Tailwind code.`, path: "/palettes", main, ld, css: [PCSS] }));
+    PAL_URLS.push({ loc: site.url + "/palettes", priority: "0.8", freq: "weekly" });
+  }
+  for (const t of PALETTE_TAGS) {
+    const list = PALETTES.filter((p) => p.tags.includes(t.id));
+    const main = `
+    <section class="doc">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/palettes">Color palettes</a><span>/</span><span aria-current="page">${esc(t.name)}</span></nav>
+      <header class="doc-head"><h1>${esc(t.name.replace(/^./, (c) => c.toUpperCase()))}</h1><p class="lede">${esc(t.blurb)} ${list.length} free palettes with hex codes, contrast checks and CSS or Tailwind code.</p></header>
+      ${tagChips(t.id)}
+      <div class="pl-grid">${list.map(palCard).join("")}</div>
+      ${pgCta(null)}
+      ${faqBlock(palFaq)}
+    </section>`;
+    const ld = { "@context": "https://schema.org", "@graph": [org, website, listLd(list, t.name, tagPath(t.id)), crumbsLd([["Home", "/"], ["Color palettes", "/palettes"], [t.name, tagPath(t.id)]]), ...faqLd(palFaq)] };
+    write(tagPath(t.id).slice(1) + ".html", layout({ title: `${list.length} ${t.name.replace(/^./, (c) => c.toUpperCase())} — Hex Codes & Tailwind | NiceUI`, description: `${t.blurb} ${list.length} free ${t.name} with hex, RGB and HSL codes plus CSS and Tailwind code.`, path: tagPath(t.id), main, ld, css: [PCSS] }));
+    PAL_URLS.push({ loc: site.url + tagPath(t.id), priority: "0.7", freq: "monthly" });
+  }
+  for (const p of PALETTES) {
+    const tags = p.tags.map(pTag).filter(Boolean);
+    const related = PALETTES.filter((x) => x !== p && x.tags.some((t) => p.tags.includes(t))).slice(0, 8);
+    const vars = `:root {\n${p.colors.map((c, i) => `  --${p.slug}-${i + 1}: ${c};`).join("\n")}\n}`;
+    const tw = `// tailwind.config.js\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: {\n        '${p.slug}': {\n${p.colors.map((c, i) => `          ${(i + 1) * 100}: '${c}',`).join("\n")}\n        },\n      },\n    },\n  },\n};`;
+    const pairs = [];
+    for (let i = 0; i < p.colors.length; i++) for (let j = i + 1; j < p.colors.length; j++) pairs.push([p.colors[i], p.colors[j], ratio(p.colors[i], p.colors[j])]);
+    pairs.sort((a, b) => b[2] - a[2]);
+    const grade = (r) => (r >= 7 ? "AAA" : r >= 4.5 ? "AA" : r >= 3 ? "AA large" : "Fail");
+    const desc = `${p.name} color palette: ${p.colors.join(", ")}. A free ${tags.map((t) => t.name.replace(/ color palettes$/, "").toLowerCase()).join(", ")} palette with hex, RGB, HSL and OKLCH codes, contrast checks and CSS or Tailwind code.`;
+    const faq = [
+      [`What colors are in the ${p.name} palette?`, `${p.name} uses ${p.colors.join(", ")}.`],
+      [`Which colors in ${p.name} work for text?`, `The strongest pair is ${pairs[0][0]} and ${pairs[0][1]} with a contrast ratio of ${pairs[0][2].toFixed(2)}:1 (${grade(pairs[0][2])}).`],
+    ];
+    const main = `
+    <article class="doc">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/palettes">Color palettes</a><span>/</span><a href="${tagPath(tags[0].id)}">${esc(tags[0].name.replace(/ color palettes$/, ""))}</a><span>/</span><span aria-current="page">${esc(p.name)}</span></nav>
+      <header class="doc-head"><h1>${esc(p.name)} Color Palette</h1><p class="lede">${esc(tags[0].blurb)} Copy any hex code, or grab the whole palette as CSS variables or a Tailwind config.</p></header>
+      <div class="pl-hero" role="img" aria-label="${esc(p.name)} palette: ${p.colors.join(", ")}">${p.colors.map((c) => `<button class="pl-hero-c" style="background:${c};color:${ink(c)}" data-copy="${c}" title="Copy ${c}"><b>${c.toUpperCase().slice(1)}</b></button>`).join("")}</div>
+      <div class="pl-hero-acts"><a class="btn btn-sky" href="${genLink(p)}">Open in generator ${icon.arrow}</a><button class="btn btn-cmd" data-copy="${p.colors.join(", ")}">${icon.copy} Copy hex codes</button></div>
+      <section class="doc-sec"><h2>Color codes</h2>
+        <div class="pl-table-wrap"><table class="pl-table"><thead><tr><th scope="col">Colour</th><th scope="col">HEX</th><th scope="col">RGB</th><th scope="col">HSL</th><th scope="col">OKLCH</th></tr></thead><tbody>${p.colors
+          .map((c) => `<tr><td><i style="background:${c}"></i></td><td><button class="pl-code" data-copy="${c}">${c}</button></td><td><button class="pl-code" data-copy="rgb(${rgbOf(c).join(", ")})">rgb(${rgbOf(c).join(", ")})</button></td><td><button class="pl-code" data-copy="${hslOf(c)}">${hslOf(c)}</button></td><td><button class="pl-code" data-copy="${oklchOf(c)}">${oklchOf(c)}</button></td></tr>`)
+          .join("")}</tbody></table></div>
+      </section>
+      <section class="doc-sec"><h2>Contrast</h2><p class="mute">WCAG contrast for the strongest pairs. AA needs 4.5:1 for body text.</p>
+        <div class="pl-pairs">${pairs.slice(0, 4).map(([a, b, r]) => `<div class="pl-pair" style="background:${a};color:${b}"><b>Aa</b><span>${b} on ${a}</span><em>${r.toFixed(2)}:1 · ${grade(r)}</em></div>`).join("")}</div>
+      </section>
+      <section class="doc-sec"><h2>CSS variables</h2><div class="code-wrap"><button class="icon-btn code-copy" data-copy="${esc(vars)}" aria-label="Copy CSS">${icon.copy}</button><pre class="code"><code>${esc(vars)}</code></pre></div></section>
+      <section class="doc-sec"><h2>Tailwind CSS</h2><div class="code-wrap"><button class="icon-btn code-copy" data-copy="${esc(tw)}" aria-label="Copy Tailwind config">${icon.copy}</button><pre class="code"><code>${esc(tw)}</code></pre></div></section>
+      ${pgCta(p)}
+      ${faqBlock(faq)}
+      <section class="doc-sec"><h2>Similar palettes</h2><div class="pl-grid">${related.map(palCard).join("")}</div><p class="rel-tags">More: ${tags.map((t) => `<a href="${tagPath(t.id)}">${esc(t.name)}</a>`).join("")}<a href="/palettes">All palettes</a></p></section>
+    </article>`;
+    const ld = { "@context": "https://schema.org", "@graph": [org, website, { "@type": "CreativeWork", name: p.name + " color palette", url: site.url + palPath(p), description: desc, license: "https://opensource.org/licenses/MIT", keywords: [...p.colors, ...p.tags].join(", ") }, crumbsLd([["Home", "/"], ["Color palettes", "/palettes"], [tags[0].name, tagPath(tags[0].id)], [p.name, palPath(p)]]), ...faqLd(faq)] };
+    write(palPath(p).slice(1) + ".html", layout({ title: `${p.name} Color Palette — ${p.colors.map((c) => c.toUpperCase()).join(" ")} | NiceUI`, description: desc, path: palPath(p), main, ld, css: [PCSS] }));
+    PAL_URLS.push({ loc: site.url + palPath(p), priority: "0.6", freq: "monthly" });
+  }
+  PAL_LLMS = `## Color palettes\n\n- [Palette Generator](${site.url}/apps/palette-generator): Generate palettes in OKLCH, colours from an image, Tailwind 50–950 scales, contrast checks and CSS, Tailwind or shadcn export.\n- [Color palettes](${site.url}/palettes): ${PALETTES.length} free curated colour palettes.\n${PALETTE_TAGS.map((t) => `- [${t.name}](${site.url}${tagPath(t.id)}): ${t.blurb}`).join("\n")}\n`;
+}
+
 // ─── /gradient-maker: the full gradient + shader app ─────────────────
 {
   const GM_JS = hashed("gradient-maker.js");
@@ -1740,6 +1868,7 @@ ${APP_MODULES.map((m) => `- [${m.name}](${site.url}/apps/${m.slug}): ${m.blurb}`
 - [Gradient gallery](${site.url}/gradients): ${GRADIENTS.length} free CSS and Tailwind gradients.
 ${FAMILIES.map((f) => `- [${f.name}](${site.url}/gradients/${f.id}-gradients): ${f.blurb}`).join("\n")}
 
+${PAL_LLMS}
 ## Guides
 
 ${articles.map((a) => `- [${a.h1}](${site.url}${a.path}): ${a.description}`).join("\n")}
@@ -1793,6 +1922,7 @@ const urls = [
   ...APP_MODULES.map((m) => ({ loc: site.url + "/apps/" + m.slug, priority: "0.9", freq: "monthly" })),
   ...FAMILIES.map((f) => ({ loc: site.url + "/gradients/" + f.id + "-gradients", priority: "0.7", freq: "monthly" })),
   ...GRADIENTS.map((g) => ({ loc: site.url + "/gradients/" + g.slug, priority: "0.6", freq: "monthly" })),
+  ...PAL_URLS,
   ...tagPages.map((t) => ({ loc: site.url + t.path, priority: "0.9", freq: "weekly" })),
   ...articles.map((a) => ({ loc: site.url + a.path, priority: "0.8", freq: "monthly" })),
   { loc: site.url + "/docs/installation", priority: "0.7", freq: "monthly" },
