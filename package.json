@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:web": "node scripts/library-manifest.mjs && cd site && node build.mjs && cd .. && vite build --base /library/ --outDir site/dist/library --emptyOutDir",
+    "build:web": "node scripts/library-manifest.mjs && node scripts/build-shader-studio.mjs && cd site && node build.mjs && cd .. && vite build --base /library/ --outDir site/dist/library --emptyOutDir",
     "lint": "eslint .",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
@@ -20,10 +20,13 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
+    "@paper-design/shaders": "^0.0.82",
+    "@paper-design/shaders-react": "^0.0.82",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.18",
+    "esbuild": "^0.28.2",
     "eslint": "^9.9.1",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.11",

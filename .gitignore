@@ -21,3 +21,4 @@ dist-ssr
 *.sln
 *.sw?
 .env
+site/assets/shader-studio.js
