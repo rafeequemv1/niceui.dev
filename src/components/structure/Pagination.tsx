@@ -33,7 +33,7 @@ export type PaginationProps = {
 };
 
 const btn =
-  'focus-ring relative z-10 grid h-9 min-w-9 place-items-center rounded-lg px-2 text-sm tabular-nums transition-colors duration-200 disabled:pointer-events-none disabled:opacity-35';
+  'focus-ring relative z-10 inline-flex h-9 min-w-9 items-center justify-center rounded-lg px-2 text-sm tabular-nums transition-colors duration-200 disabled:pointer-events-none disabled:opacity-35';
 
 /**
  * Numbered pagination with ellipsis, previous/next, first/last and a sliding

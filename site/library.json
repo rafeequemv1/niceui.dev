@@ -1881,6 +1881,66 @@
     ]
   },
   {
+    "id": "patterns",
+    "title": "Patterns",
+    "entries": [
+      {
+        "slug": "dot-pattern",
+        "name": "Dot Pattern",
+        "description": "A dotted background pattern for React and Tailwind: an SVG dot grid with soft glowing dots that change every few seconds and an edge fade.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "grid-pattern",
+        "name": "Grid Pattern",
+        "description": "A grid background pattern for React and Tailwind: SVG grid lines with optional highlighted squares, a dashed variant and an edge fade.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "flickering-grid",
+        "name": "Flickering Grid",
+        "description": "A flickering grid background: a canvas of small squares that brighten and dim at random, sized to its container and paused when off screen.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "retro-grid",
+        "name": "Retro Grid",
+        "description": "A retro grid background: a perspective synthwave floor that scrolls toward the viewer under a glowing horizon. Pure CSS.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "warp-background",
+        "name": "Warp Background",
+        "description": "A warp background: a perspective tunnel of grid walls with coloured light beams travelling toward you, framing whatever you put in the middle.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "hexagon-pattern",
+        "name": "Hexagon Pattern",
+        "description": "A hexagon background pattern: an SVG honeycomb whose cells light up under the pointer and fade behind it, with optional highlighted hexes.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      }
+    ]
+  },
+  {
     "id": "components",
     "title": "Components",
     "entries": [
@@ -2383,6 +2443,69 @@
         "slug": "countdown-timer",
         "name": "Countdown Timer",
         "description": "A countdown timer for React with rolling digits for days, hours, minutes and seconds, plus a pomodoro-style ring timer that alternates focus and break sessions.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "circular-progress",
+        "name": "Circular Progress Bar",
+        "description": "An animated circular progress bar for React: a gradient SVG ring with a value label, a stepped variant, an indeterminate spinner, and circular progress buttons for hold-to-confirm and upload progress.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "image-loader",
+        "name": "Image Loader",
+        "description": "Blur-up image loading for React: a tiny blurred preview or a shimmer skeleton while the full image loads, then a blur, fade or scale reveal, plus an error state with retry.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "radial-menu",
+        "name": "Radial Menu",
+        "description": "A radial circle menu for React: actions fan out around a floating button with a spring, as a full circle or a quarter circle from a corner, with hover labels, arrow-key navigation and Esc to close.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "video-scrubber",
+        "name": "Video Scrubber",
+        "description": "A video scrubber timeline with chapters for React: segmented progress, a hover preview thumbnail with timecode, a buffered range, drag and keyboard seeking, and play/pause with chapter skipping.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "scroll-area",
+        "name": "Scroll Area",
+        "description": "A custom scrollbar for React: thin bars that grow on hover and fade when idle, a draggable thumb, click-to-jump tracks and soft fade edges, for vertical, horizontal or both. Native wheel, touch and keyboard scrolling keep working.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "skeleton",
+        "name": "Skeleton",
+        "description": "Skeleton loaders and placeholders for React with shimmer or pulse animation, plus ready-made layouts for cards, list rows, profiles, tables, chat messages and articles that crossfade into the real content.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "pagination",
+        "name": "Pagination",
+        "description": "Numbered pagination for React with smart ellipsis, previous/next and first/last buttons, a sliding active indicator, a rows-per-page select, a go-to-page field and a compact \"3 of 12\" variant for phones.",
         "badge": "New",
         "theme": null,
         "page": false,

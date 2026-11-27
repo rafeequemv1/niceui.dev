@@ -23,6 +23,9 @@ import { conversionEntries } from './marketing-docs/conversion';
 import { navbarEntries } from './marketing-docs/navbars';
 import { pointerEntries } from './effects-docs/pointer';
 import { controlsExtraEntries } from './core-docs/controls-extra';
+import { controlsMoreEntries } from './core-docs/controls-more';
+import { controlsBasicEntries } from './core-docs/controls-basics';
+import { patternEntries } from './patterns-docs/patterns';
 
 export const sections: Section[] = [
   { id: 'intro', title: 'Intro', entries: introEntries },
@@ -37,7 +40,8 @@ export const sections: Section[] = [
   { id: 'design', title: 'Design Tools', entries: designControlEntries },
   { id: 'gallery', title: 'Gallery', entries: galleryEntries },
   { id: 'effects', title: 'Effects', entries: [...effectEntries, ...pointerEntries] },
-  { id: 'components', title: 'Components', entries: [...coreEntries, ...motionEntries, ...controlsExtraEntries] },
+  { id: 'patterns', title: 'Patterns', entries: patternEntries },
+  { id: 'components', title: 'Components', entries: [...coreEntries, ...motionEntries, ...controlsExtraEntries, ...controlsMoreEntries, ...controlsBasicEntries] },
   { id: 'blocks', title: 'Blocks', entries: blockEntries },
   { id: 'marketing', title: 'Marketing', entries: [...heroEntries, ...scenicHeroEntries, ...navbarEntries, ...showcaseEntries, ...conversionEntries] },
   { id: 'footers', title: 'Footers', entries: footerEntries },
