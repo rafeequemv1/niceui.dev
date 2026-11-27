@@ -22,7 +22,10 @@ export function RetroGrid({ cell = 56, angle = 66, color = 'rgba(125,211,252,0.4
     <div aria-hidden className={cn('pointer-events-none absolute inset-0 overflow-hidden', className)} style={{ opacity }}>
       {/* horizon glow */}
       <div className="absolute inset-x-0 top-[38%] h-40 -translate-y-1/2 blur-2xl" style={{ background: `radial-gradient(60% 100% at 50% 50%, ${glow}, transparent)` }} />
-      <div className="absolute inset-x-0 bottom-0 top-[42%] overflow-hidden" style={{ perspective: 220, perspectiveOrigin: '50% 0%' }}>
+      <div
+        className="absolute inset-x-0 bottom-0 top-[42%] overflow-hidden"
+        style={{ perspective: 220, perspectiveOrigin: '50% 0%', maskImage: 'linear-gradient(to bottom, transparent, black 45%)', WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 45%)' }}
+      >
         <div className="absolute -inset-x-[100%] bottom-0 h-[400%] origin-bottom" style={{ transform: `rotateX(${angle}deg)` }}>
           <div
             className="retrogrid-floor absolute inset-x-0 -top-[10%] bottom-0"
@@ -34,8 +37,6 @@ export function RetroGrid({ cell = 56, angle = 66, color = 'rgba(125,211,252,0.4
             }}
           />
         </div>
-        {/* fade into the distance */}
-        <div className="absolute inset-0 bg-gradient-to-b from-ink-950 via-transparent to-transparent" />
       </div>
       <div className="absolute inset-x-0 top-[42%] h-px" style={{ background: `linear-gradient(90deg, transparent, ${glow}, transparent)` }} />
       <style>{`@keyframes retrogrid-scroll{from{transform:translateY(0)}to{transform:translateY(var(--retrogrid-cell))}}@media (prefers-reduced-motion:reduce){.retrogrid-floor{animation:none!important}}`}</style>
