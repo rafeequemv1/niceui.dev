@@ -29,7 +29,7 @@ export type DotPatternProps = {
 };
 
 /** A dotted background pattern: an SVG dot grid with an optional glow on random dots and an edge fade. */
-export function DotPattern({ gap = 18, radius = 1.2, color = 'rgba(255,255,255,0.28)', opacity = 1, fade = 'radial', glow = 14, glowColor = '#7dd3fc', className }: DotPatternProps) {
+export function DotPattern({ gap = 18, radius = 1.3, color = 'rgba(255,255,255,0.32)', opacity = 1, fade = 'radial', glow = 14, glowColor = '#7dd3fc', className }: DotPatternProps) {
   const id = useId().replace(/:/g, '');
   const [seed, setSeed] = useState(0);
   const reduce = useReducedMotionDots();

@@ -133,7 +133,7 @@ export function ScrollArea({ children, orientation = 'vertical', fades = true, h
         role="region"
         aria-label={rest['aria-label'] ?? 'Scrollable content'}
         className={cn(
-          'focus-ring min-h-0 w-full flex-1 rounded-[inherit] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
+          'focus-ring min-h-0 w-full flex-auto rounded-[inherit] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
           showY ? 'overflow-y-auto' : 'overflow-y-hidden',
           showX ? 'overflow-x-auto' : 'overflow-x-hidden',
           viewportClassName,
