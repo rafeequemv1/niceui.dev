@@ -1,0 +1,77 @@
+/* NiceUI Bento Grid Builder — app layout. Shares .gm-* control styles from styles.css. */
+.bg [hidden] { display: none !important; }
+.bg { display: grid; grid-template-columns: minmax(0, 1fr) 360px; height: calc(100vh - var(--ap-bar, 52px)); height: calc(100dvh - var(--ap-bar, 52px)); }
+.bg-main { min-width: 0; min-height: 0; padding: 14px; display: grid; }
+.bg-stage { position: relative; min-height: 0; border-radius: 20px; overflow: hidden; border: 1px solid var(--line-2); background: radial-gradient(circle at 50% 0%, #121318, #08090b 70%); }
+.bg-scroll { position: absolute; inset: 0; overflow: auto; padding: 36px 32px 88px; scrollbar-width: thin; }
+.bg-frame { max-width: 1080px; margin: 0 auto; transition: max-width 0.3s; }
+.bg-frame[data-theme="light"] { background: #f4f4f5; padding: 20px; border-radius: 22px; }
+.bg-frame.is-mobile { max-width: 375px; padding: 16px; border-radius: 34px; border: 8px solid #1c1c20; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 30px 80px -30px rgba(0, 0, 0, 0.8); background: #09090b; }
+.bg-frame.is-mobile[data-theme="light"] { background: #f4f4f5; }
+.bg-canvas { position: relative; }
+.bx-slots { position: absolute; inset: 0; display: grid; pointer-events: none; }
+.bx-slots i { border: 1px dashed rgba(255, 255, 255, 0.09); }
+.bg-frame[data-theme="light"] .bx-slots i { border-color: rgba(0, 0, 0, 0.1); }
+.bx { position: relative; touch-action: none; user-select: none; -webkit-user-select: none; }
+.bx-cell { cursor: grab; outline: none; transition: box-shadow 0.15s, opacity 0.15s; }
+.bx-cell:hover { box-shadow: 0 0 0 1px rgba(125, 211, 252, 0.5); }
+.bx-cell:focus-visible { box-shadow: 0 0 0 2px var(--sky); }
+.bx-cell.is-sel { box-shadow: 0 0 0 2px var(--sky), 0 12px 40px -12px rgba(56, 189, 248, 0.35); }
+.bx-cell.is-drag { opacity: 0.35; }
+.bx-cell a { pointer-events: none; }
+.bx-ghost { border-radius: 14px !important; border: 2px dashed var(--sky); background: rgba(56, 189, 248, 0.12); pointer-events: none; z-index: 3; padding: 0 !important; }
+.bx-ghost.bad { border-color: #f43f5e; background: rgba(244, 63, 94, 0.12); }
+.bx-h-r, .bx-h-b, .bx-h-c { position: absolute; z-index: 2; }
+.bx-h-r { top: 50%; right: 3px; width: 6px; height: 34px; margin-top: -17px; border-radius: 3px; background: var(--sky); cursor: ew-resize; }
+.bx-h-b { left: 50%; bottom: 3px; width: 34px; height: 6px; margin-left: -17px; border-radius: 3px; background: var(--sky); cursor: ns-resize; }
+.bx-h-c { right: 3px; bottom: 3px; width: 14px; height: 14px; border-radius: 4px; background: #fff; border: 3px solid var(--sky); cursor: nwse-resize; }
+.bg-hint { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); font: 500 11px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--mute); pointer-events: none; }
+.bg-stage-bar { position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; justify-content: center; align-items: center; gap: 6px; }
+.bg-stage-bar .bg-seg { width: 190px; margin: 0; background: rgba(0, 0, 0, 0.6); border-color: rgba(255, 255, 255, 0.14); backdrop-filter: blur(12px); }
+.bg-stage-bar .bg-seg button { color: rgba(255, 255, 255, 0.75); }
+.bg-stage-bar .bg-seg button[aria-pressed="true"] { background: #fff; color: #000; }
+.bg-tool { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.14); color: #fff; backdrop-filter: blur(12px); }
+.bg-tool:disabled { opacity: 0.35; cursor: default; }
+.bg-chip { height: 36px; padding: 0 14px; border-radius: 10px; background: #fff; color: #000; font-size: 13px; font-weight: 500; }
+.bg-chip:active { transform: scale(0.97); }
+.bg-side { display: flex; flex-direction: column; min-height: 0; border-left: 1px solid var(--line); background: var(--s1); }
+.bg-scroll-side { flex: 1; min-height: 0; overflow-y: auto; padding: 12px; display: grid; gap: 10px; align-content: start; }
+.bg-scroll-side .gm-card { background: var(--s2); }
+.bg-presets { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+.bg-preset { display: grid; gap: 6px; padding: 8px; border-radius: 10px; border: 1px solid var(--line-2); color: var(--sky); text-align: left; }
+.bg-preset:hover { border-color: var(--line-3); }
+.bg-preset svg { width: 100%; height: auto; }
+.bg-preset b { font-size: 11.5px; font-weight: 500; color: var(--mute); }
+.bg-pos { font: 500 11px var(--mono); color: var(--mute); }
+.bg-lab { display: block; margin: 4px 0 6px; font-size: 12px; color: var(--mute); }
+.bg-types { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
+.bg-types button { height: 28px; padding: 0 10px; border-radius: 8px; border: 1px solid var(--line-2); font-size: 12px; color: var(--mute); }
+.bg-types button[aria-pressed="true"] { background: var(--sky); border-color: var(--sky); color: var(--sky-ink); }
+.bg-field { display: grid; gap: 5px; margin-top: 8px; font-size: 12.5px; color: var(--mute); }
+.bg-field input { height: 34px; padding: 0 10px; border: 1px solid var(--line-2); border-radius: 9px; background: var(--s1); color: var(--text); font-size: 13px; width: 100%; }
+.bg-icons { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; margin-bottom: 4px; }
+.bg-icon { aspect-ratio: 1; display: grid; place-items: center; border-radius: 9px; border: 1px solid var(--line-2); color: var(--mute); }
+.bg-icon[aria-pressed="true"] { color: var(--text); border-color: var(--sky); box-shadow: 0 0 0 1px var(--sky); }
+.bg-cellacts { display: flex; gap: 6px; margin-top: 12px; }
+.bg-del:hover { color: #fb7185; border-color: rgba(251, 113, 133, 0.4); }
+.bg-seg { margin: 8px 0 4px; }
+.bg-seg button { font-size: 12px; }
+.bg-export { display: grid; gap: 10px; padding: 12px; border-top: 1px solid var(--line); background: var(--s1); }
+.bg-export .gm-tabs { grid-template-columns: repeat(3, 1fr); }
+.bg-export .gm-code { max-height: 150px; }
+.bg-export .gm-actions .btn-cmd { padding: 0 12px; }
+@media (max-width: 1000px) {
+  .bg { height: auto; grid-template-columns: 1fr; }
+  .bg-stage { height: 70vh; min-height: 460px; }
+  .bg-side { border-left: 0; border-top: 1px solid var(--line); }
+  .bg-scroll-side { overflow: visible; }
+  .bg-export { position: sticky; bottom: 0; z-index: 5; }
+}
+@media (max-width: 480px) {
+  .bg-scroll { padding: 40px 12px 84px; }
+  .bg-hint { display: none; }
+  .bg-stage-bar .bg-seg { width: 150px; }
+}
+@media (max-width: 760px) {
+  .bg-frame:not(.is-mobile) { min-width: 680px; }
+}
