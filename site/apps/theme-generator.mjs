@@ -71,17 +71,19 @@ export default {
                   </div>
                 </div>
                 <div class="tg-alert"><b>Heads up!</b><span>Your trial ends in 3 days. Add a payment method to keep your projects.</span><button class="tg-btn tg-btn-d tg-btn-sm">Delete trial data</button></div>
+                <div class="tg-grid tg-grid-b">
                 <div class="tg-card tg-table">
                   <div class="tg-card-h"><b>Recent sales</b><span class="tg-mute">You made 265 sales this month.</span></div>
                   ${[["Olivia Martin", "olivia@email.com", "Paid", "+$1,999.00"], ["Jackson Lee", "jackson@email.com", "Pending", "+$39.00"], ["Isabella Nguyen", "isabella@email.com", "Paid", "+$299.00"], ["William Kim", "will@email.com", "Refunded", "-$99.00"]]
                     .map(([n, e, s, a]) => `<div class="tg-tr"><span class="tg-av">${n.split(" ").map((x) => x[0]).join("")}</span><span class="tg-who"><b>${n}</b><i>${e}</i></span><span class="tg-pill tg-pill-${s.toLowerCase()}">${s}</span><b class="tg-amt">${a}</b></div>`)
                     .join("")}
                 </div>
-              </div>
-              <div class="tg-dialog">
-                <b>Delete project?</b>
-                <p>This permanently removes the project and its files. This can’t be undone.</p>
-                <div class="tg-row"><button class="tg-btn tg-btn-o tg-btn-sm">Cancel</button><button class="tg-btn tg-btn-d tg-btn-sm">Delete</button></div>
+                    <div class="tg-dialog">
+                      <b>Delete project?</b>
+                      <p>This permanently removes the project and its files. This can’t be undone.</p>
+                      <div class="tg-row"><button class="tg-btn tg-btn-o tg-btn-sm">Cancel</button><button class="tg-btn tg-btn-d tg-btn-sm">Delete</button></div>
+                    </div>
+                </div>
               </div>
             </div>
           </div>
@@ -111,7 +113,7 @@ export default {
           </section>
           <section class="tg-sec">
             <h2>Contrast check <span class="tg-sub" data-tg-mode-label>dark</span></h2>
-            <div class="tg-contrast" data-tg-contrast></div>
+            <div class="tg-contrast" data-tg-checks></div>
           </section>
           <section class="tg-sec">
             <h2>Tokens <span class="tg-sub" data-tg-mode-label>dark</span></h2>
