@@ -89,7 +89,7 @@ export default {
         </div>
         <section class="is-card is-export">
           <div class="is-tabs" role="tablist" aria-label="Export format">${[["svg", "SVG"], ["react", "React"], ["uri", "Data URI"], ["tw", "Tailwind"], ["html", "HTML"]].map(([k, l], i) => `<button type="button" role="tab" data-is-tab="${k}" aria-selected="${i === 0}">${l}</button>`).join("")}</div>
-          <pre class="is-code"><code data-is-out></code></pre>
+          <pre class="is-code"><code data-is-code></code></pre>
           <div class="is-actions">
             <button type="button" class="btn btn-sky" data-is-copy>${icon.copy} Copy</button>
             <button type="button" class="btn btn-cmd" data-is-dl="svg">SVG</button>

@@ -173,7 +173,7 @@ ${icons.map(reactComponent).join("\n\n")}
   }
 
   /* ── panel ──────────────────────────────────────────────── */
-  const out = $("[data-is-out]");
+  const out = $("[data-is-code]");
   function current() {
     return byName.get(S.sel) || ICONS[0];
   }
