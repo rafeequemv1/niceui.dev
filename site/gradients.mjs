@@ -78,7 +78,9 @@ export function gradientCss(g) {
 
 /** Tailwind classes: arbitrary value always works; from/via/to when it maps cleanly. */
 export function gradientTailwind(g) {
-  const arb = `bg-[${gradientCss(g).replace(/\s*,\s*/g, ",").replace(/\s+/g, "_")}]`;
+  const tw = (v) => v.replace(/\s*,\s*/g, ",").replace(/\s+/g, "_");
+  // Tailwind needs the image: hint, and a mesh's solid base colour as its own class
+  const arb = g.kind === "mesh" ? `bg-[image:${tw(g.blobs.map(([c, x, y]) => `radial-gradient(at ${x}% ${y}%, ${c} 0px, transparent 55%)`).join(", "))}] bg-[${g.base}]` : `bg-[image:${tw(gradientCss(g))}]`;
   const dirs = { 0: "to-t", 45: "to-tr", 90: "to-r", 135: "to-br", 180: "to-b", 225: "to-bl", 270: "to-l", 315: "to-tl" };
   let simple = null;
   if (g.kind === "linear" && dirs[g.angle] && g.stops.length <= 3) {

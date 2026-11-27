@@ -321,7 +321,7 @@ const pvControls = `<div class="pv-ctrls">
 function sidebar(activePath) {
   const link = (href, label, extra = "") =>
     `<a href="${href}" class="sb-item${href === activePath ? " on" : ""}"${href === activePath ? ' aria-current="page"' : ""}><span>${esc(label)}</span>${extra}</a>`;
-  let html = `<div class="sb-group"><p class="sb-label">Getting started</p>${link("/", "Introduction")}${link("/browse", "All components")}${link("/guides", "Guides & articles")}${link("/gradients", "Gradients", '<em class="tag-ai">New</em>')}${link("/docs/installation", "Installation")}${link("/changelog", "Changelog")}${link("/saved", "Saved", '<em class="tag-ai" data-saved-count hidden></em>')}${link("/#mcp", "Connect your agent", '<em class="tag-ai">MCP</em>')}${link("/llms.txt", "llms.txt", '<em class="tag-ai">AI</em>')}${libGuides.map((e) => link("/library/#/intro/" + e.slug, e.name === "OpenUI" ? "Design system" : e.name)).join("")}</div>`;
+  let html = `<div class="sb-group"><p class="sb-label">Getting started</p>${link("/", "Introduction")}${link("/browse", "All components")}${link("/guides", "Guides & articles")}${link("/gradients", "Gradients")}${link("/gradient-maker", "Gradient maker", '<em class="tag-ai">New</em>')}${link("/docs/installation", "Installation")}${link("/changelog", "Changelog")}${link("/saved", "Saved", '<em class="tag-ai" data-saved-count hidden></em>')}${link("/#mcp", "Connect your agent", '<em class="tag-ai">MCP</em>')}${link("/llms.txt", "llms.txt", '<em class="tag-ai">AI</em>')}${libGuides.map((e) => link("/library/#/intro/" + e.slug, e.name === "OpenUI" ? "Design system" : e.name)).join("")}</div>`;
   html += `<div class="sb-group sb-cats"><p class="sb-label">Library</p>`;
   for (const g of navGroups) {
     const n = g.list.filter((i) => i.status === "ready").length;
@@ -531,6 +531,7 @@ const resRows = [
   { href: "/#mcp", ic: mkIco.mcp, t: "Connect your agent", d: "MCP for Claude Code, Cursor, VS Code, Codex" },
   { href: "/llms.txt", ic: mkIco.llms, t: "llms.txt", d: "The whole library, readable by any AI" },
   { href: "/r/registry.json", ic: mkIco.registry, t: "Registry", d: "Every item as shadcn registry JSON" },
+  { href: "/gradient-maker", ic: mkIco.contrast, t: "Gradient Maker", d: "Mesh, conic & shader gradients, one-click code" },
   { href: "/gradients", ic: mkIco.contrast, t: "Gradients", d: "Copy-paste CSS & Tailwind gradients" },
   { href: "/changelog", ic: mkIco.changelog, t: "Changelog", d: "What shipped, week by week" },
   { href: "/saved", ic: mkIco.saved, t: "Saved", d: "Your bookmarked components" },
@@ -703,7 +704,7 @@ const homeMain = `
 const footCols = [
   ["Library", libGroups.slice(0, 7).map((g) => [g.title, g.path])],
   ["AI agents", aiSections.slice(0, 6).map((s) => [s.title, "/c/ai-agents#ai-" + s.id])],
-  ["Resources", [["Gradients", "/gradients"], ["Installation", "/docs/installation"], ["Connect your agent", "/#mcp"], ["llms.txt", "/llms.txt"], ["Registry", "/r/registry.json"], ["Changelog", "/changelog"], ["Sitemap", "/sitemap.xml"]]],
+  ["Resources", [["Gradient Maker", "/gradient-maker"], ["Gradients", "/gradients"], ["Installation", "/docs/installation"], ["Connect your agent", "/#mcp"], ["llms.txt", "/llms.txt"], ["Registry", "/r/registry.json"], ["Changelog", "/changelog"], ["Sitemap", "/sitemap.xml"]]],
   ["Guides", [["All guides", "/guides"], ...GUIDES.slice(0, 4).map((g) => [g.h1, "/guides/" + g.slug])]],
   ["Project", [["GitHub", site.github], ["X", site.x], ["Saved", "/saved"]]],
 ];
@@ -1425,6 +1426,7 @@ const gradCard = (g) => {
     .join("")}</span></span></a><button class="gr-copy" data-copy="background: ${esc(css)};" aria-label="Copy ${esc(g.name)} CSS" title="Copy CSS">${icon.copy}</button></div>`;
 };
 const famChips = (active) => `<nav class="pop-links gr-fams" aria-label="Gradient families"><a href="/gradients"${active ? "" : ' aria-current="page"'}>All gradients</a>${FAMILIES.map((f) => `<a href="${famPath(f.id)}"${active === f.id ? ' aria-current="page"' : ""}>${esc(f.name.replace(/ gradients$/, ""))}</a>`).join("")}</nav>`;
+const gmCta = (g) => `<a class="gm-cta" href="/gradient-maker${g ? "#g=" + g.slug : ""}"><span class="gm-cta-sw" style="background:${esc(g ? gradientCss(g) : "linear-gradient(135deg,#0ea5e9,#a78bfa,#34d399)")}"></span><span><b>${g ? "Edit this gradient in the Gradient Maker" : "Open the Gradient Maker"}</b><span>Mesh, conic and animated shader gradients, grain, PNG export and one-click CSS, Tailwind, React or HTML.</span></span>${icon.arrow}</a>`;
 const gradGenerator = (seed) => {
   const g = seed || GRADIENTS[0];
   const stops = g.kind === "mesh" ? [[g.base, 0], ...g.blobs.slice(0, 2).map((b, i) => [b[0], 50 + i * 50])] : g.stops;
@@ -1453,7 +1455,7 @@ const gradFaq = [
       <header class="doc-head"><h1>Gradients</h1><p class="lede">${GRADIENTS.length} free CSS and Tailwind gradients: pastel, green, cream, blue, sunset, dark and mesh. Click any swatch to copy its CSS, open it for Tailwind classes, or make your own below.</p></header>
       ${famChips(null)}
       <div class="gr-grid">${GRADIENTS.map(gradCard).join("")}</div>
-      ${gradGenerator(GRADIENTS[0])}
+      ${gmCta(null)}
       ${faqBlock(gradFaq)}
     </section>`;
   const ld = { "@context": "https://schema.org", "@graph": [org, website, { "@type": "CollectionPage", name: "CSS & Tailwind gradients", url: site.url + "/gradients", mainEntity: { "@type": "ItemList", numberOfItems: GRADIENTS.length, itemListElement: GRADIENTS.map((g, i) => ({ "@type": "ListItem", position: i + 1, name: g.name + " gradient", url: site.url + gradPath(g) })) } }, crumbsLd([["Home", "/"], ["Gradients", "/gradients"]]), ...faqLd(gradFaq)] };
@@ -1467,7 +1469,7 @@ for (const f of FAMILIES) {
       <header class="doc-head"><h1>${esc(f.name)}</h1><p class="lede">${esc(f.blurb)} ${list.length} free CSS and Tailwind gradients, each one copyable in a click.</p></header>
       ${famChips(f.id)}
       <div class="gr-grid">${list.map(gradCard).join("")}</div>
-      ${gradGenerator(list[0])}
+      ${gmCta(null)}
       ${faqBlock(gradFaq)}
     </section>`;
   const ld = { "@context": "https://schema.org", "@graph": [org, website, { "@type": "CollectionPage", name: f.name, url: site.url + famPath(f.id), description: f.blurb }, crumbsLd([["Home", "/"], ["Gradients", "/gradients"], [f.name, famPath(f.id)]]), ...faqLd(gradFaq)] };
@@ -1489,19 +1491,123 @@ for (const g of GRADIENTS) {
     <article class="doc">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/gradients">Gradients</a><span>/</span><a href="${famPath(fams[0].id)}">${esc(fams[0].name)}</a><span>/</span><span aria-current="page">${esc(g.name)}</span></nav>
       <header class="doc-head"><h1>${esc(g.name)} Gradient</h1><p class="lede">A free ${g.kind === "mesh" ? "multi-colour mesh" : g.kind} gradient you can copy as CSS or Tailwind. ${esc(fams.map((f) => f.blurb).slice(0, 1).join(""))}</p></header>
-      <div class="gr-hero" style="background:${esc(css)}" role="img" aria-label="${esc(g.name)} gradient preview"><button class="btn btn-cmd gr-hero-copy" data-copy="background: ${esc(css)};">${icon.copy} Copy CSS</button></div>
+      <div class="gr-hero" style="background:${esc(css)}" role="img" aria-label="${esc(g.name)} gradient preview"><div class="gr-hero-acts"><a class="btn btn-cmd gr-hero-copy" href="/gradient-maker#g=${g.slug}">Edit in maker</a><button class="btn btn-cmd gr-hero-copy" data-copy="background: ${esc(css)};">${icon.copy} Copy CSS</button></div></div>
       <div class="gr-stops-list">${colours.map((c) => `<button class="gr-hex" data-copy="${c}" title="Copy ${c}"><i style="background:${c}"></i>${c}</button>`).join("")}</div>
       <section class="doc-sec"><h2>CSS</h2><div class="code-wrap"><button class="icon-btn code-copy" data-copy="${esc(cssCode)}" aria-label="Copy CSS">${icon.copy}</button><pre class="code"><code>${esc(cssCode)}</code></pre></div></section>
       <section class="doc-sec"><h2>Tailwind CSS</h2>
         ${simple ? `<p class="mute">With Tailwind's gradient utilities:</p><div class="cmdline"><code>${esc(simple)}</code><button class="icon-btn" data-copy="${esc(simple)}" aria-label="Copy Tailwind classes">${icon.copy}</button></div><p class="mute" style="margin-top:14px">Or the exact gradient as an arbitrary value:</p>` : ""}
         <div class="cmdline"><code>${esc(arb)}</code><button class="icon-btn" data-copy="${esc(arb)}" aria-label="Copy Tailwind arbitrary class">${icon.copy}</button></div>
       </section>
-      ${gradGenerator(g)}
+      ${gmCta(g)}
       ${faqBlock(faq)}
       <section class="doc-sec"><h2>Similar gradients</h2><div class="gr-grid">${related.map(gradCard).join("")}</div><p class="rel-tags">More: ${fams.map((f) => `<a href="${famPath(f.id)}">${esc(f.name)}</a>`).join("")}<a href="/gradients">All gradients</a></p></section>
     </article>`;
   const ld = { "@context": "https://schema.org", "@graph": [org, website, { "@type": "CreativeWork", name: g.name + " gradient", url: site.url + gradPath(g), description: desc, license: "https://opensource.org/licenses/MIT" }, crumbsLd([["Home", "/"], ["Gradients", "/gradients"], [fams[0].name, famPath(fams[0].id)], [g.name, gradPath(g)]]), ...faqLd(faq)] };
   write(gradPath(g).slice(1) + ".html", layout({ title: `${g.name} Gradient — CSS & Tailwind Code | NiceUI`, description: desc, path: gradPath(g), main, ld }));
+}
+
+// ─── /gradient-maker: the full gradient + shader app ─────────────────
+{
+  const GM_JS = hashed("gradient-maker.js");
+  const rng = (attr, label, min, max, step, val, fmt) => `<label class="gm-rng"><span>${label}<output ${attr}-out>${fmt}</output></span><input type="range" ${attr} min="${min}" max="${max}" step="${step}" value="${val}" /></label>`;
+  // the gradient library, so /gradients pages can open in the maker via #g=<slug>
+  const lib = Object.fromEntries(
+    GRADIENTS.map((g) => {
+      const cols = g.kind === "mesh" ? g.blobs.map(([c, x, y], i, a) => ({ c, p: Math.round((i / (a.length - 1)) * 100), x, y })) : g.stops.map(([c, p], i) => ({ c, p, x: [18, 82, 30, 85, 55][i % 5], y: [22, 18, 82, 80, 50][i % 5] }));
+      return [g.slug, { mode: g.kind === "mesh" ? "mesh" : g.kind, colors: cols, ...(g.kind === "mesh" ? { base: g.base } : {}), ...(g.kind === "linear" ? { angle: g.angle } : {}), ...(g.kind === "radial" ? { cx: 50, cy: 30 } : {}), grain: 0 }];
+    })
+  );
+  const main = `
+    <section class="doc gm-page">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/gradients">Gradients</a><span>/</span><span aria-current="page">Gradient Maker</span></nav>
+      <header class="doc-head gm-head"><h1>Gradient Maker</h1><p class="lede">Design linear, radial, conic, mesh and animated shader gradients. Drag the colours, add grain, then copy dependency-free CSS, Tailwind, React or HTML in one click.</p></header>
+      <div class="gm" data-gm>
+        <div class="gm-main">
+          <div class="gm-stage" data-gm-stage>
+            <div class="gm-css" data-gm-css></div>
+            <canvas class="gm-canvas" data-gm-canvas hidden></canvas>
+            <div class="gm-handles" data-gm-handles></div>
+            <div class="gm-stage-bar">
+              <div class="gm-modes" role="group" aria-label="Gradient type">${["linear", "radial", "conic", "mesh", "shader"].map((m) => `<button type="button" data-gm-mode="${m}" aria-pressed="false">${m[0].toUpperCase() + m.slice(1)}</button>`).join("")}</div>
+            </div>
+          </div>
+          <div class="gm-bar-wrap">
+            <div class="gm-bar" data-gm-bar title="Click to add a colour"><div class="gm-stops" data-gm-stops></div></div>
+            <p class="gm-hint">Click the bar to add a colour · drag a stop to move it · Delete removes it${""}</p>
+          </div>
+          <div class="gm-edit">
+            <div class="gm-swatches" data-gm-swatches></div>
+            <label class="gm-picker"><input type="color" data-gm-pick aria-label="Selected colour" /></label>
+            <label class="gm-field"><span>Hex</span><input data-gm-hex maxlength="7" spellcheck="false" aria-label="Hex colour" /></label>
+            <label class="gm-field gm-field-s"><span>Stop</span><input type="number" min="0" max="100" data-gm-pos aria-label="Stop position in percent" /></label>
+            <button type="button" class="gm-del" data-gm-del aria-label="Remove selected colour">Remove</button>
+          </div>
+        </div>
+
+        <aside class="gm-side" aria-label="Controls">
+          <section class="gm-card">
+            <h2>Shape</h2>
+            <div data-gm-show="linear">${rng("data-gm-angle", "Angle", 0, 360, 1, 135, "135°")}</div>
+            <div data-gm-show="radial" class="gm-seg" role="group" aria-label="Radial shape"><button type="button" data-gm-shape="circle">Circle</button><button type="button" data-gm-shape="ellipse">Ellipse</button></div>
+            <div data-gm-show="conic">${rng("data-gm-conic", "Rotation", 0, 360, 1, 0, "0°")}</div>
+            <p data-gm-show="radial conic" class="gm-tip">Drag the white handle on the preview to move the centre.</p>
+            <div data-gm-show="mesh">
+              ${rng("data-gm-spread", "Softness", 25, 90, 1, 55, "55%")}
+              <label class="gm-row"><span>Base colour</span><input type="color" data-gm-base aria-label="Mesh base colour" /></label>
+              <p class="gm-tip">Drag the colour dots on the preview to shape the mesh.</p>
+            </div>
+            <div data-gm-show="shader">
+              <div class="gm-seg gm-seg4" role="group" aria-label="Shader style">${["flow", "waves", "aurora", "plasma"].map((k) => `<button type="button" data-gm-kind="${k}">${k[0].toUpperCase() + k.slice(1)}</button>`).join("")}</div>
+              ${rng("data-gm-speed", "Speed", 0, 150, 1, 35, "0.35")}
+              ${rng("data-gm-scale", "Scale", 40, 400, 1, 140, "1.40")}
+              ${rng("data-gm-warp", "Warp", 0, 150, 1, 60, "0.60")}
+              <button type="button" class="gm-ghost" data-gm-play>Pause</button>
+            </div>
+            ${rng("data-gm-grain", "Grain", 0, 40, 1, 12, "12%")}
+          </section>
+
+          <section class="gm-card">
+            <h2>Colours</h2>
+            <div class="gm-harm">${["random", "pastel", "vivid", "neon", "dark", "analogous", "complementary", "earthy"].map((h) => `<button type="button" data-gm-harmony="${h}">${h[0].toUpperCase() + h.slice(1)}</button>`).join("")}</div>
+          </section>
+
+          <section class="gm-card gm-export">
+            <div class="gm-tabs" role="tablist" aria-label="Export format">${[["css", "CSS"], ["tailwind", "Tailwind"], ["react", "React"], ["html", "HTML"]].map(([k, l], i) => `<button type="button" role="tab" data-gm-tab="${k}" aria-selected="${i === 0}">${l}</button>`).join("")}</div>
+            <pre class="gm-code"><code data-gm-out></code></pre>
+            <div class="gm-actions">
+              <button type="button" class="btn btn-sky" data-gm-copy>${icon.copy} Copy code</button>
+              <button type="button" class="btn btn-cmd" data-gm-png>PNG</button>
+              <button type="button" class="btn btn-cmd" data-gm-share>Share</button>
+            </div>
+            <p class="gm-note">Every export is dependency-free: plain CSS, a Tailwind class, or a self-contained React / HTML snippet (shaders use raw WebGL).</p>
+          </section>
+        </aside>
+
+        <section class="gm-presets-wrap" aria-labelledby="gm-presets-h">
+          <div class="gm-presets-head"><h2 id="gm-presets-h">Presets</h2><button type="button" class="gm-ghost" data-gm-reset>Reset</button></div>
+          <div class="gm-presets" data-gm-presets></div>
+        </section>
+      </div>
+      ${faqBlock([
+        ["What is a mesh gradient?", "A mesh gradient blends several colours from different points instead of along one line. In CSS it is made by layering radial gradients over a base colour, which is exactly what the Mesh mode exports."],
+        ["How do shader gradients work?", "Shader mode draws the gradient on the GPU with a small WebGL fragment shader, so it can animate smoothly. The React and HTML exports include that shader inline, with no libraries, and stop animating for people who prefer reduced motion."],
+        ["Do I need any package to use the exported code?", "No. CSS and Tailwind exports are plain values, and the React and HTML exports are self-contained. Nothing to install."],
+        ["Can I add grain to a CSS gradient?", "Yes. The Grain slider layers a tiny inline SVG noise texture on top of the gradient, still as a single CSS background."],
+      ])}
+      <section class="doc-sec"><h2>Ready-made gradients</h2><p class="mute">Prefer to start from a finished one? Browse <a class="ul" href="/gradients">${GRADIENTS.length} free gradients</a>; each opens in the maker.</p></section>
+    </section>
+    <script type="application/json" id="gm-library">${json(lib)}</script>
+    <script src="${GM_JS}" defer></script>`;
+  const ld = {
+    "@context": "https://schema.org",
+    "@graph": [
+      org,
+      website,
+      { "@type": "WebApplication", name: "NiceUI Gradient Maker", url: site.url + "/gradient-maker", applicationCategory: "DesignApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, description: "Free gradient maker for linear, radial, conic, mesh and animated WebGL shader gradients with one-click CSS, Tailwind, React and HTML export." },
+      crumbsLd([["Home", "/"], ["Gradients", "/gradients"], ["Gradient Maker", "/gradient-maker"]]),
+    ],
+  };
+  write("gradient-maker.html", layout({ title: "Gradient Maker — Mesh, Conic & Shader Gradient Generator (CSS, Tailwind, React) | NiceUI", description: "Free gradient maker: design linear, radial, conic, mesh and animated shader gradients with grain, then copy dependency-free CSS, Tailwind, React or HTML in one click.", path: "/gradient-maker", main, ld }));
 }
 
 write(INDEXNOW_KEY + ".txt", INDEXNOW_KEY);
@@ -1561,7 +1667,8 @@ ${tagPages.map((t) => `- [${t.h1}](${site.url}${t.path}): ${t.intro.split(". ")[
 
 ## Gradients
 
-- [Gradient gallery and generator](${site.url}/gradients): ${GRADIENTS.length} free CSS and Tailwind gradients.
+- [Gradient Maker](${site.url}/gradient-maker): Make linear, radial, conic, mesh and animated WebGL shader gradients; copy dependency-free CSS, Tailwind, React or HTML.
+- [Gradient gallery](${site.url}/gradients): ${GRADIENTS.length} free CSS and Tailwind gradients.
 ${FAMILIES.map((f) => `- [${f.name}](${site.url}/gradients/${f.id}-gradients): ${f.blurb}`).join("\n")}
 
 ## Guides
@@ -1612,6 +1719,7 @@ const urls = [
   { loc: site.url + "/browse", priority: "0.9", freq: "weekly" },
   { loc: site.url + "/guides", priority: "0.7", freq: "weekly" },
   { loc: site.url + "/gradients", priority: "0.8", freq: "weekly" },
+  { loc: site.url + "/gradient-maker", priority: "0.9", freq: "monthly" },
   ...FAMILIES.map((f) => ({ loc: site.url + "/gradients/" + f.id + "-gradients", priority: "0.7", freq: "monthly" })),
   ...GRADIENTS.map((g) => ({ loc: site.url + "/gradients/" + g.slug, priority: "0.6", freq: "monthly" })),
   ...tagPages.map((t) => ({ loc: site.url + t.path, priority: "0.9", freq: "weekly" })),
