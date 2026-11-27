@@ -1063,3 +1063,19 @@ html[data-theme="light"] .prose { color: #2b2f36; }
 @media (max-width: 1020px) { .h-foot-grid { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 900px) { .prose .g-cards { width: 100%; } }
 @media (max-width: 640px) { .g-more { grid-template-columns: 1fr; } .h-foot-grid { grid-template-columns: 1fr 1fr; } }
+
+/* ── one-click copy ──────────────────────────────────────── */
+.quick-copy { margin-top: 40px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 16px 16px 16px 20px; border: 1px solid var(--sky-line); border-radius: 16px; background: radial-gradient(120% 140% at 0% 0%, var(--sky-soft), transparent 60%), var(--s1); }
+.qc-l { display: grid; gap: 3px; }
+.qc-l b { font-size: 15px; font-weight: 500; }
+.qc-l span { font-size: 12.5px; color: var(--mute); }
+.qc-r { display: flex; gap: 8px; flex-wrap: wrap; }
+.qc-btn.ok { background: #a5e1fd; }
+.card-box { position: relative; display: flex; flex-direction: column; }
+.card-box > .card { flex: 1; }
+.card-copy { position: absolute; top: 10px; right: 10px; z-index: 3; display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; border: 1px solid rgba(255,255,255,.14); border-radius: 9px; background: rgba(0,0,0,.72); backdrop-filter: blur(10px); color: #e5e7eb; font-size: 12px; opacity: 0; transform: translateY(-3px); transition: opacity .2s, transform .25s var(--ease), border-color .2s, background .2s; }
+.card-box:hover .card-copy, .card-copy:focus-visible { opacity: 1; transform: none; }
+.card-copy:hover { border-color: var(--sky-line); }
+.card-copy.ok { background: var(--sky); color: var(--sky-ink); border-color: var(--sky); opacity: 1; }
+@media (hover: none) { .card-copy { opacity: .92; transform: none; } .card-copy span { display: none; } .card-copy { width: 30px; padding: 0; justify-content: center; } }
+.card-box[hidden] { display: none; }

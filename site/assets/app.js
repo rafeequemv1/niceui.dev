@@ -36,6 +36,48 @@
     copy(key ? pageData[key] || "" : b.dataset.copy, b, key === "prompt" ? "Prompt copied — paste it into your AI assistant" : undefined);
   });
 
+  // ── one-click copy of a component's whole source (fetched on demand) ──
+  const fetched = new Map();
+  const getText = (url) => {
+    if (!fetched.has(url)) fetched.set(url, fetch(url).then((r) => (r.ok ? r.text() : Promise.reject(new Error(r.status)))));
+    return fetched.get(url);
+  };
+  document.addEventListener("pointerover", (e) => {
+    const b = e.target.closest?.("[data-copy-url]");
+    if (b) getText(b.dataset.copyUrl).catch(() => fetched.delete(b.dataset.copyUrl));
+  });
+  document.addEventListener("click", async (e) => {
+    const b = e.target.closest("[data-copy-url]");
+    if (!b) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const url = b.dataset.copyUrl;
+    const done = (text) => {
+      toast(`${b.dataset.copyName || "Code"} copied · ${text.split("\n").length} lines`);
+      b.classList.add("ok");
+      setTimeout(() => b.classList.remove("ok"), 1400);
+    };
+    try {
+      const text = getText(url);
+      // ClipboardItem keeps the user gesture while the file downloads (Safari needs this)
+      if (window.ClipboardItem && navigator.clipboard?.write) {
+        await navigator.clipboard.write([new ClipboardItem({ "text/plain": text.then((t) => new Blob([t], { type: "text/plain" })) })]);
+      } else {
+        await navigator.clipboard.writeText(await text);
+      }
+      done(await text);
+    } catch {
+      try {
+        const t = await getText(url);
+        await navigator.clipboard.writeText(t);
+        done(t);
+      } catch {
+        fetched.delete(url);
+        toast("Copy failed — use Download instead");
+      }
+    }
+  });
+
   // ── mobile sidebar ───────────────────────────────────────
   const setMenu = (open) => document.body.classList.toggle("sb-open", open);
   $("[data-menu]")?.addEventListener("click", () => setMenu(!document.body.classList.contains("sb-open")));

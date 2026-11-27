@@ -5,6 +5,7 @@ import { dirname, join } from "node:path";
 import { faq, items, site } from "./registry.mjs";
 import { ITEM_SEO, TAGS, POPULAR, INDEXNOW_KEY } from "./seo.mjs";
 import { GUIDES, COMPARE } from "./guides.mjs";
+import { makePure } from "../scripts/pure.mjs";
 
 const OUT = "dist";
 const today = new Date().toISOString().slice(0, 10);
@@ -210,6 +211,31 @@ for (const g of navGroups) {
 }
 const groupOf = (it) => navGroups.find((g) => g.list.includes(it));
 const totalReady = navGroups.reduce((n, g) => n + g.list.filter((i) => i.status === "ready").length, 0);
+
+// One-click copy: every library item as one self-contained .tsx (React + Tailwind only).
+const pureCache = new Map();
+let pureStats = { single: 0, multi: 0 };
+const pureOf = (it) => {
+  if (pureCache.has(it)) return pureCache.get(it);
+  const raw = libSrc[it.sec + "/" + it.slug] || [];
+  let out = null;
+  if (raw.length) {
+    const r = makePure({ name: it.name, url: site.url + it.path, files: raw });
+    if (r.pure) {
+      out = { code: r.pure, single: true };
+      pureStats.single++;
+    } else {
+      // can't merge safely: one copy with every file, clearly separated
+      const body = it.files.map((f) => `// ── file: ${f.path} ${"─".repeat(Math.max(4, 56 - f.path.length))}\n${f.content.trim()}\n`).join("\n");
+      out = { code: `// ${it.name} — NiceUI (MIT) · ${site.url}${it.path}\n// This item spans ${it.files.length} files. Save each section below at the path in its header.\n// Needs React, Tailwind CSS and lucide-react, plus the NiceUI theme from ${site.url}/r/niceui-base.json.\n\n${body}`, single: false };
+      pureStats.multi++;
+    }
+    write(`r/${it.rid}.tsx`, out.code);
+  }
+  pureCache.set(it, out);
+  return out;
+};
+const pureName = (it) => it.name.replace(/[^A-Za-z0-9]+(.)?/g, (_, c) => (c ? c.toUpperCase() : "")).replace(/^./, (c) => c.toUpperCase()) + ".tsx";
 
 // ─── search helpers: item keys, tag pages, popular searches ─────────
 const keyOf = (it) => (it.lib ? `${it.sec}/${it.slug}` : `site/${it.slug}`);
@@ -869,10 +895,10 @@ ${it.usage.trim()}
 
 // ─── category pages + library item pages ────────────────────────────
 const thumbCard = (it) => `
-        <a class="card" href="${it.path}" data-kind="${it.kind}" data-native="${it.theme}">
+        <div class="card-box">${pureOf(it) ? `<button class="card-copy" data-copy-url="/r/${it.rid}.tsx" data-copy-name="${esc(it.name)}" aria-label="Copy ${esc(it.name)} code" title="Copy code">${icon.copy}<span>Copy</span></button>` : ""}<a class="card" href="${it.path}" data-kind="${it.kind}" data-native="${it.theme}">
           <div class="card-stage card-thumb"><img src="${it.thumb}" alt="${esc(it.name)} preview" loading="lazy" decoding="async" width="640" height="400" /></div>
           <div class="card-meta"><span class="card-name">${esc(it.name)}${it.badge === "New" ? ' <em class="tag-new">New</em>' : ""}</span><span class="card-cat">${esc(it.category)}</span></div>
-        </a>`;
+        </a></div>`;
 const designFeature = () => {
   const t = navGroups.find((g) => g.title === "Templates")?.list.find((i) => i.slug === "badge-maker");
   return t
@@ -917,6 +943,15 @@ const libCode = (it) => {
   const prompt = `Add the "${it.name}" component from NiceUI to my React + Tailwind project. Install it with \`${cmd}\` (this also installs the NiceUI theme: colours, shadows and animations). Docs: ${site.url}${it.path}. Then use it where it fits and adapt the copy to my product.`;
   const base = (p) => p.split("/").pop();
   return `
+      ${(() => {
+        const p = pureOf(it);
+        if (!p) return "";
+        const lines = p.code.split("\n").length;
+        return `<section class="quick-copy" aria-label="Copy code">
+        <div class="qc-l"><b>${p.single ? "One file. Nothing to install." : `${it.files.length} files in one copy`}</b><span>${p.single ? `Pure React + Tailwind CSS · icons and animations inlined · ${lines} lines` : `React + Tailwind CSS + lucide-react · ${lines} lines`}</span></div>
+        <div class="qc-r"><button class="btn btn-sky qc-btn" data-copy-url="/r/${it.rid}.tsx" data-copy-name="${esc(it.name)}">${icon.copy} Copy code</button><a class="btn btn-cmd qc-dl" href="/r/${it.rid}.tsx" download="${pureName(it)}">Download .tsx</a></div>
+      </section>`;
+      })()}
       <section class="doc-sec" aria-labelledby="install-h">
         <h2 id="install-h">Installation</h2>
         <div class="steps">
@@ -1235,7 +1270,7 @@ for (const g of navGroups)
   const cardHtml = items
     .map(({ it, g }, i) => {
       const hay = `${it.name} ${it.category || ""} ${g.title} ${(it.description || "").slice(0, 140)}`.toLowerCase().replace(/"/g, "");
-      return anyCard(it).replace(/^\s*<a /, (m) => `${m}data-br data-g="${g.slug}" data-i="${i}" data-n="${esc(it.name.toLowerCase())}" data-new="${it.badge === "New" ? 1 : 0}" data-h="${esc(hay)}" `);
+      return anyCard(it).replace(/^\s*<(?:div|a) /, (m) => `${m}data-br data-g="${g.slug}" data-i="${i}" data-n="${esc(it.name.toLowerCase())}" data-new="${it.badge === "New" ? 1 : 0}" data-h="${esc(hay)}" `);
     })
     .join("");
   const chip = (slug, label, n, on) => `<button class="br-chip${on ? " on" : ""}" data-br-cat="${slug}" aria-pressed="${on}">${label}<span>${n}</span></button>`;
@@ -1507,3 +1542,4 @@ write(
 );
 
 console.log(`Built ${ready.length} ready items, ${soon.length} coming soon → ${OUT}/`);
+console.log(`pure: ${pureStats.single} single-file, ${pureStats.multi} multi-file copies`);
