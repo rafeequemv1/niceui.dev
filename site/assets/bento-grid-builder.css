@@ -72,3 +72,6 @@
   .bg-hint { display: none; }
   .bg-stage-bar .bg-seg { width: 150px; }
 }
+@media (max-width: 760px) {
+  .bg-frame:not(.is-mobile) { min-width: 680px; }
+}

@@ -542,17 +542,18 @@ ${body}
   });
 
   /* ── keyboard ──────────────────────────────────────────── */
-  root.addEventListener("keydown", (e) => {
-    const inField = e.target.matches("input, textarea, select");
+  // undo / redo work anywhere on the page except while typing in a field
+  document.addEventListener("keydown", (e) => {
     const mod = e.metaKey || e.ctrlKey;
-    if (mod && e.key.toLowerCase() === "z" && !inField) {
-      e.preventDefault();
-      return jump(e.shiftKey ? 1 : -1);
-    }
-    if (mod && e.key.toLowerCase() === "y" && !inField) {
-      e.preventDefault();
-      return jump(1);
-    }
+    if (!mod || e.target.matches?.("input, textarea, select")) return;
+    const k = e.key.toLowerCase();
+    if (k !== "z" && k !== "y") return;
+    e.preventDefault();
+    jump(k === "y" || e.shiftKey ? 1 : -1);
+    if (sel) grid.querySelector(`[data-cell="${sel}"]`)?.focus({ preventScroll: true });
+  });
+  root.addEventListener("keydown", (e) => {
+    const mod = e.metaKey || e.ctrlKey;
     const cellEl = e.target.closest?.("[data-cell]");
     if (!cellEl) return;
     const c = S.cells.find((x) => x.id === cellEl.dataset.cell);

@@ -46,13 +46,13 @@ export default {
 
       <aside class="bg-side" aria-label="Controls">
         <div class="bg-scroll-side">
-          <section class="gm-card">
-            <div class="gm-presets-head"><h2>Layouts</h2><button type="button" class="gm-ghost" data-bg-clear>Clear</button></div>
-            <div class="bg-presets" data-bg-presets></div>
-          </section>
           <section class="gm-card" data-bg-cellcard>
             <div class="gm-presets-head"><h2>Cell</h2><span class="bg-pos" data-bg-pos></span></div>
             <div data-bg-cellbody></div>
+          </section>
+          <section class="gm-card">
+            <div class="gm-presets-head"><h2>Layouts</h2><button type="button" class="gm-ghost" data-bg-clear>Clear</button></div>
+            <div class="bg-presets" data-bg-presets></div>
           </section>
           <section class="gm-card">
             <h2>Grid</h2>
