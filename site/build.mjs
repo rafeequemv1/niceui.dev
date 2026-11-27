@@ -282,7 +282,7 @@ const JS = hashed("app.js");
 cpSync("assets/favicon.svg", join(OUT, "favicon.svg"));
 if (existsSync("assets/og.png")) cpSync("assets/og.png", join(OUT, "og.png"));
 if (existsSync("assets/thumbs")) cpSync("assets/thumbs", join(OUT, "assets/thumbs"), { recursive: true });
-for (const d of ["shader-samples", "shader-thumbs", "device-samples"]) if (existsSync("assets/" + d)) cpSync("assets/" + d, join(OUT, "assets/" + d), { recursive: true });
+for (const d of ["shader-samples", "shader-thumbs", "device-samples", "logo-fonts"]) if (existsSync("assets/" + d)) cpSync("assets/" + d, join(OUT, "assets/" + d), { recursive: true });
 
 // ─── layout ──────────────────────────────────────────────────────────
 const icon = {

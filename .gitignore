@@ -22,3 +22,4 @@ dist-ssr
 *.sw?
 .env
 site/assets/shader-studio.js
+site/assets/logo-maker.js
