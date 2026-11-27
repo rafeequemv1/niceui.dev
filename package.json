@@ -9,7 +9,8 @@
     "build:web": "node scripts/library-manifest.mjs && cd site && node build.mjs && cd .. && vite build --base /library/ --outDir site/dist/library --emptyOutDir",
     "lint": "eslint .",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit -p tsconfig.app.json"
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
+    "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",

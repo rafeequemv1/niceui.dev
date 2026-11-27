@@ -1832,6 +1832,51 @@
         "theme": null,
         "page": false,
         "demos": 1
+      },
+      {
+        "slug": "custom-cursor",
+        "name": "Custom Cursor",
+        "description": "An animated custom mouse cursor for React and Tailwind: a smooth spring-follow dot and ring that grows and shows a label over links, snaps magnetically to buttons, and has a blend-mode variant. Scoped to its container; touch screens keep the native cursor.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "cursor-trail",
+        "name": "Cursor Trail",
+        "description": "A custom cursor trail for React: a glowing ribbon, drifting particles or a chain of spring dots drawn on a canvas inside its container. Works with touch drags, pauses off-screen and respects reduced motion.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "underline-animation",
+        "name": "Underline Animation",
+        "description": "Link underline animations for React and Tailwind: six pure-CSS hover and focus effects — slide in and out, grow from center, wavy line, highlight sweep, double line and flowing gradient.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "confetti",
+        "name": "Confetti Animation",
+        "description": "A confetti animation for React with no dependencies: canvas bursts from any point, side cannons from the corners, and an imperative fire() API from a hook. Celebrate sign-ups, launches and completed tasks.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "icon-cloud",
+        "name": "Icon Cloud",
+        "description": "An interactive 3D icon cloud for React: icons or text tags spread evenly on a rotating sphere you can drag or spin with the arrow keys, with depth fade and a glowing hover highlight.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
       }
     ]
   },
@@ -2279,6 +2324,69 @@
         "theme": null,
         "page": false,
         "demos": 1
+      },
+      {
+        "slug": "page-dots",
+        "name": "Page Indicator Dots",
+        "description": "Pagination dots for carousels, onboarding and galleries: the active dot morphs into a pill, fills as a progress bar on autoplay, or shows page numbers. Clickable, with arrow-key support.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "auto-resize-textarea",
+        "name": "Auto-Resize Textarea",
+        "description": "A resizable textarea that grows with its content between a minimum and maximum number of rows, with a character counter, plus a variant with a custom drag handle you can also resize from the keyboard.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "resizable-panels",
+        "name": "Resizable Panels",
+        "description": "Resizable split panes for editors and dashboards: horizontal or vertical, nestable, with a drag handle, keyboard resizing, minimum sizes and double-click to reset.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "dropdown-menu",
+        "name": "Dropdown Menu",
+        "description": "An animated React dropdown menu with icons, keyboard shortcuts, separators, checkbox and radio items and a nested submenu, with arrow-key navigation, typeahead and Esc or outside-click to close.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "time-picker",
+        "name": "Time Picker",
+        "description": "A time picker for React: a field that opens scrollable hour and minute columns with AM/PM, in 12- or 24-hour format, plus an inline iOS-style wheel. Full keyboard support.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "vertical-slider",
+        "name": "Vertical Slider",
+        "description": "A vertical slider for volume, levels and EQ bands, with a gradient fill, ticks, a value bubble, centred mode for bipolar values and full keyboard control. Demo includes a 7-band equalizer with presets.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "countdown-timer",
+        "name": "Countdown Timer",
+        "description": "A countdown timer for React with rolling digits for days, hours, minutes and seconds, plus a pomodoro-style ring timer that alternates focus and break sessions.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
       }
     ]
   },
@@ -2588,6 +2696,33 @@
         "theme": "light",
         "page": false,
         "demos": 1
+      },
+      {
+        "slug": "animated-navbar",
+        "name": "Animated Navbar",
+        "description": "An animated navigation bar for React and Tailwind: a pill or underline that slides to the hovered link, a glass navbar that morphs into a compact floating pill on scroll, and a mobile menu with staggered links.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 2
+      },
+      {
+        "slug": "bottom-navigation",
+        "name": "Bottom Navigation Bar",
+        "description": "A floating bottom navigation bar for mobile web apps: icon tabs with labels and badge counts, an animated active indicator (sliding blob or notch), and a variant with a raised floating action button.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "sticky-header",
+        "name": "Sticky Header",
+        "description": "A sticky website header that hides when you scroll down, reveals itself the moment you scroll up, and shrinks onto a blurred background once the page moves, with an optional reading progress bar.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 2
       },
       {
         "slug": "feature-grid",

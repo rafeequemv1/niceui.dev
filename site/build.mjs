@@ -3,6 +3,8 @@ import { createHash } from "node:crypto";
 import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { faq, items, site } from "./registry.mjs";
+import { ITEM_SEO, TAGS, POPULAR, INDEXNOW_KEY } from "./seo.mjs";
+import { GUIDES, COMPARE } from "./guides.mjs";
 
 const OUT = "dist";
 const today = new Date().toISOString().slice(0, 10);
@@ -150,6 +152,7 @@ const EFFECT_GROUPS = [
   { id: "backgrounds", title: "Backgrounds", blurb: "Aurora, animated grids, meteors, particles and border beams.", slugs: ["aurora-background", "animated-grid", "meteors", "particles", "border-beam", "noise-gradient", "beams-background"] },
   { id: "text", title: "Text effects", blurb: "Typewriter, scramble, gradient text, number tickers and rotating words.", slugs: ["typewriter-text", "scramble-text", "gradient-text", "number-ticker", "word-rotate"] },
   { id: "buttons", title: "Buttons & cards", blurb: "Shiny, rainbow, magnetic and ripple buttons, and spotlight cards.", slugs: ["shiny-button", "rainbow-button", "magnetic-button", "ripple-button", "spotlight-card"] },
+  { id: "pointer", title: "Cursor & pointer", blurb: "Custom cursors, cursor trails, underline hovers, confetti and a 3D icon cloud.", slugs: ["custom-cursor", "cursor-trail", "underline-animation", "confetti", "icon-cloud"] },
 ];
 const effectItems = libItems("effects", "effect").sort(byName);
 const effectSections = groupSections(effectItems, EFFECT_GROUPS, "effects");
@@ -208,6 +211,34 @@ for (const g of navGroups) {
 const groupOf = (it) => navGroups.find((g) => g.list.includes(it));
 const totalReady = navGroups.reduce((n, g) => n + g.list.filter((i) => i.status === "ready").length, 0);
 
+// ─── search helpers: item keys, tag pages, popular searches ─────────
+const keyOf = (it) => (it.lib ? `${it.sec}/${it.slug}` : `site/${it.slug}`);
+const allItems = (() => {
+  const seen = new Set();
+  const out = [];
+  for (const g of navGroups)
+    for (const it of g.list)
+      if (it.status === "ready" && it.path && !seen.has(it.path)) {
+        seen.add(it.path);
+        out.push(it);
+      }
+  return out;
+})();
+const byKey = new Map(allItems.map((it) => [keyOf(it), it]));
+const unknownSeo = Object.keys(ITEM_SEO).filter((k) => !byKey.has(k));
+if (unknownSeo.length) console.log(`seo: ${unknownSeo.length} ITEM_SEO keys have no item yet (${unknownSeo.slice(0, 6).join(", ")}${unknownSeo.length > 6 ? ", …" : ""})`);
+const firstMatch = (t, it) => t.match.findIndex((rx) => rx.test(keyOf(it)));
+const tagPages = TAGS.map((t) => ({
+  ...t,
+  path: "/s/" + t.slug,
+  // most specific pattern first, then library order
+  items: allItems.filter((it) => firstMatch(t, it) >= 0).sort((a, b) => firstMatch(t, a) - firstMatch(t, b)),
+})).filter((t) => t.items.length >= 3);
+const tagBySlug = new Map(tagPages.map((t) => [t.slug, t]));
+const tagsOf = (it) => tagPages.filter((t) => t.items.includes(it));
+const akaLine = (seo) => (seo && seo.terms ? `\n        <p class="aka">Often searched as ${seo.terms.map((t) => `<span>${esc(t)}</span>`).join("")}</p>` : "");
+const popularLinks = (cls = "pop-links") => `<nav class="${cls}" aria-label="Popular searches">${POPULAR.map((s) => tagBySlug.get(s)).filter(Boolean).map((t) => `<a href="${t.path}">${esc(t.h1)}</a>`).join("")}</nav>`;
+
 // ─── assets ──────────────────────────────────────────────────────────
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
@@ -260,7 +291,7 @@ const pvControls = `<div class="pv-ctrls">
 function sidebar(activePath) {
   const link = (href, label, extra = "") =>
     `<a href="${href}" class="sb-item${href === activePath ? " on" : ""}"${href === activePath ? ' aria-current="page"' : ""}><span>${esc(label)}</span>${extra}</a>`;
-  let html = `<div class="sb-group"><p class="sb-label">Getting started</p>${link("/", "Introduction")}${link("/browse", "All components")}${link("/docs/installation", "Installation")}${link("/changelog", "Changelog")}${link("/saved", "Saved", '<em class="tag-ai" data-saved-count hidden></em>')}${link("/#mcp", "Connect your agent", '<em class="tag-ai">MCP</em>')}${link("/llms.txt", "llms.txt", '<em class="tag-ai">AI</em>')}${libGuides.map((e) => link("/library/#/intro/" + e.slug, e.name === "OpenUI" ? "Design system" : e.name)).join("")}</div>`;
+  let html = `<div class="sb-group"><p class="sb-label">Getting started</p>${link("/", "Introduction")}${link("/browse", "All components")}${link("/guides", "Guides & articles")}${link("/docs/installation", "Installation")}${link("/changelog", "Changelog")}${link("/saved", "Saved", '<em class="tag-ai" data-saved-count hidden></em>')}${link("/#mcp", "Connect your agent", '<em class="tag-ai">MCP</em>')}${link("/llms.txt", "llms.txt", '<em class="tag-ai">AI</em>')}${libGuides.map((e) => link("/library/#/intro/" + e.slug, e.name === "OpenUI" ? "Design system" : e.name)).join("")}</div>`;
   html += `<div class="sb-group sb-cats"><p class="sb-label">Library</p>`;
   for (const g of navGroups) {
     const n = g.list.filter((i) => i.status === "ready").length;
@@ -275,7 +306,10 @@ const searchData = json(
   [...ready, ...navGroups.flatMap((g) => g.list.filter((i) => i.lib)), ...roadmap].map((i) => ({ n: i.name, k: i.kind, c: i.category, p: i.path || null }))
 );
 
-function layout({ title, description, path, main, ld, md, home }) {
+function layout({ title, description, path, main, ld, md, home, image }) {
+  const ogImg = image ? site.url + image : site.url + "/og.png";
+  const ogW = image ? 640 : 1200;
+  const ogH = image ? 400 : 630;
   const url = site.url + (path === "/" ? "" : path);
   return `<!doctype html>
 <html lang="en">
@@ -292,13 +326,13 @@ function layout({ title, description, path, main, ld, md, home }) {
 <meta property="og:title" content="${esc(title)}" />
 <meta property="og:description" content="${esc(description)}" />
 <meta property="og:url" content="${url}" />
-<meta property="og:image" content="${site.url}/og.png" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
+<meta property="og:image" content="${ogImg}" />
+<meta property="og:image:width" content="${ogW}" />
+<meta property="og:image:height" content="${ogH}" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="${esc(title)}" />
 <meta name="twitter:description" content="${esc(description)}" />
-<meta name="twitter:image" content="${site.url}/og.png" />
+<meta name="twitter:image" content="${ogImg}" />
 <meta name="theme-color" content="#000000" />
 <meta name="color-scheme" content="dark light" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -339,7 +373,8 @@ ${home.footer}
 ${main}
     <footer class="foot">
       <div class="foot-brand">${mark}<span>niceui</span><span class="dim">· Free UI, MIT licensed.</span></div>
-      <nav aria-label="Footer"><a href="/#mcp">MCP</a><a href="/docs/installation">Installation</a><a href="/llms.txt">llms.txt</a><a href="/r/registry.json">Registry</a><a href="/sitemap.xml">Sitemap</a><a href="${site.github}" target="_blank" rel="noopener">GitHub</a><a href="${site.x}" target="_blank" rel="noopener">X</a></nav>
+      ${popularLinks("pop-links foot-pop")}
+      <nav aria-label="Footer"><a href="/guides">Guides</a><a href="/#mcp">MCP</a><a href="/docs/installation">Installation</a><a href="/llms.txt">llms.txt</a><a href="/r/registry.json">Registry</a><a href="/sitemap.xml">Sitemap</a><a href="${site.github}" target="_blank" rel="noopener">GitHub</a><a href="${site.x}" target="_blank" rel="noopener">X</a></nav>
     </footer>
   </main>
 </div>
@@ -638,6 +673,7 @@ const footCols = [
   ["Library", libGroups.slice(0, 7).map((g) => [g.title, g.path])],
   ["AI agents", aiSections.slice(0, 6).map((s) => [s.title, "/c/ai-agents#ai-" + s.id])],
   ["Resources", [["Installation", "/docs/installation"], ["Connect your agent", "/#mcp"], ["llms.txt", "/llms.txt"], ["Registry", "/r/registry.json"], ["Changelog", "/changelog"], ["Sitemap", "/sitemap.xml"]]],
+  ["Guides", [["All guides", "/guides"], ...GUIDES.slice(0, 4).map((g) => [g.h1, "/guides/" + g.slug])]],
   ["Project", [["GitHub", site.github], ["X", site.x], ["Saved", "/saved"]]],
 ];
 const homeFooter = `<footer class="h-foot h-wrap">
@@ -645,6 +681,7 @@ const homeFooter = `<footer class="h-foot h-wrap">
     <div class="h-foot-brand"><a href="/" class="mk-brand">${mark}<span>niceui</span></a><p>Interfaces, nicely made. Free React and Tailwind UI, MIT licensed.</p></div>
     ${footCols.map(([h, links]) => `<div><p class="h-foot-h">${h}</p><ul>${links.map(([t, href]) => `<li><a href="${href}"${/^https?:/.test(href) ? ' target="_blank" rel="noopener"' : ""}>${esc(t)}</a></li>`).join("")}</ul></div>`).join("")}
   </div>
+  <div class="h-foot-pop"><p class="h-foot-h">Popular searches</p>${popularLinks()}</div>
   <div class="h-foot-bar"><span>© 2026 NiceUI</span><span>Made for people who ship.</span></div>
   <p class="h-foot-word" aria-hidden="true">niceui</p>
 </footer>`;
@@ -710,7 +747,7 @@ ${it.usage.trim()}
       <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Library</a><span>/</span><a href="${groupOf(it).path}">${groupOf(it).title}</a><span>/</span><span aria-current="page">${esc(it.name)}</span></nav>
       <header class="doc-head">
         <h1>${esc(it.name)}</h1>
-        <p class="lede">${esc(it.description)}</p>
+        <p class="lede">${esc(it.description)}</p>${akaLine(ITEM_SEO["site/" + it.slug])}
         <div class="doc-tags"><span>React</span><span>Tailwind CSS</span><span>TypeScript</span><span>${esc(it.category)}</span><span class="t-sky">MIT · Free</span></div>
       </header>
 
@@ -793,8 +830,8 @@ ${it.usage.trim()}
   write(
     it.path.slice(1) + ".html",
     layout({
-      title: `${it.name} — Free React & Tailwind ${it.kind === "block" ? "Block" : "Component"} | NiceUI`,
-      description: it.description + " Free, MIT licensed, copy-paste or install with the shadcn CLI.",
+      title: ITEM_SEO["site/" + it.slug] ? `${ITEM_SEO["site/" + it.slug].title} for React & Tailwind | NiceUI` : `${it.name} — Free React & Tailwind ${it.kind === "block" ? "Block" : "Component"} | NiceUI`,
+      description: (ITEM_SEO["site/" + it.slug] ? `Free ${ITEM_SEO["site/" + it.slug].terms[0]} for React and Tailwind CSS. ` : "") + it.description + " Free, MIT licensed, copy-paste or install with the shadcn CLI.",
       path: it.path,
       main,
       ld,
@@ -937,12 +974,25 @@ for (const g of navGroups) {
     if (!it.lib) return;
     const prev = live[idx - 1];
     const next = live[idx + 1];
+    const seo = ITEM_SEO[keyOf(it)];
+    const itemTags = tagsOf(it);
+    // related: nearest neighbours in the same category, then items sharing a topic
+    const pool = [...live.slice(Math.max(0, idx - 3), idx), ...live.slice(idx + 1, idx + 4), ...itemTags.flatMap((t) => t.items)];
+    const related = [...new Set(pool)].filter((x) => x !== it && x.lib).slice(0, 6);
+    const term = seo?.terms?.[0];
+    const itemFaq = seo
+      ? [
+          [`How do I add this ${term} to a React app?`, `Install ${it.name} with the shadcn CLI (npx shadcn@latest add ${site.url}/r/${it.rid}.json) or copy the source from this page. It is plain React and Tailwind CSS, so it works in Next.js, Vite, Remix and Astro.`],
+          [`Is this ${term} free to use?`, `Yes. ${it.name} is free and MIT licensed, so you can use it in personal, commercial and client projects.`],
+          [`Can I customise the ${term}?`, `Yes. The full source lives in your project after you install it, so you can change colours, timing and markup. It uses Tailwind classes and works in light and dark themes.`],
+        ]
+      : [];
     const itemMain = `
     <article class="doc">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Library</a><span>/</span><a href="${g.path}">${g.title}</a><span>/</span><span aria-current="page">${esc(it.name)}</span></nav>
       <header class="doc-head">
         <h1>${esc(it.name)}${it.badge === "New" ? ' <em class="tag-new big">New</em>' : ""}</h1>
-        <p class="lede">${esc(it.description)}</p>
+        <p class="lede">${esc(it.description)}</p>${akaLine(seo)}
         <div class="doc-tags"><span>React</span><span>Tailwind CSS</span><span>TypeScript</span><span>${esc(g.title)}</span><span class="t-sky">MIT · Free</span><button class="save-btn" data-save="${it.path}" aria-pressed="false"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg><span>Save</span></button></div>
       </header>
       <div class="pv pv-lib" data-pv>
@@ -953,6 +1003,8 @@ for (const g of navGroups) {
       </div>
       </div>
       ${libCode(it)}
+      ${itemFaq.length ? `<section class="doc-sec"><h2>FAQ</h2><div class="faq-list">${itemFaq.map(([q, a], i) => `<details class="faq-item"${i === 0 ? " open" : ""}><summary><h3>${esc(q)}</h3><span class="faq-x" aria-hidden="true"></span></summary><p>${esc(a)}</p></details>`).join("")}</div></section>` : ""}
+      ${related.length ? `<section class="doc-sec related"><h2>Related components</h2><div class="cards">${related.map(anyCard).join("")}</div>${itemTags.length ? `<p class="rel-tags">Browse more: ${itemTags.map((t) => `<a href="${t.path}">${esc(t.h1)}</a>`).join("")}</p>` : ""}</section>` : ""}
       <nav class="pager" aria-label="Pagination">
         ${prev ? `<a href="${prev.path}" class="pg"><span class="dim">Previous</span><b>${esc(prev.name)}</b></a>` : "<span></span>"}
         ${next ? `<a href="${next.path}" class="pg pg-next"><span class="dim">Next</span><b>${esc(next.name)}</b></a>` : "<span></span>"}
@@ -966,9 +1018,12 @@ for (const g of navGroups) {
         website,
         { "@type": "SoftwareSourceCode", name: it.name + " — React & Tailwind", description: it.description, url, programmingLanguage: "TypeScript", runtimePlatform: "React", license: "https://opensource.org/licenses/MIT", isAccessibleForFree: true, image: site.url + it.thumb },
         { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Library", item: site.url }, { "@type": "ListItem", position: 2, name: g.title, item: site.url + g.path }, { "@type": "ListItem", position: 3, name: it.name, item: url }] },
+        ...(itemFaq.length ? [{ "@type": "FAQPage", mainEntity: itemFaq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }] : []),
       ],
     };
-    write(it.path.slice(1) + ".html", layout({ title: `${it.name} — Free React & Tailwind ${g.title.replace(/s$/, "")} | NiceUI`, description: it.description + " Free, MIT licensed.", path: it.path, main: itemMain, ld: itemLd }));
+    const itemTitle = seo ? `${seo.title} for React & Tailwind | NiceUI` : `${it.name} — Free React & Tailwind ${g.title.replace(/s$/, "")} | NiceUI`;
+    const itemDesc = seo ? `Free ${term} for React and Tailwind CSS. ${it.description}` : it.description + " Free, MIT licensed.";
+    write(it.path.slice(1) + ".html", layout({ title: itemTitle, description: itemDesc, path: it.path, main: itemMain, ld: itemLd, image: existsSync("assets/thumbs/" + it.sec + "--" + it.slug + ".webp") ? it.thumb : undefined }));
   });
 }
 
@@ -1159,7 +1214,7 @@ for (const g of navGroups)
           description: it.description,
           dependencies: extDeps(it.files),
           registryDependencies: [site.url + "/r/niceui-base.json"],
-          files: it.files.map((f) => ({ path: f.path, type: "registry:component", target: f.path, content: f.content })),
+          files: it.files.map((f, i) => ({ path: f.path, type: "registry:component", target: f.path, content: i === 0 && /\.(tsx?|jsx?)$/.test(f.path) ? `// ${it.name} from NiceUI (MIT): ${site.url}${it.path}\n` + f.content : f.content })),
         },
         null,
         2
@@ -1198,6 +1253,7 @@ for (const g of navGroups)
         </div>
       </div>
       <div class="br-chips" role="group" aria-label="Category">${chip("all", "All", items.length, true)}${groups.map((g) => chip(g.slug, g.title, items.filter((x) => x.g === g).length, false)).join("")}</div>
+      <div class="br-pop"><span>Popular:</span>${popularLinks()}</div>
       <p class="br-count" data-br-count aria-live="polite">${items.length} items</p>
       <div class="cards br-grid" data-br-grid>${cardHtml}
       </div>
@@ -1229,6 +1285,95 @@ for (const g of navGroups)
     })
   );
 }
+
+// ─── topic pages (/s/…), guides (/guides/…) and comparisons (/compare/…) ─
+const faqBlock = (list) =>
+  list.length
+    ? `<section class="doc-sec"><h2>FAQ</h2><div class="faq-list">${list.map(([q, a], i) => `<details class="faq-item"${i === 0 ? " open" : ""}><summary><h3>${esc(q)}</h3><span class="faq-x" aria-hidden="true"></span></summary><p>${esc(a)}</p></details>`).join("")}</div></section>`
+    : "";
+const faqLd = (list) => (list.length ? [{ "@type": "FAQPage", mainEntity: list.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }] : []);
+const crumbsLd = (trail) => ({ "@type": "BreadcrumbList", itemListElement: trail.map(([name, path], i) => ({ "@type": "ListItem", position: i + 1, name, item: site.url + path })) });
+
+/* Turn guide body placeholders into components, topic links and code blocks. */
+const renderBody = (html) =>
+  html
+    .replace(/\{\{cards:([^}]+)\}\}/g, (_, keys) => {
+      const list = keys.split(",").map((k) => byKey.get(k.trim())).filter(Boolean);
+      return list.length ? `<div class="cards g-cards">${list.map(anyCard).join("")}</div>` : "";
+    })
+    .replace(/\{\{tags:([^}]+)\}\}/g, (_, slugs) => `<nav class="pop-links">${slugs.split(",").map((s) => tagBySlug.get(s.trim())).filter(Boolean).map((t) => `<a href="${t.path}">${esc(t.h1)}</a>`).join("")}</nav>`)
+    .replace(/\{\{code:(\w+)\}\}([\s\S]*?)\{\{\/code\}\}/g, (_, lang, code) => `<div class="code-wrap g-code"><span class="g-lang">${lang}</span><button class="icon-btn code-copy" data-copy="${esc(code)}" aria-label="Copy code">${icon.copy}</button><pre class="code"><code>${highlight(code)}</code></pre></div>`);
+
+for (const t of tagPages) {
+  const related = tagPages.filter((x) => x !== t && x.items.some((it) => t.items.includes(it))).slice(0, 8);
+  const others = related.length >= 4 ? related : [...related, ...POPULAR.map((s) => tagBySlug.get(s)).filter((x) => x && x !== t && !related.includes(x))].slice(0, 8);
+  const main = `
+    <section class="doc">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/browse">All components</a><span>/</span><span aria-current="page">${esc(t.h1)}</span></nav>
+      <header class="doc-head">
+        <h1>${esc(t.h1)}</h1>
+        <p class="lede">${esc(t.intro)}</p>
+        <p class="tag-meta">${t.items.length} free components · React + Tailwind CSS · MIT licensed</p>
+      </header>
+      <div class="cards">${t.items.map(anyCard).join("")}</div>
+      ${faqBlock(t.faq || [])}
+      <section class="doc-sec"><h2>Related topics</h2><nav class="pop-links">${others.map((x) => `<a href="${x.path}">${esc(x.h1)}</a>`).join("")}<a href="/browse">All components</a></nav></section>
+    </section>`;
+  const ld = {
+    "@context": "https://schema.org",
+    "@graph": [
+      org,
+      website,
+      { "@type": "CollectionPage", name: t.h1, url: site.url + t.path, description: t.intro, mainEntity: { "@type": "ItemList", numberOfItems: t.items.length, itemListElement: t.items.map((it, i) => ({ "@type": "ListItem", position: i + 1, name: it.name, url: site.url + it.path })) } },
+      crumbsLd([["Home", "/"], ["All components", "/browse"], [t.h1, t.path]]),
+      ...faqLd(t.faq || []),
+    ],
+  };
+  const first = t.items.find((it) => it.lib && existsSync("assets/thumbs/" + it.sec + "--" + it.slug + ".webp"));
+  write(t.path.slice(1) + ".html", layout({ title: `${t.title} | NiceUI`, description: t.intro.slice(0, 158).replace(/\s\S*$/, "") + "…", path: t.path, main, ld, image: first?.thumb }));
+}
+
+const articles = [...GUIDES.map((a) => ({ ...a, kind: "guides" })), ...COMPARE.map((a) => ({ ...a, kind: "compare" }))];
+for (const a of articles) {
+  a.path = `/${a.kind}/${a.slug}`;
+  const others = articles.filter((x) => x !== a).slice(0, 4);
+  const main = `
+    <article class="doc guide">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/guides">Guides</a><span>/</span><span aria-current="page">${esc(a.h1)}</span></nav>
+      <header class="doc-head">
+        <h1>${esc(a.h1)}</h1>
+        <p class="lede">${esc(a.lede)}</p>
+        ${a.updated ? `<p class="tag-meta">Updated <time datetime="${a.updated}">${new Date(a.updated).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</time> · NiceUI</p>` : ""}
+      </header>
+      <div class="prose">${renderBody(a.body)}</div>
+      ${faqBlock(a.faq || [])}
+      <section class="doc-sec"><h2>Keep reading</h2><div class="g-more">${others.map((x) => `<a href="/${x.kind}/${x.slug}"><b>${esc(x.h1)}</b><span>${esc(x.description.slice(0, 110))}…</span></a>`).join("")}</div></section>
+    </article>`;
+  const ld = {
+    "@context": "https://schema.org",
+    "@graph": [
+      org,
+      website,
+      { "@type": "Article", headline: a.title, description: a.description, url: site.url + a.path, datePublished: a.updated || today, dateModified: a.updated || today, author: { "@id": site.url + "/#org" }, publisher: { "@id": site.url + "/#org" } },
+      crumbsLd([["Home", "/"], ["Guides", "/guides"], [a.h1, a.path]]),
+      ...faqLd(a.faq || []),
+    ],
+  };
+  write(a.path.slice(1) + ".html", layout({ title: `${a.title} | NiceUI`, description: a.description, path: a.path, main, ld }));
+}
+{
+  const main = `
+    <section class="doc">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span aria-current="page">Guides</span></nav>
+      <header class="doc-head"><h1>Guides</h1><p class="lede">Practical guides to building interfaces with React and Tailwind CSS, with live components you can copy.</p></header>
+      <div class="g-more g-index">${articles.map((x) => `<a href="${x.path}"><b>${esc(x.h1)}</b><span>${esc(x.description)}</span></a>`).join("")}</div>
+      <section class="doc-sec"><h2>Popular topics</h2>${popularLinks()}</section>
+    </section>`;
+  const ld = { "@context": "https://schema.org", "@graph": [org, website, { "@type": "CollectionPage", name: "NiceUI guides", url: site.url + "/guides" }, crumbsLd([["Home", "/"], ["Guides", "/guides"]])] };
+  write("guides.html", layout({ title: "Guides — React & Tailwind UI how-tos | NiceUI", description: "Practical React and Tailwind CSS guides: website animation examples, icon libraries, auto-resizing textareas, loading animations and choosing a React framework.", path: "/guides", main, ld }));
+}
+
+write(INDEXNOW_KEY + ".txt", INDEXNOW_KEY);
 
 // ─── registry index, llms, sitemap, robots, manifest ────────────────
 write(
@@ -1277,6 +1422,15 @@ NiceUI components are plain React + Tailwind CSS source files with no runtime de
 - [Installation](${site.url}/docs/installation.md): How to add NiceUI components to a React project.
 - [Registry index](${site.url}/r/registry.json): shadcn-compatible registry of all ready items.
 - [Full library](${site.url}/library/): Interactive app with landing pages, AI agent interfaces, motion components, blocks and dashboard templates.
+- [All components](${site.url}/browse): Every live item on one page, filterable.
+
+## Topics
+
+${tagPages.map((t) => `- [${t.h1}](${site.url}${t.path}): ${t.intro.split(". ")[0]}.`).join("\n")}
+
+## Guides
+
+${articles.map((a) => `- [${a.h1}](${site.url}${a.path}): ${a.description}`).join("\n")}
 
 ## AI agent UI
 
@@ -1320,6 +1474,9 @@ write(
 const urls = [
   { loc: site.url + "/", priority: "1.0", freq: "weekly" },
   { loc: site.url + "/browse", priority: "0.9", freq: "weekly" },
+  { loc: site.url + "/guides", priority: "0.7", freq: "weekly" },
+  ...tagPages.map((t) => ({ loc: site.url + t.path, priority: "0.9", freq: "weekly" })),
+  ...articles.map((a) => ({ loc: site.url + a.path, priority: "0.8", freq: "monthly" })),
   { loc: site.url + "/docs/installation", priority: "0.7", freq: "monthly" },
   ...readyOrder.map((it) => ({ loc: site.url + it.path, priority: "0.8", freq: "monthly" })),
   ...navGroups.map((g) => ({ loc: site.url + g.path, priority: "0.9", freq: "weekly" })),

@@ -90,7 +90,7 @@ export function useVoice(state: VoiceState, opts: { mic?: boolean; level?: numbe
 
     const node = analyser.current;
     if (node && bins.current) {
-      node.getByteFrequencyData(bins.current as Uint8Array<ArrayBuffer>);
+      node.getByteFrequencyData(bins.current);
       const b = bins.current;
       // speech lives roughly in the first ~60 bins (0–5.5 kHz at 48 kHz / 512)
       let sum = 0;
