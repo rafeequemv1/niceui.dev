@@ -321,7 +321,7 @@ const pvControls = `<div class="pv-ctrls">
 function sidebar(activePath) {
   const link = (href, label, extra = "") =>
     `<a href="${href}" class="sb-item${href === activePath ? " on" : ""}"${href === activePath ? ' aria-current="page"' : ""}><span>${esc(label)}</span>${extra}</a>`;
-  let html = `<div class="sb-group"><p class="sb-label">Getting started</p>${link("/", "Introduction")}${link("/browse", "All components")}${link("/guides", "Guides & articles")}${link("/gradients", "Gradients")}${link("/gradient-maker", "Gradient maker", '<em class="tag-ai">New</em>')}${link("/docs/installation", "Installation")}${link("/changelog", "Changelog")}${link("/saved", "Saved", '<em class="tag-ai" data-saved-count hidden></em>')}${link("/#mcp", "Connect your agent", '<em class="tag-ai">MCP</em>')}${link("/llms.txt", "llms.txt", '<em class="tag-ai">AI</em>')}${libGuides.map((e) => link("/library/#/intro/" + e.slug, e.name === "OpenUI" ? "Design system" : e.name)).join("")}</div>`;
+  let html = `<div class="sb-group"><p class="sb-label">Getting started</p>${link("/", "Introduction")}${link("/browse", "All components")}${link("/guides", "Guides & articles")}${link("/gradients", "Gradients")}${link("/apps", "Apps", '<em class="tag-ai">New</em>')}${link("/docs/installation", "Installation")}${link("/changelog", "Changelog")}${link("/saved", "Saved", '<em class="tag-ai" data-saved-count hidden></em>')}${link("/#mcp", "Connect your agent", '<em class="tag-ai">MCP</em>')}${link("/llms.txt", "llms.txt", '<em class="tag-ai">AI</em>')}${libGuides.map((e) => link("/library/#/intro/" + e.slug, e.name === "OpenUI" ? "Design system" : e.name)).join("")}</div>`;
   html += `<div class="sb-group sb-cats"><p class="sb-label">Library</p>`;
   for (const g of navGroups) {
     const n = g.list.filter((i) => i.status === "ready").length;
@@ -336,7 +336,7 @@ const searchData = json(
   [...ready, ...navGroups.flatMap((g) => g.list.filter((i) => i.lib)), ...roadmap].map((i) => ({ n: i.name, k: i.kind, c: i.category, p: i.path || null }))
 );
 
-function layout({ title, description, path, main, ld, md, home, image }) {
+function layout({ title, description, path, main, ld, md, home, image, app }) {
   const ogImg = image ? site.url + image : site.url + "/og.png";
   const ogW = image ? 640 : 1200;
   const ogH = image ? 400 : 630;
@@ -375,9 +375,13 @@ function layout({ title, description, path, main, ld, md, home, image }) {
 <script defer data-site="truvwhp1" data-domain="niceui.dev" src="https://piqo.app/piqo.js"></script>
 <script type="application/ld+json">${json(ld)}</script>
 </head>
-<body${home ? ' class="home"' : ""}>
+<body${home ? ' class="home"' : app ? ' class="app-shell"' : ""}>
 <a class="skip" href="#main">Skip to content</a>
-${home ? `${home.header}
+${app ? `<header class="ap-bar"><a class="ap-back" href="/apps" aria-label="Back to Apps"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></a><a href="/" class="ap-brand" aria-label="NiceUI home">${mark}</a><span class="ap-sep">/</span><a class="ap-crumb" href="/apps">Apps</a><span class="ap-sep">/</span><h1 class="ap-title">${esc(app.name)}</h1><nav class="ap-r" aria-label="App"><a class="ap-link" href="#about">About</a><button class="top-icon theme-toggle" data-theme-toggle aria-label="Switch to light theme" title="Light or dark theme"><svg class="i-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button><button class="top-icon" data-search-open aria-label="Search components">${icon.search}</button></nav></header>
+<main id="main" class="ap-main">
+${main}
+</main>
+` : home ? `${home.header}
 <main id="main" class="h-main">
 ${main}
 </main>
@@ -531,7 +535,7 @@ const resRows = [
   { href: "/#mcp", ic: mkIco.mcp, t: "Connect your agent", d: "MCP for Claude Code, Cursor, VS Code, Codex" },
   { href: "/llms.txt", ic: mkIco.llms, t: "llms.txt", d: "The whole library, readable by any AI" },
   { href: "/r/registry.json", ic: mkIco.registry, t: "Registry", d: "Every item as shadcn registry JSON" },
-  { href: "/gradient-maker", ic: mkIco.contrast, t: "Gradient Maker", d: "Mesh, conic & shader gradients, one-click code" },
+  { href: "/apps", ic: mkIco.contrast, t: "Apps", d: "Full-screen tools: Gradient Maker, Badge Maker" },
   { href: "/gradients", ic: mkIco.contrast, t: "Gradients", d: "Copy-paste CSS & Tailwind gradients" },
   { href: "/changelog", ic: mkIco.changelog, t: "Changelog", d: "What shipped, week by week" },
   { href: "/saved", ic: mkIco.saved, t: "Saved", d: "Your bookmarked components" },
@@ -704,7 +708,7 @@ const homeMain = `
 const footCols = [
   ["Library", libGroups.slice(0, 7).map((g) => [g.title, g.path])],
   ["AI agents", aiSections.slice(0, 6).map((s) => [s.title, "/c/ai-agents#ai-" + s.id])],
-  ["Resources", [["Gradient Maker", "/gradient-maker"], ["Gradients", "/gradients"], ["Installation", "/docs/installation"], ["Connect your agent", "/#mcp"], ["llms.txt", "/llms.txt"], ["Registry", "/r/registry.json"], ["Changelog", "/changelog"], ["Sitemap", "/sitemap.xml"]]],
+  ["Resources", [["Apps", "/apps"], ["Gradient Maker", "/apps/gradient-maker"], ["Gradients", "/gradients"], ["Installation", "/docs/installation"], ["Connect your agent", "/#mcp"], ["llms.txt", "/llms.txt"], ["Registry", "/r/registry.json"], ["Changelog", "/changelog"], ["Sitemap", "/sitemap.xml"]]],
   ["Guides", [["All guides", "/guides"], ...GUIDES.slice(0, 4).map((g) => [g.h1, "/guides/" + g.slug])]],
   ["Project", [["GitHub", site.github], ["X", site.x], ["Saved", "/saved"]]],
 ];
@@ -1426,7 +1430,7 @@ const gradCard = (g) => {
     .join("")}</span></span></a><button class="gr-copy" data-copy="background: ${esc(css)};" aria-label="Copy ${esc(g.name)} CSS" title="Copy CSS">${icon.copy}</button></div>`;
 };
 const famChips = (active) => `<nav class="pop-links gr-fams" aria-label="Gradient families"><a href="/gradients"${active ? "" : ' aria-current="page"'}>All gradients</a>${FAMILIES.map((f) => `<a href="${famPath(f.id)}"${active === f.id ? ' aria-current="page"' : ""}>${esc(f.name.replace(/ gradients$/, ""))}</a>`).join("")}</nav>`;
-const gmCta = (g) => `<a class="gm-cta" href="/gradient-maker${g ? "#g=" + g.slug : ""}"><span class="gm-cta-sw" style="background:${esc(g ? gradientCss(g) : "linear-gradient(135deg,#0ea5e9,#a78bfa,#34d399)")}"></span><span><b>${g ? "Edit this gradient in the Gradient Maker" : "Open the Gradient Maker"}</b><span>Mesh, conic and animated shader gradients, grain, PNG export and one-click CSS, Tailwind, React or HTML.</span></span>${icon.arrow}</a>`;
+const gmCta = (g) => `<a class="gm-cta" href="/apps/gradient-maker${g ? "#g=" + g.slug : ""}"><span class="gm-cta-sw" style="background:${esc(g ? gradientCss(g) : "linear-gradient(135deg,#0ea5e9,#a78bfa,#34d399)")}"></span><span><b>${g ? "Edit this gradient in the Gradient Maker" : "Open the Gradient Maker"}</b><span>Mesh, conic and animated shader gradients, grain, PNG export and one-click CSS, Tailwind, React or HTML.</span></span>${icon.arrow}</a>`;
 const gradGenerator = (seed) => {
   const g = seed || GRADIENTS[0];
   const stops = g.kind === "mesh" ? [[g.base, 0], ...g.blobs.slice(0, 2).map((b, i) => [b[0], 50 + i * 50])] : g.stops;
@@ -1491,7 +1495,7 @@ for (const g of GRADIENTS) {
     <article class="doc">
       <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/gradients">Gradients</a><span>/</span><a href="${famPath(fams[0].id)}">${esc(fams[0].name)}</a><span>/</span><span aria-current="page">${esc(g.name)}</span></nav>
       <header class="doc-head"><h1>${esc(g.name)} Gradient</h1><p class="lede">A free ${g.kind === "mesh" ? "multi-colour mesh" : g.kind} gradient you can copy as CSS or Tailwind. ${esc(fams.map((f) => f.blurb).slice(0, 1).join(""))}</p></header>
-      <div class="gr-hero" style="background:${esc(css)}" role="img" aria-label="${esc(g.name)} gradient preview"><div class="gr-hero-acts"><a class="btn btn-cmd gr-hero-copy" href="/gradient-maker#g=${g.slug}">Edit in maker</a><button class="btn btn-cmd gr-hero-copy" data-copy="background: ${esc(css)};">${icon.copy} Copy CSS</button></div></div>
+      <div class="gr-hero" style="background:${esc(css)}" role="img" aria-label="${esc(g.name)} gradient preview"><div class="gr-hero-acts"><a class="btn btn-cmd gr-hero-copy" href="/apps/gradient-maker#g=${g.slug}">Edit in maker</a><button class="btn btn-cmd gr-hero-copy" data-copy="background: ${esc(css)};">${icon.copy} Copy CSS</button></div></div>
       <div class="gr-stops-list">${colours.map((c) => `<button class="gr-hex" data-copy="${c}" title="Copy ${c}"><i style="background:${c}"></i>${c}</button>`).join("")}</div>
       <section class="doc-sec"><h2>CSS</h2><div class="code-wrap"><button class="icon-btn code-copy" data-copy="${esc(cssCode)}" aria-label="Copy CSS">${icon.copy}</button><pre class="code"><code>${esc(cssCode)}</code></pre></div></section>
       <section class="doc-sec"><h2>Tailwind CSS</h2>
@@ -1518,9 +1522,7 @@ for (const g of GRADIENTS) {
     })
   );
   const main = `
-    <section class="doc gm-page">
-      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/gradients">Gradients</a><span>/</span><span aria-current="page">Gradient Maker</span></nav>
-      <header class="doc-head gm-head"><h1>Gradient Maker</h1><p class="lede">Design linear, radial, conic, mesh and animated shader gradients. Drag the colours, add grain, then copy dependency-free CSS, Tailwind, React or HTML in one click.</p></header>
+    <div class="ap-app">
       <div class="gm" data-gm>
         <div class="gm-main">
           <div class="gm-stage" data-gm-stage>
@@ -1545,6 +1547,11 @@ for (const g of GRADIENTS) {
         </div>
 
         <aside class="gm-side" aria-label="Controls">
+          <div class="gm-scroll">
+          <section class="gm-card gm-presets-wrap" aria-labelledby="gm-presets-h">
+            <div class="gm-presets-head"><h2 id="gm-presets-h">Presets</h2><button type="button" class="gm-ghost" data-gm-reset>Reset</button></div>
+            <div class="gm-presets" data-gm-presets></div>
+          </section>
           <section class="gm-card">
             <h2>Shape</h2>
             <div data-gm-show="linear">${rng("data-gm-angle", "Angle", 0, 360, 1, 135, "135°")}</div>
@@ -1571,6 +1578,7 @@ for (const g of GRADIENTS) {
             <div class="gm-harm">${["random", "pastel", "vivid", "neon", "dark", "analogous", "complementary", "earthy"].map((h) => `<button type="button" data-gm-harmony="${h}">${h[0].toUpperCase() + h.slice(1)}</button>`).join("")}</div>
           </section>
 
+          </div>
           <section class="gm-card gm-export">
             <div class="gm-tabs" role="tablist" aria-label="Export format">${[["css", "CSS"], ["tailwind", "Tailwind"], ["react", "React"], ["html", "HTML"]].map(([k, l], i) => `<button type="button" role="tab" data-gm-tab="${k}" aria-selected="${i === 0}">${l}</button>`).join("")}</div>
             <pre class="gm-code"><code data-gm-out></code></pre>
@@ -1583,18 +1591,18 @@ for (const g of GRADIENTS) {
           </section>
         </aside>
 
-        <section class="gm-presets-wrap" aria-labelledby="gm-presets-h">
-          <div class="gm-presets-head"><h2 id="gm-presets-h">Presets</h2><button type="button" class="gm-ghost" data-gm-reset>Reset</button></div>
-          <div class="gm-presets" data-gm-presets></div>
-        </section>
       </div>
+    </div>
+    <section class="doc ap-about" id="about">
+      <h2 class="ap-about-h">About Gradient Maker</h2>
+      <p class="lede">Design linear, radial, conic, mesh and animated shader gradients. Drag the colours, add grain, then copy dependency-free CSS, Tailwind, React or HTML in one click.</p>
       ${faqBlock([
         ["What is a mesh gradient?", "A mesh gradient blends several colours from different points instead of along one line. In CSS it is made by layering radial gradients over a base colour, which is exactly what the Mesh mode exports."],
         ["How do shader gradients work?", "Shader mode draws the gradient on the GPU with a small WebGL fragment shader, so it can animate smoothly. The React and HTML exports include that shader inline, with no libraries, and stop animating for people who prefer reduced motion."],
         ["Do I need any package to use the exported code?", "No. CSS and Tailwind exports are plain values, and the React and HTML exports are self-contained. Nothing to install."],
         ["Can I add grain to a CSS gradient?", "Yes. The Grain slider layers a tiny inline SVG noise texture on top of the gradient, still as a single CSS background."],
       ])}
-      <section class="doc-sec"><h2>Ready-made gradients</h2><p class="mute">Prefer to start from a finished one? Browse <a class="ul" href="/gradients">${GRADIENTS.length} free gradients</a>; each opens in the maker.</p></section>
+      <section class="doc-sec"><h2>Ready-made gradients</h2><p class="mute">Prefer to start from a finished one? Browse <a class="ul" href="/gradients">${GRADIENTS.length} free gradients</a>; each opens in the maker. More tools live in <a class="ul" href="/apps">Apps</a>.</p></section>
     </section>
     <script type="application/json" id="gm-library">${json(lib)}</script>
     <script src="${GM_JS}" defer></script>`;
@@ -1603,13 +1611,33 @@ for (const g of GRADIENTS) {
     "@graph": [
       org,
       website,
-      { "@type": "WebApplication", name: "NiceUI Gradient Maker", url: site.url + "/gradient-maker", applicationCategory: "DesignApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, description: "Free gradient maker for linear, radial, conic, mesh and animated WebGL shader gradients with one-click CSS, Tailwind, React and HTML export." },
-      crumbsLd([["Home", "/"], ["Gradients", "/gradients"], ["Gradient Maker", "/gradient-maker"]]),
+      { "@type": "WebApplication", name: "NiceUI Gradient Maker", url: site.url + "/apps/gradient-maker", applicationCategory: "DesignApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, description: "Free gradient maker for linear, radial, conic, mesh and animated WebGL shader gradients with one-click CSS, Tailwind, React and HTML export." },
+      crumbsLd([["Home", "/"], ["Apps", "/apps"], ["Gradient Maker", "/apps/gradient-maker"]]),
     ],
   };
-  write("gradient-maker.html", layout({ title: "Gradient Maker — Mesh, Conic & Shader Gradient Generator (CSS, Tailwind, React) | NiceUI", description: "Free gradient maker: design linear, radial, conic, mesh and animated shader gradients with grain, then copy dependency-free CSS, Tailwind, React or HTML in one click.", path: "/gradient-maker", main, ld }));
+  write("apps/gradient-maker.html", layout({ title: "Gradient Maker — Mesh, Conic & Shader Gradient Generator (CSS, Tailwind, React) | NiceUI", description: "Free gradient maker: design linear, radial, conic, mesh and animated shader gradients with grain, then copy dependency-free CSS, Tailwind, React or HTML in one click.", path: "/apps/gradient-maker", main, ld, app: { name: "Gradient Maker" } }));
 }
 
+
+// ─── /apps: full-screen tools ────────────────────────────────────────
+{
+  const badge = navGroups.find((g) => g.title === "Templates")?.list.find((i) => i.slug === "badge-maker");
+  const APPS = [
+    { name: "Gradient Maker", path: "/apps/gradient-maker", tag: "New", blurb: "Linear, radial, conic, mesh and animated WebGL shader gradients with grain, 16 presets and one-click CSS, Tailwind, React or HTML export.", chips: ["Mesh", "Shaders", "PNG export", "No dependencies"], preview: `background:radial-gradient(at 18% 22%,#22d3ee 0px,transparent 55%),radial-gradient(at 82% 18%,#a78bfa 0px,transparent 55%),radial-gradient(at 30% 82%,#34d399 0px,transparent 55%),radial-gradient(at 85% 80%,#f472b6 0px,transparent 55%),#020617` },
+    ...(badge ? [{ name: "Badge Maker", path: `/preview/templates/badge-maker`, blurb: "Design metallic 2D badges and icons with shape, material and scene controls, then export SVG, PNG or CSS.", chips: ["SVG export", "Undo & redo", "Presets"], img: badge.thumb }] : []),
+  ];
+  const main = `
+    <section class="doc">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span aria-current="page">Apps</span></nav>
+      <header class="doc-head"><h1>Apps</h1><p class="lede">Free design tools that open full screen. Make something, then copy dependency-free code in one click.</p></header>
+      <div class="ap-grid">${APPS.map(
+        (a) => `<a class="ap-card" href="${a.path}"><span class="ap-pv"${a.preview ? ` style="${a.preview}"` : ""}>${a.img ? `<img src="${a.img}" alt="" width="640" height="400" loading="lazy" decoding="async" />` : ""}<span class="ap-open">Open full screen ${icon.arrow}</span></span><span class="ap-body"><span class="ap-name"><b>${esc(a.name)}</b>${a.tag ? `<em class="tag-new">${a.tag}</em>` : ""}</span><span class="ap-blurb">${esc(a.blurb)}</span><span class="ap-chips">${a.chips.map((c) => `<i>${esc(c)}</i>`).join("")}</span></span></a>`
+      ).join("")}</div>
+      <p class="tag-meta" style="margin-top:28px">More apps are on the way. Want a specific tool? <a class="ul" href="${site.github}" target="_blank" rel="noopener">Suggest it on GitHub</a>.</p>
+    </section>`;
+  const ld = { "@context": "https://schema.org", "@graph": [org, website, { "@type": "CollectionPage", name: "NiceUI Apps", url: site.url + "/apps", mainEntity: { "@type": "ItemList", itemListElement: APPS.map((a, i) => ({ "@type": "ListItem", position: i + 1, name: a.name, url: site.url + a.path })) } }, crumbsLd([["Home", "/"], ["Apps", "/apps"]])] };
+  write("apps.html", layout({ title: "Apps — Free Full-Screen Design Tools | NiceUI", description: "Free full-screen design tools from NiceUI: a gradient maker with mesh and shader gradients, and a badge maker. Export dependency-free code in one click.", path: "/apps", main, ld }));
+}
 write(INDEXNOW_KEY + ".txt", INDEXNOW_KEY);
 
 // ─── registry index, llms, sitemap, robots, manifest ────────────────
@@ -1667,7 +1695,8 @@ ${tagPages.map((t) => `- [${t.h1}](${site.url}${t.path}): ${t.intro.split(". ")[
 
 ## Gradients
 
-- [Gradient Maker](${site.url}/gradient-maker): Make linear, radial, conic, mesh and animated WebGL shader gradients; copy dependency-free CSS, Tailwind, React or HTML.
+- [Apps](${site.url}/apps): Full-screen design tools.
+- [Gradient Maker](${site.url}/apps/gradient-maker): Make linear, radial, conic, mesh and animated WebGL shader gradients; copy dependency-free CSS, Tailwind, React or HTML.
 - [Gradient gallery](${site.url}/gradients): ${GRADIENTS.length} free CSS and Tailwind gradients.
 ${FAMILIES.map((f) => `- [${f.name}](${site.url}/gradients/${f.id}-gradients): ${f.blurb}`).join("\n")}
 
@@ -1719,7 +1748,8 @@ const urls = [
   { loc: site.url + "/browse", priority: "0.9", freq: "weekly" },
   { loc: site.url + "/guides", priority: "0.7", freq: "weekly" },
   { loc: site.url + "/gradients", priority: "0.8", freq: "weekly" },
-  { loc: site.url + "/gradient-maker", priority: "0.9", freq: "monthly" },
+  { loc: site.url + "/apps", priority: "0.8", freq: "weekly" },
+  { loc: site.url + "/apps/gradient-maker", priority: "0.9", freq: "monthly" },
   ...FAMILIES.map((f) => ({ loc: site.url + "/gradients/" + f.id + "-gradients", priority: "0.7", freq: "monthly" })),
   ...GRADIENTS.map((g) => ({ loc: site.url + "/gradients/" + g.slug, priority: "0.6", freq: "monthly" })),
   ...tagPages.map((t) => ({ loc: site.url + t.path, priority: "0.9", freq: "weekly" })),

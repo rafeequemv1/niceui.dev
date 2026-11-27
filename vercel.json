@@ -68,5 +68,12 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/gradient-maker",
+      "destination": "/apps/gradient-maker",
+      "permanent": true
+    }
   ]
 }
