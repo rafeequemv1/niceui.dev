@@ -1655,9 +1655,10 @@ for (const g of GRADIENTS) {
     };
     write(`apps/${m.slug}.html`, layout({ title: m.title, description: m.description, path: "/apps/" + m.slug, main, ld, app: { name: m.name }, css: cssHref ? [cssHref] : [] }));
   }
+  const appThumb = (slug) => (existsSync(`assets/thumbs/apps--${slug}.webp`) ? `/assets/thumbs/apps--${slug}.webp` : null);
   const APPS = [
-    ...APP_MODULES.map((m) => ({ name: m.name, path: "/apps/" + m.slug, tag: "New", blurb: m.blurb, chips: m.chips || [], preview: `background:${m.preview}` })),
-    { name: "Gradient Maker", path: "/apps/gradient-maker", blurb: "Linear, radial, conic, mesh and animated WebGL shader gradients with grain, 16 presets and one-click CSS, Tailwind, React or HTML export.", chips: ["Mesh", "Shaders", "PNG export", "No dependencies"], preview: `background:radial-gradient(at 18% 22%,#22d3ee 0px,transparent 55%),radial-gradient(at 82% 18%,#a78bfa 0px,transparent 55%),radial-gradient(at 30% 82%,#34d399 0px,transparent 55%),radial-gradient(at 85% 80%,#f472b6 0px,transparent 55%),#020617` },
+    ...APP_MODULES.map((m) => ({ name: m.name, path: "/apps/" + m.slug, tag: "New", blurb: m.blurb, chips: m.chips || [], img: appThumb(m.slug), preview: appThumb(m.slug) ? null : /^[a-z-]+\s*:/.test(m.preview || "") ? m.preview : `background:${m.preview}` })),
+    { name: "Gradient Maker", path: "/apps/gradient-maker", img: appThumb("gradient-maker"), blurb: "Linear, radial, conic, mesh and animated WebGL shader gradients with grain, 16 presets and one-click CSS, Tailwind, React or HTML export.", chips: ["Mesh", "Shaders", "PNG export", "No dependencies"], preview: `background:radial-gradient(at 18% 22%,#22d3ee 0px,transparent 55%),radial-gradient(at 82% 18%,#a78bfa 0px,transparent 55%),radial-gradient(at 30% 82%,#34d399 0px,transparent 55%),radial-gradient(at 85% 80%,#f472b6 0px,transparent 55%),#020617` },
     ...(badge ? [{ name: "Badge Maker", path: `/preview/templates/badge-maker`, blurb: "Design metallic 2D badges and icons with shape, material and scene controls, then export SVG, PNG or CSS.", chips: ["SVG export", "Undo & redo", "Presets"], img: badge.thumb }] : []),
   ];
   const main = `
@@ -1665,7 +1666,7 @@ for (const g of GRADIENTS) {
       <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span aria-current="page">Apps</span></nav>
       <header class="doc-head"><h1>Apps</h1><p class="lede">Free design tools that open full screen. Make something, then copy dependency-free code in one click.</p></header>
       <div class="ap-grid">${APPS.map(
-        (a) => `<a class="ap-card" href="${a.path}"><span class="ap-pv"${a.preview ? ` style="${a.preview}"` : ""}>${a.img ? `<img src="${a.img}" alt="" width="640" height="400" loading="lazy" decoding="async" />` : ""}<span class="ap-open">Open full screen ${icon.arrow}</span></span><span class="ap-body"><span class="ap-name"><b>${esc(a.name)}</b>${a.tag ? `<em class="tag-new">${a.tag}</em>` : ""}</span><span class="ap-blurb">${esc(a.blurb)}</span><span class="ap-chips">${a.chips.map((c) => `<i>${esc(c)}</i>`).join("")}</span></span></a>`
+        (a) => `<a class="ap-card" href="${a.path}"><span class="ap-pv"${a.preview ? ` style="${esc(a.preview)}"` : ""}>${a.img ? `<img src="${a.img}" alt="" width="640" height="400" loading="lazy" decoding="async" />` : ""}<span class="ap-open">Open full screen ${icon.arrow}</span></span><span class="ap-body"><span class="ap-name"><b>${esc(a.name)}</b>${a.tag ? `<em class="tag-new">${a.tag}</em>` : ""}</span><span class="ap-blurb">${esc(a.blurb)}</span><span class="ap-chips">${a.chips.map((c) => `<i>${esc(c)}</i>`).join("")}</span></span></a>`
       ).join("")}</div>
       <p class="tag-meta" style="margin-top:28px">More apps are on the way. Want a specific tool? <a class="ul" href="${site.github}" target="_blank" rel="noopener">Suggest it on GitHub</a>.</p>
     </section>`;
