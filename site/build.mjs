@@ -6,6 +6,10 @@ import { faq, items, site } from "./registry.mjs";
 import { ITEM_SEO, TAGS, POPULAR, INDEXNOW_KEY } from "./seo.mjs";
 import { GUIDES, COMPARE } from "./guides.mjs";
 import { makePure } from "../scripts/pure.mjs";
+import { readdirSync } from "node:fs";
+// Full-screen apps: every site/apps/<slug>.mjs becomes /apps/<slug> (see scripts/app-preview.mjs for the module shape).
+const APP_MODULES = [];
+for (const f of existsSync("apps") ? readdirSync("apps").filter((x) => x.endsWith(".mjs")).sort() : []) APP_MODULES.push((await import("./apps/" + f)).default);
 import { FAMILIES, GRADIENTS, gradientCss, gradientTailwind, gradientColours } from "./gradients.mjs";
 
 const OUT = "dist";
@@ -336,7 +340,7 @@ const searchData = json(
   [...ready, ...navGroups.flatMap((g) => g.list.filter((i) => i.lib)), ...roadmap].map((i) => ({ n: i.name, k: i.kind, c: i.category, p: i.path || null }))
 );
 
-function layout({ title, description, path, main, ld, md, home, image, app }) {
+function layout({ title, description, path, main, ld, md, home, image, app, css = [] }) {
   const ogImg = image ? site.url + image : site.url + "/og.png";
   const ogW = image ? 640 : 1200;
   const ogH = image ? 400 : 630;
@@ -371,7 +375,7 @@ function layout({ title, description, path, main, ld, md, home, image, app }) {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" />
-<link rel="stylesheet" href="${CSS}" />
+<link rel="stylesheet" href="${CSS}" />${css.map((h) => `\n<link rel="stylesheet" href="${h}" />`).join("")}
 <script defer data-site="truvwhp1" data-domain="niceui.dev" src="https://piqo.app/piqo.js"></script>
 <script type="application/ld+json">${json(ld)}</script>
 </head>
@@ -392,6 +396,7 @@ ${home.footer}
   <button class="top-search" data-search-open aria-label="Search components">${icon.search}<span>Search components…</span><kbd>⌘K</kbd></button>
   <nav class="top-r" aria-label="Site">
     <a class="top-link top-tab" href="/#mcp">${icon.spark} Connect agent</a>
+    <a class="top-link" href="/apps">Apps</a>
     <a class="top-link hide-sm" href="/docs/installation">Docs</a>
     <a class="top-link hide-sm" href="/llms.txt">llms.txt</a>
     <button class="top-icon theme-toggle" data-theme-toggle aria-label="Switch to light theme" title="Light or dark theme"><svg class="i-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
@@ -535,7 +540,7 @@ const resRows = [
   { href: "/#mcp", ic: mkIco.mcp, t: "Connect your agent", d: "MCP for Claude Code, Cursor, VS Code, Codex" },
   { href: "/llms.txt", ic: mkIco.llms, t: "llms.txt", d: "The whole library, readable by any AI" },
   { href: "/r/registry.json", ic: mkIco.registry, t: "Registry", d: "Every item as shadcn registry JSON" },
-  { href: "/apps", ic: mkIco.contrast, t: "Apps", d: "Full-screen tools: Gradient Maker, Badge Maker" },
+  { href: "/apps", ic: mkIco.contrast, t: "Apps", d: "Gradient, theme, icon and pattern makers" },
   { href: "/gradients", ic: mkIco.contrast, t: "Gradients", d: "Copy-paste CSS & Tailwind gradients" },
   { href: "/changelog", ic: mkIco.changelog, t: "Changelog", d: "What shipped, week by week" },
   { href: "/saved", ic: mkIco.saved, t: "Saved", d: "Your bookmarked components" },
@@ -569,6 +574,7 @@ const homeHeader = `<header class="mk-top" data-mk>
     <a href="/" class="mk-brand" aria-label="NiceUI home">${mark}<span>niceui</span></a>
     <nav class="mk-nav" aria-label="Primary">
       ${MENU.map((m, i) => `<button class="mk-trig" data-mk-trig="${i}" aria-expanded="false" aria-controls="mk-panel">${m.label}<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>`).join("")}
+      <a class="mk-trig" href="/apps" data-mk-plain>Apps</a>
       <a class="mk-trig" href="/docs/installation" data-mk-plain>Docs</a>
     </nav>
     <div class="mk-r">
@@ -584,6 +590,7 @@ const homeHeader = `<header class="mk-top" data-mk>
   </div>
   <div class="mk-sheet" data-mk-sheet-panel hidden>
     ${MENU.map((m) => `<details class="mk-acc"><summary>${m.label}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><div class="mk-acc-in">${m.sheet}</div></details>`).join("")}
+    <a class="mk-sheet-link" href="/apps">Apps</a>
     <a class="mk-sheet-link" href="/docs/installation">Docs</a>
     <a class="btn btn-sky mk-sheet-cta" href="/browse">Browse all components ${icon.arrow}</a>
   </div>
@@ -1622,8 +1629,35 @@ for (const g of GRADIENTS) {
 // ─── /apps: full-screen tools ────────────────────────────────────────
 {
   const badge = navGroups.find((g) => g.title === "Templates")?.list.find((i) => i.slug === "badge-maker");
+  for (const m of APP_MODULES) {
+    for (const f of m.files ? m.files() : []) write(f.path, f.content);
+    const js = existsSync(`assets/${m.slug}.js`) ? hashed(`${m.slug}.js`) : null;
+    const cssHref = existsSync(`assets/${m.slug}.css`) ? hashed(`${m.slug}.css`) : null;
+    const others = [{ name: "Gradient Maker", path: "/apps/gradient-maker" }, ...APP_MODULES.filter((x) => x !== m).map((x) => ({ name: x.name, path: "/apps/" + x.slug }))];
+    const main = `
+    <div class="ap-app">${m.body({ icon })}</div>
+    <section class="doc ap-about" id="about">
+      <h2 class="ap-about-h">About ${esc(m.name)}</h2>
+      ${m.about || ""}
+      ${faqBlock(m.faq || [])}
+      <section class="doc-sec"><h2>More apps</h2><nav class="pop-links">${others.map((x) => `<a href="${x.path}">${esc(x.name)}</a>`).join("")}<a href="/apps">All apps</a></nav></section>
+    </section>
+    ${js ? `<script src="${js}" defer></script>` : ""}`;
+    const ld = {
+      "@context": "https://schema.org",
+      "@graph": [
+        org,
+        website,
+        { "@type": "WebApplication", name: "NiceUI " + m.name, url: site.url + "/apps/" + m.slug, applicationCategory: "DesignApplication", operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, description: m.description },
+        crumbsLd([["Home", "/"], ["Apps", "/apps"], [m.name, "/apps/" + m.slug]]),
+        ...faqLd(m.faq || []),
+      ],
+    };
+    write(`apps/${m.slug}.html`, layout({ title: m.title, description: m.description, path: "/apps/" + m.slug, main, ld, app: { name: m.name }, css: cssHref ? [cssHref] : [] }));
+  }
   const APPS = [
-    { name: "Gradient Maker", path: "/apps/gradient-maker", tag: "New", blurb: "Linear, radial, conic, mesh and animated WebGL shader gradients with grain, 16 presets and one-click CSS, Tailwind, React or HTML export.", chips: ["Mesh", "Shaders", "PNG export", "No dependencies"], preview: `background:radial-gradient(at 18% 22%,#22d3ee 0px,transparent 55%),radial-gradient(at 82% 18%,#a78bfa 0px,transparent 55%),radial-gradient(at 30% 82%,#34d399 0px,transparent 55%),radial-gradient(at 85% 80%,#f472b6 0px,transparent 55%),#020617` },
+    ...APP_MODULES.map((m) => ({ name: m.name, path: "/apps/" + m.slug, tag: "New", blurb: m.blurb, chips: m.chips || [], preview: `background:${m.preview}` })),
+    { name: "Gradient Maker", path: "/apps/gradient-maker", blurb: "Linear, radial, conic, mesh and animated WebGL shader gradients with grain, 16 presets and one-click CSS, Tailwind, React or HTML export.", chips: ["Mesh", "Shaders", "PNG export", "No dependencies"], preview: `background:radial-gradient(at 18% 22%,#22d3ee 0px,transparent 55%),radial-gradient(at 82% 18%,#a78bfa 0px,transparent 55%),radial-gradient(at 30% 82%,#34d399 0px,transparent 55%),radial-gradient(at 85% 80%,#f472b6 0px,transparent 55%),#020617` },
     ...(badge ? [{ name: "Badge Maker", path: `/preview/templates/badge-maker`, blurb: "Design metallic 2D badges and icons with shape, material and scene controls, then export SVG, PNG or CSS.", chips: ["SVG export", "Undo & redo", "Presets"], img: badge.thumb }] : []),
   ];
   const main = `
@@ -1696,6 +1730,7 @@ ${tagPages.map((t) => `- [${t.h1}](${site.url}${t.path}): ${t.intro.split(". ")[
 ## Gradients
 
 - [Apps](${site.url}/apps): Full-screen design tools.
+${APP_MODULES.map((m) => `- [${m.name}](${site.url}/apps/${m.slug}): ${m.blurb}`).join("\n")}
 - [Gradient Maker](${site.url}/apps/gradient-maker): Make linear, radial, conic, mesh and animated WebGL shader gradients; copy dependency-free CSS, Tailwind, React or HTML.
 - [Gradient gallery](${site.url}/gradients): ${GRADIENTS.length} free CSS and Tailwind gradients.
 ${FAMILIES.map((f) => `- [${f.name}](${site.url}/gradients/${f.id}-gradients): ${f.blurb}`).join("\n")}
@@ -1750,6 +1785,7 @@ const urls = [
   { loc: site.url + "/gradients", priority: "0.8", freq: "weekly" },
   { loc: site.url + "/apps", priority: "0.8", freq: "weekly" },
   { loc: site.url + "/apps/gradient-maker", priority: "0.9", freq: "monthly" },
+  ...APP_MODULES.map((m) => ({ loc: site.url + "/apps/" + m.slug, priority: "0.9", freq: "monthly" })),
   ...FAMILIES.map((f) => ({ loc: site.url + "/gradients/" + f.id + "-gradients", priority: "0.7", freq: "monthly" })),
   ...GRADIENTS.map((g) => ({ loc: site.url + "/gradients/" + g.slug, priority: "0.6", freq: "monthly" })),
   ...tagPages.map((t) => ({ loc: site.url + t.path, priority: "0.9", freq: "weekly" })),
