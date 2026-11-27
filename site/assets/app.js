@@ -78,6 +78,63 @@
     }
   });
 
+  // ── gradient generator ───────────────────────────────────
+  $$("[data-grad-gen]").forEach((root) => {
+    const pv = $("[data-gg-preview]", root);
+    const angle = $("[data-gg-angle]", root);
+    const angleOut = $("[data-gg-angle-out]", root);
+    const stopsEl = $("[data-gg-stops]", root);
+    const cssOut = $("[data-gg-css]", root);
+    const twOut = $("[data-gg-tw]", root);
+    let kind = $("[data-gg-kind].on", root)?.dataset.ggKind || "linear";
+    const colours = () => $$("input[type=color]", stopsEl).map((i) => i.value);
+    const css = () => {
+      const c = colours();
+      const list = c.map((x, i) => `${x} ${Math.round((i / Math.max(1, c.length - 1)) * 100)}%`).join(", ");
+      return kind === "radial" ? `radial-gradient(circle at 50% 30%, ${list})` : `linear-gradient(${angle.value}deg, ${list})`;
+    };
+    const render = () => {
+      const v = css();
+      pv.style.background = v;
+      angleOut.textContent = angle.value + "°";
+      angle.closest(".gr-row").style.opacity = kind === "radial" ? ".4" : "1";
+      cssOut.textContent = `background: ${v};`;
+      twOut.textContent = `bg-[${v.replace(/\s*,\s*/g, ",").replace(/\s+/g, "_")}]`;
+      $$("[data-gg-del]", stopsEl).forEach((b) => (b.hidden = colours().length <= 2));
+      $("[data-gg-add]", root).hidden = colours().length >= 5;
+    };
+    const addStop = (value) => {
+      const label = document.createElement("label");
+      label.className = "gr-stop";
+      label.innerHTML = `<input type="color" value="${value}" aria-label="Colour stop" /><button type="button" data-gg-del aria-label="Remove colour">×</button>`;
+      stopsEl.insertBefore(label, $("[data-gg-add]", root));
+    };
+    const rand = () => "#" + Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, "0");
+    root.addEventListener("input", render);
+    root.addEventListener("click", (e) => {
+      const k = e.target.closest("[data-gg-kind]");
+      if (k) {
+        kind = k.dataset.ggKind;
+        $$("[data-gg-kind]", root).forEach((b) => {
+          b.classList.toggle("on", b === k);
+          b.setAttribute("aria-pressed", String(b === k));
+        });
+      }
+      if (e.target.closest("[data-gg-del]") && colours().length > 2) e.target.closest(".gr-stop").remove();
+      if (e.target.closest("[data-gg-add]")) addStop(rand());
+      if (e.target.closest("[data-gg-random]")) {
+        $$(".gr-stop", stopsEl).forEach((s) => s.remove());
+        const n = 2 + Math.floor(Math.random() * 2);
+        for (let i = 0; i < n; i++) addStop(rand());
+        angle.value = String(Math.round(Math.random() * 72) * 5);
+      }
+      const cp = e.target.closest("[data-gg-copy]");
+      if (cp) copy(cp.dataset.ggCopy === "css" ? cssOut.textContent : twOut.textContent, cp, cp.dataset.ggCopy === "css" ? "CSS copied" : "Tailwind class copied");
+      render();
+    });
+    render();
+  });
+
   // ── mobile sidebar ───────────────────────────────────────
   const setMenu = (open) => document.body.classList.toggle("sb-open", open);
   $("[data-menu]")?.addEventListener("click", () => setMenu(!document.body.classList.contains("sb-open")));
@@ -102,7 +159,7 @@
   const modal = $("[data-search]");
   const input = $("[data-search-input]");
   const list = $("[data-search-list]");
-  const kindLabel = { component: "Component", block: "Block", template: "Template", ai: "AI agent", crm: "CRM", gallery: "Gallery", effect: "Effect", application: "Application", chart: "Chart", commerce: "E-commerce", design: "Design tool", marketing: "Marketing section", landing: "Landing page", dashboard: "Dashboard" };
+  const kindLabel = { component: "Component", block: "Block", template: "Template", ai: "AI agent", crm: "CRM", gallery: "Gallery", effect: "Effect", application: "Application", chart: "Chart", commerce: "E-commerce", design: "Design tool", marketing: "Marketing section", landing: "Landing page", dashboard: "Dashboard", pattern: "Pattern" };
   let results = [];
   let active = 0;
 

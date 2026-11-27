@@ -6,6 +6,7 @@ import { faq, items, site } from "./registry.mjs";
 import { ITEM_SEO, TAGS, POPULAR, INDEXNOW_KEY } from "./seo.mjs";
 import { GUIDES, COMPARE } from "./guides.mjs";
 import { makePure } from "../scripts/pure.mjs";
+import { FAMILIES, GRADIENTS, gradientCss, gradientTailwind, gradientColours } from "./gradients.mjs";
 
 const OUT = "dist";
 const today = new Date().toISOString().slice(0, 10);
@@ -177,6 +178,7 @@ const navGroups = [
   { title: "Design Tools", list: designItems },
   { title: "Gallery", list: gallerySections.flatMap((sub) => sub.items) },
   { title: "Effects", list: effectSections.flatMap((sub) => sub.items) },
+  ...(library.some((sec) => sec.id === "patterns") ? [{ title: "Patterns", list: libItems("patterns", "pattern", "Patterns & backgrounds") }] : []),
   { title: "Components", list: dedupe([...ready.filter((i) => i.kind === "component"), ...libItems("components", "component")]).sort(byName).concat(roadmap.filter((i) => i.kind === "component").sort(byName)) },
   { title: "Blocks", list: dedupe([...ready.filter((i) => i.kind === "block"), ...libItems("blocks", "block"), ...libItems("footers", "block", "Footers")]).sort(byName).concat(roadmap.filter((i) => i.kind === "block").sort(byName)) },
   { title: "Marketing", list: libItems("marketing", "marketing") },
@@ -185,6 +187,7 @@ const navGroups = [
   { title: "Templates", list: [...libItems("apps", "template", "App templates"), ...roadmap.filter((i) => i.kind === "template")] },
 ];
 const catDesc = {
+  Patterns: "Background patterns for React and Tailwind: dot patterns, grid patterns, flickering grids, retro grids, warp tunnels and hexagons. Drop one behind any section.",
   Components: "Buttons, inputs, overlays, motion primitives and everything in between.",
   "AI Agents": "Every kind of AI agent interface in one place: chat, reasoning, tool calls and approvals, browser and research agents, traces, workflows, memory and voice.",
   Application: "The screens every SaaS needs: sign in and sign up, one-time codes, settings, onboarding, notifications, data tables and multi-step forms.",
@@ -293,6 +296,7 @@ const mark =
 
 const ico = (d) => `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const catIcon = {
+  Patterns: ico('<circle cx="5" cy="5" r="1.2"/><circle cx="12" cy="5" r="1.2"/><circle cx="19" cy="5" r="1.2"/><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/><circle cx="5" cy="19" r="1.2"/><circle cx="12" cy="19" r="1.2"/><circle cx="19" cy="19" r="1.2"/>'),
   "Design Tools": ico('<path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.6 7.6"/><circle cx="11" cy="11" r="2"/>'),
   Application: ico('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/>'),
   Charts: ico('<path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/>'),
@@ -317,7 +321,7 @@ const pvControls = `<div class="pv-ctrls">
 function sidebar(activePath) {
   const link = (href, label, extra = "") =>
     `<a href="${href}" class="sb-item${href === activePath ? " on" : ""}"${href === activePath ? ' aria-current="page"' : ""}><span>${esc(label)}</span>${extra}</a>`;
-  let html = `<div class="sb-group"><p class="sb-label">Getting started</p>${link("/", "Introduction")}${link("/browse", "All components")}${link("/guides", "Guides & articles")}${link("/docs/installation", "Installation")}${link("/changelog", "Changelog")}${link("/saved", "Saved", '<em class="tag-ai" data-saved-count hidden></em>')}${link("/#mcp", "Connect your agent", '<em class="tag-ai">MCP</em>')}${link("/llms.txt", "llms.txt", '<em class="tag-ai">AI</em>')}${libGuides.map((e) => link("/library/#/intro/" + e.slug, e.name === "OpenUI" ? "Design system" : e.name)).join("")}</div>`;
+  let html = `<div class="sb-group"><p class="sb-label">Getting started</p>${link("/", "Introduction")}${link("/browse", "All components")}${link("/guides", "Guides & articles")}${link("/gradients", "Gradients", '<em class="tag-ai">New</em>')}${link("/docs/installation", "Installation")}${link("/changelog", "Changelog")}${link("/saved", "Saved", '<em class="tag-ai" data-saved-count hidden></em>')}${link("/#mcp", "Connect your agent", '<em class="tag-ai">MCP</em>')}${link("/llms.txt", "llms.txt", '<em class="tag-ai">AI</em>')}${libGuides.map((e) => link("/library/#/intro/" + e.slug, e.name === "OpenUI" ? "Design system" : e.name)).join("")}</div>`;
   html += `<div class="sb-group sb-cats"><p class="sb-label">Library</p>`;
   for (const g of navGroups) {
     const n = g.list.filter((i) => i.status === "ready").length;
@@ -527,6 +531,7 @@ const resRows = [
   { href: "/#mcp", ic: mkIco.mcp, t: "Connect your agent", d: "MCP for Claude Code, Cursor, VS Code, Codex" },
   { href: "/llms.txt", ic: mkIco.llms, t: "llms.txt", d: "The whole library, readable by any AI" },
   { href: "/r/registry.json", ic: mkIco.registry, t: "Registry", d: "Every item as shadcn registry JSON" },
+  { href: "/gradients", ic: mkIco.contrast, t: "Gradients", d: "Copy-paste CSS & Tailwind gradients" },
   { href: "/changelog", ic: mkIco.changelog, t: "Changelog", d: "What shipped, week by week" },
   { href: "/saved", ic: mkIco.saved, t: "Saved", d: "Your bookmarked components" },
 ];
@@ -698,7 +703,7 @@ const homeMain = `
 const footCols = [
   ["Library", libGroups.slice(0, 7).map((g) => [g.title, g.path])],
   ["AI agents", aiSections.slice(0, 6).map((s) => [s.title, "/c/ai-agents#ai-" + s.id])],
-  ["Resources", [["Installation", "/docs/installation"], ["Connect your agent", "/#mcp"], ["llms.txt", "/llms.txt"], ["Registry", "/r/registry.json"], ["Changelog", "/changelog"], ["Sitemap", "/sitemap.xml"]]],
+  ["Resources", [["Gradients", "/gradients"], ["Installation", "/docs/installation"], ["Connect your agent", "/#mcp"], ["llms.txt", "/llms.txt"], ["Registry", "/r/registry.json"], ["Changelog", "/changelog"], ["Sitemap", "/sitemap.xml"]]],
   ["Guides", [["All guides", "/guides"], ...GUIDES.slice(0, 4).map((g) => [g.h1, "/guides/" + g.slug])]],
   ["Project", [["GitHub", site.github], ["X", site.x], ["Saved", "/saved"]]],
 ];
@@ -1408,6 +1413,97 @@ for (const a of articles) {
   write("guides.html", layout({ title: "Guides — React & Tailwind UI how-tos | NiceUI", description: "Practical React and Tailwind CSS guides: website animation examples, icon libraries, auto-resizing textareas, loading animations and choosing a React framework.", path: "/guides", main, ld }));
 }
 
+// ─── gradients: gallery + generator, family pages, one page per gradient ─
+const gradFamily = (id) => FAMILIES.find((f) => f.id === id);
+const famPath = (id) => `/gradients/${id}-gradients`;
+const gradPath = (g) => `/gradients/${g.slug}`;
+const gradCard = (g) => {
+  const css = gradientCss(g);
+  return `<div class="gr-box"><a class="gr-card" href="${gradPath(g)}"><span class="gr-sw" style="background:${esc(css)}"></span><span class="gr-meta"><b>${esc(g.name)}</b><span class="gr-dots">${gradientColours(g)
+    .slice(0, 5)
+    .map((c) => `<i style="background:${c}"></i>`)
+    .join("")}</span></span></a><button class="gr-copy" data-copy="background: ${esc(css)};" aria-label="Copy ${esc(g.name)} CSS" title="Copy CSS">${icon.copy}</button></div>`;
+};
+const famChips = (active) => `<nav class="pop-links gr-fams" aria-label="Gradient families"><a href="/gradients"${active ? "" : ' aria-current="page"'}>All gradients</a>${FAMILIES.map((f) => `<a href="${famPath(f.id)}"${active === f.id ? ' aria-current="page"' : ""}>${esc(f.name.replace(/ gradients$/, ""))}</a>`).join("")}</nav>`;
+const gradGenerator = (seed) => {
+  const g = seed || GRADIENTS[0];
+  const stops = g.kind === "mesh" ? [[g.base, 0], ...g.blobs.slice(0, 2).map((b, i) => [b[0], 50 + i * 50])] : g.stops;
+  return `<section class="gr-gen" data-grad-gen aria-labelledby="gen-h">
+        <div class="gr-gen-pv" data-gg-preview style="background:${esc(gradientCss(g))}"></div>
+        <div class="gr-gen-ctl">
+          <h2 id="gen-h">Gradient generator</h2>
+          <div class="gr-row"><span>Type</span><div class="br-sort" role="group" aria-label="Gradient type"><button class="${g.kind !== "radial" ? "on" : ""}" data-gg-kind="linear" aria-pressed="${g.kind !== "radial"}">Linear</button><button class="${g.kind === "radial" ? "on" : ""}" data-gg-kind="radial" aria-pressed="${g.kind === "radial"}">Radial</button></div></div>
+          <label class="gr-row"><span>Angle <output data-gg-angle-out>${g.angle ?? 135}°</output></span><input type="range" min="0" max="360" step="5" value="${g.angle ?? 135}" data-gg-angle aria-label="Angle" /></label>
+          <div class="gr-row gr-stops" data-gg-stops>${stops.map(([c]) => `<label class="gr-stop"><input type="color" value="${c}" aria-label="Colour stop" /><button type="button" data-gg-del aria-label="Remove colour">×</button></label>`).join("")}<button type="button" class="gr-add" data-gg-add aria-label="Add a colour">+</button></div>
+          <button type="button" class="btn btn-cmd" data-gg-random>Random gradient</button>
+          <div class="gr-out"><span>CSS</span><code data-gg-css></code><button class="icon-btn" data-gg-copy="css" aria-label="Copy CSS">${icon.copy}</button></div>
+          <div class="gr-out"><span>Tailwind</span><code data-gg-tw></code><button class="icon-btn" data-gg-copy="tw" aria-label="Copy Tailwind class">${icon.copy}</button></div>
+        </div>
+      </section>`;
+};
+const gradFaq = [
+  ["How do I make a gradient in CSS?", "Use the background property with linear-gradient() or radial-gradient(), for example background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%). The angle sets the direction and each colour stop sets where a colour sits."],
+  ["How do I use a gradient in Tailwind CSS?", "Use bg-gradient-to-r (or another direction) with from-, via- and to- colours, or paste any CSS gradient as an arbitrary value such as bg-[linear-gradient(135deg,#d4fc79_0%,#96e6a1_100%)]."],
+  ["Can I use these gradients commercially?", "Yes. They are free to use in any project, no attribution needed."],
+];
+{
+  const main = `
+    <section class="doc">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span aria-current="page">Gradients</span></nav>
+      <header class="doc-head"><h1>Gradients</h1><p class="lede">${GRADIENTS.length} free CSS and Tailwind gradients: pastel, green, cream, blue, sunset, dark and mesh. Click any swatch to copy its CSS, open it for Tailwind classes, or make your own below.</p></header>
+      ${famChips(null)}
+      <div class="gr-grid">${GRADIENTS.map(gradCard).join("")}</div>
+      ${gradGenerator(GRADIENTS[0])}
+      ${faqBlock(gradFaq)}
+    </section>`;
+  const ld = { "@context": "https://schema.org", "@graph": [org, website, { "@type": "CollectionPage", name: "CSS & Tailwind gradients", url: site.url + "/gradients", mainEntity: { "@type": "ItemList", numberOfItems: GRADIENTS.length, itemListElement: GRADIENTS.map((g, i) => ({ "@type": "ListItem", position: i + 1, name: g.name + " gradient", url: site.url + gradPath(g) })) } }, crumbsLd([["Home", "/"], ["Gradients", "/gradients"]]), ...faqLd(gradFaq)] };
+  write("gradients.html", layout({ title: "Gradients — Free CSS & Tailwind Gradient Gallery and Generator | NiceUI", description: `${GRADIENTS.length} free CSS and Tailwind gradients (pastel, green, cream, blue, sunset, dark and mesh) plus a gradient generator. Copy CSS or Tailwind classes in one click.`, path: "/gradients", main, ld }));
+}
+for (const f of FAMILIES) {
+  const list = GRADIENTS.filter((g) => g.family.includes(f.id));
+  const main = `
+    <section class="doc">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/gradients">Gradients</a><span>/</span><span aria-current="page">${esc(f.name)}</span></nav>
+      <header class="doc-head"><h1>${esc(f.name)}</h1><p class="lede">${esc(f.blurb)} ${list.length} free CSS and Tailwind gradients, each one copyable in a click.</p></header>
+      ${famChips(f.id)}
+      <div class="gr-grid">${list.map(gradCard).join("")}</div>
+      ${gradGenerator(list[0])}
+      ${faqBlock(gradFaq)}
+    </section>`;
+  const ld = { "@context": "https://schema.org", "@graph": [org, website, { "@type": "CollectionPage", name: f.name, url: site.url + famPath(f.id), description: f.blurb }, crumbsLd([["Home", "/"], ["Gradients", "/gradients"], [f.name, famPath(f.id)]]), ...faqLd(gradFaq)] };
+  write(famPath(f.id).slice(1) + ".html", layout({ title: `${f.name} — Free CSS & Tailwind ${f.name} | NiceUI`, description: `${f.blurb} ${list.length} free ${f.name.toLowerCase()} with CSS and Tailwind code.`, path: famPath(f.id), main, ld }));
+}
+for (const g of GRADIENTS) {
+  const css = gradientCss(g);
+  const { arb, simple } = gradientTailwind(g);
+  const fams = g.family.map(gradFamily).filter(Boolean);
+  const related = GRADIENTS.filter((x) => x !== g && x.family.some((f) => g.family.includes(f))).slice(0, 8);
+  const colours = gradientColours(g);
+  const cssCode = `.${g.slug.replace(/-gradient$/, "")}-bg {\n  background: ${css};\n}`;
+  const desc = `${g.name} gradient: a free ${g.kind === "mesh" ? "mesh" : g.kind} CSS gradient using ${colours.slice(0, 4).join(", ")}. Copy the CSS or Tailwind class in one click.`;
+  const faq = [
+    [`How do I use the ${g.name.toLowerCase()} gradient in CSS?`, `Set background: ${css}; on any element. It works in every modern browser.`],
+    [`How do I use the ${g.name.toLowerCase()} gradient in Tailwind?`, simple ? `Use ${simple}, or the exact arbitrary value ${arb}.` : `Use the arbitrary value class ${arb}.`],
+  ];
+  const main = `
+    <article class="doc">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/gradients">Gradients</a><span>/</span><a href="${famPath(fams[0].id)}">${esc(fams[0].name)}</a><span>/</span><span aria-current="page">${esc(g.name)}</span></nav>
+      <header class="doc-head"><h1>${esc(g.name)} Gradient</h1><p class="lede">A free ${g.kind === "mesh" ? "multi-colour mesh" : g.kind} gradient you can copy as CSS or Tailwind. ${esc(fams.map((f) => f.blurb).slice(0, 1).join(""))}</p></header>
+      <div class="gr-hero" style="background:${esc(css)}" role="img" aria-label="${esc(g.name)} gradient preview"><button class="btn btn-cmd gr-hero-copy" data-copy="background: ${esc(css)};">${icon.copy} Copy CSS</button></div>
+      <div class="gr-stops-list">${colours.map((c) => `<button class="gr-hex" data-copy="${c}" title="Copy ${c}"><i style="background:${c}"></i>${c}</button>`).join("")}</div>
+      <section class="doc-sec"><h2>CSS</h2><div class="code-wrap"><button class="icon-btn code-copy" data-copy="${esc(cssCode)}" aria-label="Copy CSS">${icon.copy}</button><pre class="code"><code>${esc(cssCode)}</code></pre></div></section>
+      <section class="doc-sec"><h2>Tailwind CSS</h2>
+        ${simple ? `<p class="mute">With Tailwind's gradient utilities:</p><div class="cmdline"><code>${esc(simple)}</code><button class="icon-btn" data-copy="${esc(simple)}" aria-label="Copy Tailwind classes">${icon.copy}</button></div><p class="mute" style="margin-top:14px">Or the exact gradient as an arbitrary value:</p>` : ""}
+        <div class="cmdline"><code>${esc(arb)}</code><button class="icon-btn" data-copy="${esc(arb)}" aria-label="Copy Tailwind arbitrary class">${icon.copy}</button></div>
+      </section>
+      ${gradGenerator(g)}
+      ${faqBlock(faq)}
+      <section class="doc-sec"><h2>Similar gradients</h2><div class="gr-grid">${related.map(gradCard).join("")}</div><p class="rel-tags">More: ${fams.map((f) => `<a href="${famPath(f.id)}">${esc(f.name)}</a>`).join("")}<a href="/gradients">All gradients</a></p></section>
+    </article>`;
+  const ld = { "@context": "https://schema.org", "@graph": [org, website, { "@type": "CreativeWork", name: g.name + " gradient", url: site.url + gradPath(g), description: desc, license: "https://opensource.org/licenses/MIT" }, crumbsLd([["Home", "/"], ["Gradients", "/gradients"], [fams[0].name, famPath(fams[0].id)], [g.name, gradPath(g)]]), ...faqLd(faq)] };
+  write(gradPath(g).slice(1) + ".html", layout({ title: `${g.name} Gradient — CSS & Tailwind Code | NiceUI`, description: desc, path: gradPath(g), main, ld }));
+}
+
 write(INDEXNOW_KEY + ".txt", INDEXNOW_KEY);
 
 // ─── registry index, llms, sitemap, robots, manifest ────────────────
@@ -1463,6 +1559,11 @@ NiceUI components are plain React + Tailwind CSS source files with no runtime de
 
 ${tagPages.map((t) => `- [${t.h1}](${site.url}${t.path}): ${t.intro.split(". ")[0]}.`).join("\n")}
 
+## Gradients
+
+- [Gradient gallery and generator](${site.url}/gradients): ${GRADIENTS.length} free CSS and Tailwind gradients.
+${FAMILIES.map((f) => `- [${f.name}](${site.url}/gradients/${f.id}-gradients): ${f.blurb}`).join("\n")}
+
 ## Guides
 
 ${articles.map((a) => `- [${a.h1}](${site.url}${a.path}): ${a.description}`).join("\n")}
@@ -1510,6 +1611,9 @@ const urls = [
   { loc: site.url + "/", priority: "1.0", freq: "weekly" },
   { loc: site.url + "/browse", priority: "0.9", freq: "weekly" },
   { loc: site.url + "/guides", priority: "0.7", freq: "weekly" },
+  { loc: site.url + "/gradients", priority: "0.8", freq: "weekly" },
+  ...FAMILIES.map((f) => ({ loc: site.url + "/gradients/" + f.id + "-gradients", priority: "0.7", freq: "monthly" })),
+  ...GRADIENTS.map((g) => ({ loc: site.url + "/gradients/" + g.slug, priority: "0.6", freq: "monthly" })),
   ...tagPages.map((t) => ({ loc: site.url + t.path, priority: "0.9", freq: "weekly" })),
   ...articles.map((a) => ({ loc: site.url + a.path, priority: "0.8", freq: "monthly" })),
   { loc: site.url + "/docs/installation", priority: "0.7", freq: "monthly" },

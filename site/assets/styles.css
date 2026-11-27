@@ -1079,3 +1079,45 @@ html[data-theme="light"] .prose { color: #2b2f36; }
 .card-copy.ok { background: var(--sky); color: var(--sky-ink); border-color: var(--sky); opacity: 1; }
 @media (hover: none) { .card-copy { opacity: .92; transform: none; } .card-copy span { display: none; } .card-copy { width: 30px; padding: 0; justify-content: center; } }
 .card-box[hidden] { display: none; }
+
+/* ── gradients ───────────────────────────────────────────── */
+.gr-fams { margin-top: 28px; }
+.gr-fams a[aria-current="page"] { color: var(--sky-ink); background: var(--sky); border-color: var(--sky); }
+.gr-grid { margin-top: 22px; display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+.gr-box { position: relative; }
+.gr-card { display: block; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--s1); transition: border-color .2s, transform .3s var(--ease); }
+.gr-card:hover { border-color: var(--line-3); transform: translateY(-2px); }
+.gr-sw { display: block; aspect-ratio: 4 / 3; }
+.gr-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px; font-size: 13px; }
+.gr-meta b { font-weight: 500; }
+.gr-dots { display: flex; }
+.gr-dots i { width: 12px; height: 12px; margin-left: -3px; border-radius: 50%; border: 1.5px solid var(--s1); }
+.gr-copy { position: absolute; top: 8px; right: 8px; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 9px; background: rgba(0,0,0,.55); color: #fff; backdrop-filter: blur(8px); opacity: 0; transition: opacity .2s; }
+.gr-box:hover .gr-copy, .gr-copy:focus-visible { opacity: 1; }
+.gr-copy.ok { background: var(--sky); color: var(--sky-ink); opacity: 1; }
+@media (hover: none) { .gr-copy { opacity: .9; } }
+.gr-hero { position: relative; margin-top: 32px; aspect-ratio: 16 / 7; border-radius: 22px; border: 1px solid var(--line); }
+.gr-hero-copy { position: absolute; right: 16px; bottom: 16px; background: rgba(0,0,0,.55); color: #fff; backdrop-filter: blur(8px); border-color: rgba(255,255,255,.2); }
+.gr-stops-list { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+.gr-hex { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 8px; border: 1px solid var(--line); border-radius: 999px; font: 12.5px var(--mono); color: var(--mute); transition: border-color .2s, color .2s; }
+.gr-hex:hover { color: var(--text); border-color: var(--line-3); }
+.gr-hex i { width: 16px; height: 16px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(255,255,255,.15); }
+.gr-gen { margin-top: 56px; display: grid; grid-template-columns: 1.1fr 1fr; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; background: var(--s1); }
+.gr-gen-pv { min-height: 320px; transition: background .2s; }
+.gr-gen-ctl { padding: 24px; display: grid; gap: 16px; align-content: start; }
+.gr-gen-ctl h2 { font-size: 20px; font-weight: 500; letter-spacing: -0.02em; }
+.gr-row { display: grid; gap: 8px; font-size: 13px; color: var(--mute); }
+.gr-row > span { display: flex; justify-content: space-between; }
+.gr-row output { font-family: var(--mono); color: var(--text); }
+.gr-row input[type=range] { width: 100%; accent-color: var(--sky); }
+.gr-stops { display: flex; flex-wrap: wrap; gap: 8px; }
+.gr-stop { position: relative; }
+.gr-stop input { width: 44px; height: 44px; padding: 0; border: 1px solid var(--line-2); border-radius: 12px; background: none; cursor: pointer; }
+.gr-stop input::-webkit-color-swatch-wrapper { padding: 3px; }
+.gr-stop input::-webkit-color-swatch { border: 0; border-radius: 8px; }
+.gr-stop button { position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; border-radius: 50%; background: var(--s3); color: var(--mute); font-size: 12px; line-height: 1; }
+.gr-add { width: 44px; height: 44px; border: 1px dashed var(--line-3); border-radius: 12px; color: var(--mute); font-size: 18px; }
+.gr-gen-ctl > .btn { justify-self: start; }
+.gr-out { display: grid; grid-template-columns: 70px 1fr 34px; align-items: center; gap: 8px; padding: 8px 8px 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); font-size: 12px; color: var(--dim); }
+.gr-out code { font-size: 11.5px; color: var(--text); overflow-wrap: anywhere; }
+@media (max-width: 760px) { .gr-gen { grid-template-columns: 1fr; } .gr-gen-pv { min-height: 200px; } .gr-grid { grid-template-columns: repeat(2, 1fr); } .gr-hero { aspect-ratio: 4 / 3; } }

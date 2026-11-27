@@ -98,6 +98,19 @@ export const ITEM_SEO = {
   "marketing/animated-navbar": { title: "Animated Navbar — Navigation Bar Animation", terms: ["animated navbar", "navigation bar animation", "navbar"] },
   "marketing/bottom-navigation": { title: "Bottom Navigation Bar — Floating Tab Bar", terms: ["floating bottom navigation bar", "bottom nav bar", "mobile tab bar"] },
   "marketing/sticky-header": { title: "Sticky Header — Hide-on-scroll Website Header", terms: ["sticky header", "website header", "header on scroll"] },
+  "components/circular-progress": { title: "Circular Progress Bar — Animated Progress Ring", terms: ["circular progress bar", "circle progress bar", "circular progress button"] },
+  "components/image-loader": { title: "Image Loader — Blur-up Image Loading", terms: ["image loader", "picture loader", "image loading placeholder"] },
+  "components/radial-menu": { title: "Radial Menu — Circle Menu", terms: ["radial menu", "circle menu", "circular menu"] },
+  "components/video-scrubber": { title: "Video Scrubber — Timeline with Chapters", terms: ["video scrubber", "scrubber UI", "video timeline"] },
+  "components/scroll-area": { title: "Scroll Area — Custom Scrollbar for React", terms: ["custom scrollbar", "scrollbar react", "scroll area"] },
+  "components/skeleton": { title: "Skeleton — Skeleton Loaders & Placeholders", terms: ["skeleton loader", "react placeholder", "loading skeleton"] },
+  "components/pagination": { title: "Pagination — React Pagination Component", terms: ["pagination", "react pagination", "page numbers"] },
+  "patterns/dot-pattern": { title: "Dot Pattern — Dotted Background Pattern", terms: ["dot pattern", "dotted background pattern", "dot grid background"] },
+  "patterns/grid-pattern": { title: "Grid Pattern — Grid Background", terms: ["grid pattern", "grid background", "graph paper background"] },
+  "patterns/flickering-grid": { title: "Flickering Grid — Animated Grid Background", terms: ["flickering grid", "animated grid background"] },
+  "patterns/retro-grid": { title: "Retro Grid — Synthwave Grid Background", terms: ["retro grid", "synthwave grid", "perspective grid"] },
+  "patterns/warp-background": { title: "Warp Background — Perspective Tunnel", terms: ["warp background", "tunnel background"] },
+  "patterns/hexagon-pattern": { title: "Hexagon Pattern — Honeycomb Background", terms: ["hexagon pattern", "honeycomb background", "hexagon UI"] },
 };
 
 /* Topic pages at /s/<slug>, the way people search ("react image gallery").
@@ -132,7 +145,7 @@ export const TAGS = [
     h1: "Animated Navbar Components",
     title: "Animated Navbar — Navigation Bar Animations for React & Tailwind",
     intro: "Animated navigation bars for React and Tailwind CSS: sliding pill highlights, morphing headers, mega menus, docks, sidebars, expandable tabs and floating bottom tab bars. Keyboard accessible, mobile-ready and free to copy.",
-    match: [/^marketing\/animated-navbar$/, /^marketing\/(bottom-navigation|sticky-header|mega-menu)$/, /^components\/(dock|animated-sidebar|tabs)$/, /^blocks\/(expandable-tabs|morphing-tabs|bloom-menu|action-bar)$/],
+    match: [/^marketing\/animated-navbar$/, /^marketing\/(bottom-navigation|sticky-header|mega-menu)$/, /^components\/(dock|animated-sidebar|tabs)$/, /^blocks\/(expandable-tabs|morphing-tabs|bloom-menu|action-bar)$/, /^components\/radial-menu$/],
     faq: [
       ["How do I animate a navbar in React?", "Track the hovered or active link's position and animate a highlight element to it with a CSS transition. For scroll effects, read the scroll position and toggle a compact state."],
       ["What makes a good mobile navigation bar?", "Large tap targets, a clear active state and a bottom tab bar or full-screen menu. The Bottom Navigation Bar here keeps labels visible and animates the active tab."],
@@ -178,7 +191,7 @@ export const TAGS = [
     h1: "Loading Animations & Spinners",
     title: "Loading Animation — React Spinners, Loaders & Thinking Indicators",
     intro: "Loading animations for React and Tailwind CSS: spinners, dot waves, skeleton-free shimmer, grid flickers, orbs, rings and AI thinking indicators. Small, elegant and ready to show while data loads.",
-    match: [/^components\/loader$/, /^ai\/(braille-spinner|thinking-states|thinking-orbs|thinking-rings|agent-loading|dot-wave|scan-line|grid-flicker|gradient-blob)$/],
+    match: [/^components\/(loader|skeleton|circular-progress|image-loader)$/, /^ai\/(braille-spinner|thinking-states|thinking-orbs|thinking-rings|agent-loading|dot-wave|scan-line|grid-flicker|gradient-blob)$/],
     faq: [
       ["Which loading animation should I use?", "Use a small spinner for quick actions, a progress indicator when you know the duration, and a skeleton or shimmer when loading a whole page section."],
       ["Can I make a loading animation with CSS only?", "Yes. Most of these use CSS keyframes; a few use a tiny bit of React state to sequence steps."],
@@ -208,7 +221,7 @@ export const TAGS = [
     h1: "Carousel & Slider Components",
     title: "Carousel Slider — 3D, Coverflow & Infinite Carousels for React",
     intro: "Carousels and sliders for React and Tailwind CSS: 3D coverflow, ring and cylinder carousels, stacked cards, parallax sliders, filmstrips and infinite marquees. Swipe, keyboard and autoplay included.",
-    match: [/^gallery\/(coverflow-carousel|ring-carousel|stack-carousel|parallax-carousel|filmstrip-viewer|marquee-gallery|horizontal-scroll-gallery)$/, /^components\/(cylinder-carousel|marquee|page-dots)$/, /^site\/marquee$/],
+    match: [/^gallery\/(coverflow-carousel|ring-carousel|stack-carousel|parallax-carousel|filmstrip-viewer|marquee-gallery|horizontal-scroll-gallery)$/, /^components\/(cylinder-carousel|marquee|page-dots|pagination)$/, /^site\/marquee$/],
     faq: [["Is a carousel good for conversions?", "Carousels work for browsing similar items such as photos or products. Avoid hiding key messages in auto-rotating slides."]],
   },
   {
@@ -292,6 +305,22 @@ export const TAGS = [
     faq: [["Do animated backgrounds hurt performance?", "Not when they use transforms, opacity or a single canvas and pause off screen, as these do."]],
   },
   {
+    slug: "background-patterns",
+    h1: "Background Patterns",
+    title: "Background Patterns — Dot, Grid, Retro Grid & Hexagon Patterns for React",
+    intro: "Background patterns for React and Tailwind CSS: dot patterns, grid patterns, flickering grids, synthwave retro grids, warp tunnels, hexagons, plus dithered and animated backgrounds. Each one sits behind your content with a fade mask and adjustable colour and spacing.",
+    match: [/^patterns\//, /^effects\/(animated-grid|noise-gradient)$/, /^footers\//],
+    faq: [["How do I add a dotted background in CSS?", "Use a radial-gradient as a repeating background: background-image: radial-gradient(#ffffff22 1px, transparent 1px); background-size: 16px 16px. The Dot Pattern component adds glow, colour and fade masks."]],
+  },
+  {
+    slug: "progress-indicators",
+    h1: "Progress Bars & Indicators",
+    title: "Progress Bar — Circular Progress, Steppers & Loading Indicators for React",
+    intro: "Progress indicators for React and Tailwind CSS: animated circular progress bars and rings, progress buttons, steppers, skeleton loaders, upload progress and research progress for AI agents.",
+    match: [/^components\/(circular-progress|stepper|skeleton|image-loader)$/, /^ai\/research-progress$/, /^blocks\/file-upload$/],
+    faq: [["When should I use a circular progress bar?", "Use a ring when space is tight or the progress belongs to one object, such as an upload on a button. Use a linear bar for page-level progress."]],
+  },
+  {
     slug: "modal-dialog",
     h1: "Modal & Dialog Components",
     title: "React Modal — Animated Modals, Drawers & Bottom Sheets",
@@ -326,4 +355,4 @@ export const TAGS = [
 ];
 
 /* Searches shown as links across the site (footer, /browse). */
-export const POPULAR = ["react-image-gallery", "custom-cursor", "animated-navbar", "hero-section", "dark-mode-toggle", "text-animation", "loading-animation", "react-dashboard", "bento-grid", "carousel", "react-chatbot-ui", "dropdown-menu", "landing-page-templates", "button-animations", "animated-backgrounds"];
+export const POPULAR = ["react-image-gallery", "custom-cursor", "animated-navbar", "hero-section", "dark-mode-toggle", "text-animation", "loading-animation", "react-dashboard", "bento-grid", "carousel", "react-chatbot-ui", "dropdown-menu", "landing-page-templates", "button-animations", "animated-backgrounds", "background-patterns", "progress-indicators"];
