@@ -183,6 +183,7 @@ const navGroups = [
   { title: "Gallery", list: gallerySections.flatMap((sub) => sub.items) },
   { title: "Effects", list: effectSections.flatMap((sub) => sub.items) },
   ...(library.some((sec) => sec.id === "patterns") ? [{ title: "Patterns", list: libItems("patterns", "pattern", "Patterns & backgrounds") }] : []),
+  ...(library.some((sec) => sec.id === "isometric") ? [{ title: "Isometric", list: libItems("isometric", "isometric", "Isometric AI cards") }] : []),
   { title: "Components", list: dedupe([...ready.filter((i) => i.kind === "component"), ...libItems("components", "component")]).sort(byName).concat(roadmap.filter((i) => i.kind === "component").sort(byName)) },
   { title: "Blocks", list: dedupe([...ready.filter((i) => i.kind === "block"), ...libItems("blocks", "block"), ...libItems("footers", "block", "Footers")]).sort(byName).concat(roadmap.filter((i) => i.kind === "block").sort(byName)) },
   { title: "Marketing", list: libItems("marketing", "marketing") },
@@ -191,6 +192,7 @@ const navGroups = [
   { title: "Templates", list: [...libItems("apps", "template", "App templates"), ...roadmap.filter((i) => i.kind === "template")] },
 ];
 const catDesc = {
+  Isometric: "Isometric UI cards for AI products: agent runs, support bots, voice agents, RAG pipelines, GPU clusters and fine-tunes, drawn in plain SVG with hoverable parts, spec callouts and stats on the floor. Plus the kit to build your own.",
   Patterns: "Background patterns for React and Tailwind: dot patterns, grid patterns, flickering grids, retro grids, warp tunnels and hexagons. Drop one behind any section.",
   Components: "Buttons, inputs, overlays, motion primitives and everything in between.",
   "AI Agents": "Every kind of AI agent interface in one place: chat, reasoning, tool calls and approvals, browser and research agents, traces, workflows, memory and voice.",
@@ -302,6 +304,7 @@ const mark =
 const ico = (d) => `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const catIcon = {
   Patterns: ico('<circle cx="5" cy="5" r="1.2"/><circle cx="12" cy="5" r="1.2"/><circle cx="19" cy="5" r="1.2"/><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/><circle cx="5" cy="19" r="1.2"/><circle cx="12" cy="19" r="1.2"/><circle cx="19" cy="19" r="1.2"/>'),
+  Isometric: ico('<path d="M12 2 21 7v10l-9 5-9-5V7z"/><path d="M12 12 21 7M12 12 3 7M12 12v10"/>'),
   "Design Tools": ico('<path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.6 7.6"/><circle cx="11" cy="11" r="2"/>'),
   Application: ico('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/>'),
   Charts: ico('<path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/>'),

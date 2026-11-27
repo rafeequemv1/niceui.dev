@@ -105,6 +105,13 @@ export const ITEM_SEO = {
   "components/scroll-area": { title: "Scroll Area — Custom Scrollbar for React", terms: ["custom scrollbar", "scrollbar react", "scroll area"] },
   "components/skeleton": { title: "Skeleton — Skeleton Loaders & Placeholders", terms: ["skeleton loader", "react placeholder", "loading skeleton"] },
   "components/pagination": { title: "Pagination — React Pagination Component", terms: ["pagination", "react pagination", "page numbers"] },
+  "isometric/agent-run": { title: "AI Agent Card — Isometric Agent Run UI", terms: ["ai agent ui", "agent dashboard card", "isometric card", "ai agent status"] },
+  "isometric/support-bot": { title: "Chatbot Card — Isometric Support Bot UI", terms: ["chatbot ui", "support bot dashboard", "isometric robot"] },
+  "isometric/voice-agent": { title: "Voice Agent Card — Isometric Voice AI UI", terms: ["voice agent ui", "voice ai dashboard", "ai receptionist ui"] },
+  "isometric/rag-pipeline": { title: "RAG Pipeline Card — Isometric Knowledge Base UI", terms: ["rag ui", "vector database illustration", "knowledge base dashboard"] },
+  "isometric/gpu-cluster": { title: "GPU Cluster Card — Isometric Server Rack UI", terms: ["gpu dashboard", "server rack illustration", "isometric server"] },
+  "isometric/fine-tune": { title: "Fine-tune Card — Isometric Model Training UI", terms: ["model training dashboard", "loss curve ui", "isometric chip"] },
+  "isometric/iso-kit": { title: "Isometric Kit — Build Isometric SVG Illustrations in React", terms: ["isometric svg", "isometric illustration react", "isometric ui kit"] },
   "patterns/dot-pattern": { title: "Dot Pattern — Dotted Background Pattern", terms: ["dot pattern", "dotted background pattern", "dot grid background"] },
   "patterns/grid-pattern": { title: "Grid Pattern — Grid Background", terms: ["grid pattern", "grid background", "graph paper background"] },
   "patterns/flickering-grid": { title: "Flickering Grid — Animated Grid Background", terms: ["flickering grid", "animated grid background"] },
@@ -313,6 +320,14 @@ export const TAGS = [
     faq: [["How do I add a dotted background in CSS?", "Use a radial-gradient as a repeating background: background-image: radial-gradient(#ffffff22 1px, transparent 1px); background-size: 16px 16px. The Dot Pattern component adds glow, colour and fade masks."]],
   },
   {
+    slug: "isometric-ui",
+    h1: "Isometric UI Cards",
+    title: "Isometric UI — Isometric Cards & Illustrations for AI Products (React)",
+    intro: "Isometric UI cards for React and Tailwind CSS, made for AI products: agent runs with tool modules, support chatbots, voice agents, RAG pipelines, GPU clusters and fine-tuning runs. Each one is plain SVG with hoverable parts, a spec callout and live stats painted on the floor, and the kit lets you draw your own.",
+    match: [/^isometric\//],
+    faq: [["How are the isometric cards drawn?", "With plain SVG and a 30° isometric projection, so they stay sharp at any size, need no 3D library and copy as a single file."], ["Can I change the colours and data?", "Yes. Every card takes its title, ID, stats and action as props, and the accent prop recolours the highlighted part and the button."]],
+  },
+  {
     slug: "progress-indicators",
     h1: "Progress Bars & Indicators",
     title: "Progress Bar — Circular Progress, Steppers & Loading Indicators for React",
@@ -355,4 +370,4 @@ export const TAGS = [
 ];
 
 /* Searches shown as links across the site (footer, /browse). */
-export const POPULAR = ["react-image-gallery", "custom-cursor", "animated-navbar", "hero-section", "dark-mode-toggle", "text-animation", "loading-animation", "react-dashboard", "bento-grid", "carousel", "react-chatbot-ui", "dropdown-menu", "landing-page-templates", "button-animations", "animated-backgrounds", "background-patterns", "progress-indicators"];
+export const POPULAR = ["react-image-gallery", "custom-cursor", "animated-navbar", "hero-section", "dark-mode-toggle", "text-animation", "loading-animation", "react-dashboard", "bento-grid", "carousel", "react-chatbot-ui", "dropdown-menu", "landing-page-templates", "button-animations", "animated-backgrounds", "background-patterns", "isometric-ui", "progress-indicators"];

@@ -26,6 +26,7 @@ import { controlsExtraEntries } from './core-docs/controls-extra';
 import { controlsMoreEntries } from './core-docs/controls-more';
 import { controlsBasicEntries } from './core-docs/controls-basics';
 import { patternEntries } from './patterns-docs/patterns';
+import { isometricEntries } from './isometric-docs/isometric';
 
 export const sections: Section[] = [
   { id: 'intro', title: 'Intro', entries: introEntries },
@@ -41,6 +42,7 @@ export const sections: Section[] = [
   { id: 'gallery', title: 'Gallery', entries: galleryEntries },
   { id: 'effects', title: 'Effects', entries: [...effectEntries, ...pointerEntries] },
   { id: 'patterns', title: 'Patterns', entries: patternEntries },
+  { id: 'isometric', title: 'Isometric', entries: isometricEntries },
   { id: 'components', title: 'Components', entries: [...coreEntries, ...motionEntries, ...controlsExtraEntries, ...controlsMoreEntries, ...controlsBasicEntries] },
   { id: 'blocks', title: 'Blocks', entries: blockEntries },
   { id: 'marketing', title: 'Marketing', entries: [...heroEntries, ...scenicHeroEntries, ...navbarEntries, ...showcaseEntries, ...conversionEntries] },

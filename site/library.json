@@ -1941,6 +1941,75 @@
     ]
   },
   {
+    "id": "isometric",
+    "title": "Isometric",
+    "entries": [
+      {
+        "slug": "agent-run",
+        "name": "Agent Run Card",
+        "description": "An isometric AI agent card: a planner core with search, browser, code and email tools plugged in, live step count, token and cost stats, and an approve button.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "support-bot",
+        "name": "Support Bot Card",
+        "description": "An isometric chatbot card: a support robot with its live chat thread, resolution, handoff and CSAT stats painted on the floor, and a take-over button.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "voice-agent",
+        "name": "Voice Agent Card",
+        "description": "An isometric voice AI agent card: a smart speaker with a glowing mic ring, a live waveform on the floor, latency and call stats, and a listen-live button.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "rag-pipeline",
+        "name": "RAG Pipeline Card",
+        "description": "An isometric RAG card: documents flow into a vector store and on to the answer model, with recall, hit rate and retrieval latency on the floor.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "gpu-cluster",
+        "name": "GPU Cluster Card",
+        "description": "An isometric GPU cluster card: two server racks with a hot GPU blade, a coolant loop and checkpoint storage, per-GPU utilisation and a scale-up button.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "fine-tune",
+        "name": "Fine-tune Card",
+        "description": "An isometric model training card: an AI chip with memory stacks and a loss curve drawn on the floor, step, token and ETA stats, and a stop-and-save button.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      },
+      {
+        "slug": "iso-kit",
+        "name": "Isometric Kit",
+        "description": "Build your own isometric UI cards: an SVG kit with boxes, cylinders, text on floors and walls, floor stat rows, chevrons and a spec callout with a leader line.",
+        "badge": "New",
+        "theme": null,
+        "page": false,
+        "demos": 1
+      }
+    ]
+  },
+  {
     "id": "components",
     "title": "Components",
     "entries": [
