@@ -64,7 +64,7 @@
 .pg-ui-card { padding: 10px 12px; border-radius: 11px; background: var(--bg); color: var(--tx); display: grid; gap: 2px; font-size: 11px; }
 .pg-ui-card span { color: var(--mu); }
 .pg-ui-card b { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; }
-.pg-ui-card em { font-style: normal; font-size: 11px; font-weight: 500; color: var(--pr); }
+.pg-ui-card em { font-style: normal; font-family: inherit; font-size: 11px; font-weight: 500; color: var(--pr); }
 .pg-ui-card em.ac { color: var(--ac); }
 .pg-ui-chart { grid-column: 1 / -1; }
 .pg-ui-bars { display: flex; align-items: flex-end; gap: 6px; height: 64px; margin-top: 6px; }
@@ -147,7 +147,7 @@
   .pg-panel { min-height: 320px; }
   .pg-side { border-left: 0; border-top: 1px solid var(--line); }
   .pg-scroll { overflow: visible; }
-  .pg-lib { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .pg-lib { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); max-height: 440px; overflow-y: auto; padding-right: 2px; }
   .pg-export { position: sticky; bottom: 0; z-index: 5; }
   .pg-ui { grid-template-columns: 1fr 1fr; }
   .pg-roles { grid-column: 1 / -1; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }

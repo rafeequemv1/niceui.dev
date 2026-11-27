@@ -210,6 +210,8 @@
     const r = roles();
     const muted = contrast(r.text, r.bg) > 7 ? r.text + "b3" : r.text;
     const bars = [62, 88, 46, 74, 100, 58, 80];
+    const barCols = S.colors.filter((c) => contrast(c, r.bg) > 1.35);
+    if (!barCols.length) barCols.push(r.primary);
     $('[data-pg-pane="preview"]').innerHTML = `
       <div class="pg-ui" style="--bg:${r.bg};--sf:${r.surface};--pr:${r.primary};--ac:${r.accent};--tx:${r.text};--mu:${muted};--on-pr:${textOn(r.primary)};--on-ac:${textOn(r.accent)}">
         <div class="pg-ui-hero">
@@ -222,7 +224,7 @@
         <div class="pg-ui-dash">
           <div class="pg-ui-card"><span>Revenue</span><b>$48.2k</b><em>+12.4%</em></div>
           <div class="pg-ui-card"><span>Active users</span><b>9,341</b><em class="ac">+3.1%</em></div>
-          <div class="pg-ui-card pg-ui-chart"><span>This week</span><div class="pg-ui-bars">${bars.map((h, i) => `<i style="height:${h}%;background:${S.colors[i % S.colors.length]}"></i>`).join("")}</div></div>
+          <div class="pg-ui-card pg-ui-chart"><span>This week</span><div class="pg-ui-bars">${bars.map((h, i) => `<i style="height:${h}%;background:${barCols[i % barCols.length]}"></i>`).join("")}</div></div>
         </div>
         <ul class="pg-roles">${Object.entries({ Background: r.bg, Surface: r.surface, Primary: r.primary, Accent: r.accent, Text: r.text })
           .map(([k, v]) => `<li><i style="background:${v}"></i>${k}<code>${v}</code></li>`)

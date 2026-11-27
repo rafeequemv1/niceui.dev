@@ -363,7 +363,7 @@ export function Counter({ initial = 0 }: Props) {
     } else {
       [Wf, Hf] = preset;
       const m = Math.max(48, S.pad);
-      s = Math.min(1.6, (Wf - 2 * m) / winW, (Hf - 2 * m) / winH);
+      s = Math.min(2.2, (Wf - 2 * m) / winW, (Hf - 2 * m) / winH);
       wx = (Wf - winW * s) / 2;
       wy = (Hf - winH * s) / 2;
     }
